@@ -3,16 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: josanton <josanton@student.42.fr>          +#+  +:+       +#+         #
+#    By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/20 12:45:20 by josanton          #+#    #+#              #
-#    Updated: 2023/03/20 13:27:57 by josanton         ###   ########.fr        #
+#    Updated: 2023/03/20 18:47:21 by salatiel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # COMPILATION VARS
 
-SRCS	=	main.c
+SRCS	=	main.c \
+			builtins.c
 
 OBJS	=	${SRCS:%.c=${DIR_OBJ}%.o}
 
@@ -30,9 +31,9 @@ CC	=	gcc
 
 42FLAGS	=	-Wall -Werror -Wextra -g
 
-EXTRA_FLAGS =	-lreadline -fsanitize=leak
+EXTRA_FLAGS =	-Ilibft/ -L${LIBFT_DIR} -lft -lreadline -fsanitize=leak
 
-GCC	=	${CC} ${42FLAGS} ${EXTRA_FLAGS}
+GCC	=	${CC} ${42FLAGS}
 
 #CLEAN
 
@@ -49,7 +50,7 @@ COLOUR_YELLOW=\033[7;1;33m
 all:	${NAME}
 
 ${NAME}:	${OBJS} libft/libft.a
-	@${GCC} -o ${NAME} ${OBJS}
+	@${GCC} -o ${NAME} ${OBJS} ${EXTRA_FLAGS}
 	@echo "${COLOUR_GREEN} >>> Minishell OK <<< ${COLOUR_END}"
 
 ${DIR_OBJ}%.o:%.c
@@ -72,4 +73,4 @@ fclean:		clean
 
 re:	fclean all
 
-.PHONY:	all clean fclean re libft submodule
+.PHONY:	all clean fclean re libft
