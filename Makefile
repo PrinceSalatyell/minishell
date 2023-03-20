@@ -6,7 +6,7 @@
 #    By: josanton <josanton@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/20 12:45:20 by josanton          #+#    #+#              #
-#    Updated: 2023/03/20 12:48:54 by josanton         ###   ########.fr        #
+#    Updated: 2023/03/20 13:27:57 by josanton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,9 +28,11 @@ DIR_OBJ = objs/
 
 CC	=	gcc
 
-42FLAGS	=	-Wall -Werror -Wextra -g #-fsanitize=leak
+42FLAGS	=	-Wall -Werror -Wextra -g
 
-GCC	=	${CC} ${42FLAGS}
+EXTRA_FLAGS =	-lreadline -fsanitize=leak
+
+GCC	=	${CC} ${42FLAGS} ${EXTRA_FLAGS}
 
 #CLEAN
 

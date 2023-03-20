@@ -6,7 +6,7 @@
 /*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:50:59 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/20 12:53:36 by josanton         ###   ########.fr       */
+/*   Updated: 2023/03/20 14:14:46 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 
 int	main(void)
 {
-	printf("Hello World\n");
+	char	*line;
+
+	line = readline(BLUE "minishell> " COLOUR_END);
+	while (line != NULL)
+	{
+		printf("%s\n", line);
+		add_history(line);
+		free(line);
+		line = readline(BLUE "minishell> " COLOUR_END);
+	}
+
 	return (0);
 }
