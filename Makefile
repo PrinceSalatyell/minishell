@@ -3,17 +3,22 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+         #
+#    By: josanton <josanton@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/20 12:45:20 by josanton          #+#    #+#              #
-#    Updated: 2023/03/20 18:47:21 by salatiel         ###   ########.fr        #
+#    Updated: 2023/03/22 21:42:47 by josanton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # COMPILATION VARS
 
-SRCS	=	main.c \
-			builtins.c
+SRCS	=	minishell.c	\
+			parser.c	\
+			init.c		\
+			utils.c		\
+			get_input.c	\
+			check_str.c	\
+			get_token.c
 
 OBJS	=	${SRCS:%.c=${DIR_OBJ}%.o}
 

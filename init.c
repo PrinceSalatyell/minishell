@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/20 16:47:15 by salatiel          #+#    #+#             */
-/*   Updated: 2023/03/20 19:00:57 by salatiel         ###   ########.fr       */
+/*   Created: 2023/03/22 21:04:07 by josanton          #+#    #+#             */
+/*   Updated: 2023/03/22 21:29:01 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	echo(char *str, bool nl)
+t_input	*_input(void)
 {
-	bool	success;
+	static t_input	input;
 
-	success = false;
-	if (str && *str)
-	{
-		printf("%s", str);
-		success = true;
-	}
-	if (nl)
-		printf("\n");
-	return (success);
+	return (&input);
 }
