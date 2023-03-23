@@ -6,7 +6,7 @@
 /*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/22 21:47:13 by josanton         ###   ########.fr       */
+/*   Updated: 2023/03/23 23:52:33 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ typedef struct s_input
 	int		qt_flag;
 }	t_input;
 
+typedef struct s_info
+{
+	char	**path;
+}	t_info;
+
 // check_str.c
 int		check_qt_marks(char *str, int i);
 void	check_if_complete(char *str);
@@ -63,10 +68,16 @@ int		qt_len(char *str, int i);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 int		quotes_end(char *str, int i);
 char	*ft_strjoin_nl(char *s1, char *s2);
-t_input	*_input(void);
 
 // minishell.c
 void	sig_handler(int n);
 void	ignore_signal(void);
+
+// execution.c
+void	execute(char *cmd);
+
+// init.c
+t_input	*_input(void);
+t_info	*info(void);
 
 #endif

@@ -1,42 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/22 21:04:50 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/23 23:53:42 by josanton         ###   ########.fr       */
+/*   Created: 2023/03/23 22:25:40 by josanton          #+#    #+#             */
+/*   Updated: 2023/03/23 23:52:22 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// changes Ctrl+C to \n
-void	sig_handler(int n)
+bool	check_executable(char *cmd)
 {
-	(void)n;
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
+	int		i;
+	bool	ret;
+	char	*command;
 
-void	ignore_signal(void)
-{
-	signal(SIGINT, sig_handler);
-	signal(SIGTSTP, SIG_IGN);
-	signal(SIGSEGV, SIG_IGN);
-}
-
-int	main(void)
-{
-	ignore_signal();
-	while (1)
+	i = -1;
+	ret = false;
+	while (info()->path[++i])
 	{
-		get_input();
-		execute(_input()->command);
-		free(_input()->command);
+		command = ft_strjoin_sep(info()->path[i], cmd, '/');
+		if (access(command, F_OK) == 0)
+			ret = true;
+		free(command);
 	}
-	return (0);
+	return (ret);
+}
+
+void	execute(char *cmd)
+{
+	if (check_executable(cmd))
+		printf("This program exists\n");
+	else
+		printf("Command Not Found\n");
 }

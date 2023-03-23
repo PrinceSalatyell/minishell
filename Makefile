@@ -6,7 +6,7 @@
 #    By: josanton <josanton@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/20 12:45:20 by josanton          #+#    #+#              #
-#    Updated: 2023/03/22 21:42:47 by josanton         ###   ########.fr        #
+#    Updated: 2023/03/23 23:49:34 by josanton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ SRCS	=	minishell.c	\
 			utils.c		\
 			get_input.c	\
 			check_str.c	\
-			get_token.c
+			get_token.c \
+			execution.c
 
 OBJS	=	${SRCS:%.c=${DIR_OBJ}%.o}
 
