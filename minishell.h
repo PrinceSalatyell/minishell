@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/24 20:25:12 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/03/24 20:28:00 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@
 
 typedef struct s_token
 {
-    char    *value;
-    char    *type;
-    struct s_token *next;
-}   t_token;
+	char			*value;
+	char			*type;
+	struct s_token	*next;
+}	t_token;
 
 typedef struct s_input
 {
