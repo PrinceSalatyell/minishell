@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/23 23:52:33 by josanton         ###   ########.fr       */
+/*   Updated: 2023/03/24 20:25:12 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,13 @@
 # define YELLOW "\033[0;33m"
 # define RED "\033[1;31m"
 # define COLOUR_END "\033[0m"
+
+typedef struct s_token
+{
+    char    *value;
+    char    *type;
+    struct s_token *next;
+}   t_token;
 
 typedef struct s_input
 {
@@ -57,17 +64,25 @@ void	loop_promt(char *str, int qt);
 // str_parse.c
 void	analyze_and_parse(char *str);
 void	tokenizer(char *str, int i);
+void	get_token_list(t_token **token_lst, int i);
 
-// tokenizer.c
-void	free_token(char **token_matrix);
+// get_token.c
+void	free_token(void);
 int		token_len(char *str, int i);
 int		matrix_len(char *str);
 int		qt_len(char *str, int i);
 
 // utils.c
-void	*ft_memcpy(void *dest, const void *src, size_t n);
 int		quotes_end(char *str, int i);
 char	*ft_strjoin_nl(char *s1, char *s2);
+void	add_back(t_token **token_list, t_token *new);
+t_token	*lst_last(t_token *token_lst);
+t_token	*new_token(char *value, char *type);
+void	free_list(t_token **token);
+
+// init.c
+t_input	*_input(void);
+t_token	*token_node(void);
 
 // minishell.c
 void	sig_handler(int n);
