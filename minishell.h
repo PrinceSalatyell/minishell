@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/24 20:28:00 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/03/24 20:51:52 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 // COLORS
 
@@ -89,7 +91,7 @@ void	sig_handler(int n);
 void	ignore_signal(void);
 
 // execution.c
-void	execute(char *cmd);
+void	execute(void);
 
 // init.c
 t_input	*_input(void);

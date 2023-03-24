@@ -3,37 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 22:25:40 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/23 23:52:22 by josanton         ###   ########.fr       */
+/*   Updated: 2023/03/24 20:51:10 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	check_executable(char *cmd)
+char	*check_executable(void)
 {
 	int		i;
-	bool	ret;
+	char	*ret;
 	char	*command;
 
 	i = -1;
-	ret = false;
+	ret = NULL;
 	while (info()->path[++i])
 	{
-		command = ft_strjoin_sep(info()->path[i], cmd, '/');
+		command = ft_strjoin_sep(info()->path[i], _input()->token_matrix[0], \
+		'/');
 		if (access(command, F_OK) == 0)
-			ret = true;
-		free(command);
+			ret = command;
 	}
 	return (ret);
 }
 
-void	execute(char *cmd)
+void	execute(void)
 {
-	if (check_executable(cmd))
-		printf("This program exists\n");
+	char	*command;
+	int		pid;
+
+	command = check_executable();
+	if (command)
+	{
+		pid = fork();
+		if (pid == -1)
+			return ;
+		if (pid == 0)
+			execve(command, _input()->token_matrix, NULL);
+		wait(NULL);
+		free(command);
+	}
 	else
 		printf("Command Not Found\n");
+	if (command)
+		free(command);
 }

@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:04:50 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/24 20:28:05 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/03/24 20:38:02 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ int	main(void)
 	while (1)
 	{
 		get_input();
-		execute(_input()->command);
+		analyze_and_parse(_input()->command);
+		execute();
 		free(_input()->command);
+		free_token();
 	}
 	return (0);
 }
