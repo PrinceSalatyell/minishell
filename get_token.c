@@ -12,19 +12,19 @@
 
 #include "minishell.h"
 
-void	free_token(char **token_matrix)
+void	free_token(void)
 {
 	int	i;
 
-	if (token_matrix)
+	if (_input()->token_matrix)
 	{
 		i = 0;
-		while (token_matrix[i])
+		while (_input()->token_matrix[i])
 		{
-			free(token_matrix[i]);
+			free(_input()->token_matrix[i]);
 			i++;
 		}
-		free(token_matrix);
+		free(_input()->token_matrix);
 	}
 }
 
@@ -35,19 +35,15 @@ int	qt_len(char *str, int i)
 	len = 0;
 	if (str[i] == '"')
 	{
-		while (str[i] != '"')
-		{
-			i++;
+		len++;
+		while (str[++i] != '"')
 			len++;
-		}
 	}
 	else if (str[i] == 39)
 	{
-		while (str[i] != 39)
-		{
-			i++;
+		len++;
+		while (str[++i] != 39)
 			len++;
-		}
 	}
 	return (len + 1);
 }

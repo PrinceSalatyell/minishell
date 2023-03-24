@@ -32,31 +32,13 @@ void	ignore_signal(void)
 
 int	main(void)
 {
-	// int i;
-	// int j;
-
 	ignore_signal();
 	while (1)
 	{
 		get_input();
-		printf("str - %s\n", _input()->command);
-		//analyze_and_parse(_input()->command);
+		analyze_and_parse(_input()->command);
 		free(_input()->command);
-		//i = 0;
-		// while (token_matrix[i] != NULL)
-		// {
-		//     j = 0;
-		//     printf("heeey\n");
-		//     while (token_matrix[i][j] != '\0')
-		//     {
-		//         printf("%c", token_matrix[i][j]);
-		//         j++;
-		//     }
-		//     printf("\n");
-		//     i++;
-		// }
-		//printf("\n");
-		// free_token(token_matrix);
+		free_token();
 	}
 	return (0);
 }
