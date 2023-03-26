@@ -12,6 +12,24 @@
 
 #include "minishell.h"
 
+int	copy_token(char *str, int i, int tk_len, int index)
+{
+	if (str[i] == '"' || str[i] == 39)
+	{
+		ft_strncpy(_input()->token_matrix[index], \
+			str + i + 1, tk_len);
+		_input()->token_matrix[index][tk_len] = '\0';
+		return (tk_len + 2);
+	}
+	else
+	{
+		ft_strncpy(_input()->token_matrix[index], \
+				str + i, tk_len);
+		_input()->token_matrix[index][tk_len] = '\0';
+		return (tk_len);
+	}
+}
+
 void	tokenizer(char *str, int i)
 {
 	int	len;
@@ -32,9 +50,7 @@ void	tokenizer(char *str, int i)
 			tk_len = token_len(str, i);
 			_input()->token_matrix[_input()->index] = \
 			malloc(sizeof(char *) * (tk_len + 1));
-			ft_strncpy(_input()->token_matrix[_input()->index], \
-			str + i, tk_len);
-			_input()->token_matrix[_input()->index][tk_len] = '\0';
+			tk_len = copy_token(str, i, tk_len, _input()->index);
 			_input()->index++;
 			i = i + tk_len;
 		}
@@ -55,7 +71,7 @@ void	get_token_list(t_token **token_lst, int i)
 		}
 		else if (flag == 1)
 		{
-			if (_input()->token_matrix[i][0] == '|' && _input()->token_matrix[i][1] == '\0')
+			if (_input()->token_matrix[i][0] == '|')
 				flag++;
 			if (flag == 2)
 			{
@@ -69,22 +85,39 @@ void	get_token_list(t_token **token_lst, int i)
 	}
 }
 
+void	parse_commands(t_token *token_lst)
+{
+	int	nr_commands;
+
+	nr_commands = 0;
+	if (token_lst)
+	{
+		while (token_lst->next)
+		{
+			if (ft_strcmp(token_lst->type, "Operator") == 0)
+				nr_commands++;
+			token_lst = token_lst->next;
+		}
+	}
+	printf("nr_commands - %d\n", nr_commands);
+}
+
 void	analyze_and_parse(char *str)
 {
-	// t_token	*token_lst;
+	t_token	*token_lst;
 
 	tokenizer(str, 0);
-	// token_lst = NULL;
-	// get_token_list(&token_lst, 0);
-	// if (token_lst)
-	// {
-	// 	while (token_lst->next)
-	// 	{
-	// 		printf("value - %s\ntype - %s\n------------\n", token_lst->value, token_lst->type);
-	// 		token_lst = token_lst->next;
-	// 	}
-	// 	printf("value - %s\ntype - %s\n", token_lst->value, token_lst->type);
-	// }
-	// free_list(&token_lst);
-
+	token_lst = NULL;
+	get_token_list(&token_lst, 0);
+	if (token_lst)
+	{
+		while (token_lst->next)
+		{
+			printf("value - %s\ntype - %s\n------------\n", token_lst->value, token_lst->type);
+			token_lst = token_lst->next;
+		}
+		printf("value - %s\ntype - %s\n", token_lst->value, token_lst->type);
+	}
+	parse_commands(token_lst);
+	free_list(&token_lst);
 }

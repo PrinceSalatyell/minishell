@@ -35,17 +35,15 @@ int	qt_len(char *str, int i)
 	len = 0;
 	if (str[i] == '"')
 	{
-		len++;
 		while (str[++i] != '"')
 			len++;
 	}
 	else if (str[i] == 39)
 	{
-		len++;
 		while (str[++i] != 39)
 			len++;
 	}
-	return (len + 1);
+	return (len);
 }
 
 int	token_len(char *str, int i)
@@ -53,14 +51,18 @@ int	token_len(char *str, int i)
 	int	len;
 
 	len = 0;
+	if (str[i] == '|')
+		len++;
 	while (str[i] && !(str[i] >= 9 && str[i] <= 13) && str[i] != 32)
 	{
 		if (str[i] == '"')
 			return (qt_len(str, i));
 		else if (str[i] == 39)
 			return (qt_len(str, i));
-		i++;
+		if (str[i] == '|')
+			return (len);
 		len++;
+		i++;
 	}
 	return (len);
 }
@@ -84,13 +86,7 @@ int	matrix_len(char *str)
 			len++;
 		}
 		else
-		{
-			while (str[i] && !(str[i] >= 9 && str[i] <= 13) && str[i] != 32)
-				i++;
-			if (!str[i])
-				return (len + 1);
-			len++;
-		}
+			len = separate_pipe(str, &i, len);
 	}
 	return (len);
 }

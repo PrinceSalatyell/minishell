@@ -18,10 +18,3 @@ t_input	*_input(void)
 
 	return (&input);
 }
-
-t_token	*token_node(void)
-{
-	static t_token	token;
-
-	return (&token);
-}

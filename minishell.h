@@ -56,10 +56,12 @@ int		check_pipe_done(char *str, int i);
 void	get_input(void);
 void	loop_promt(char *str, int qt);
 
-// str_parse.c
+// parser.c
 void	analyze_and_parse(char *str);
 void	tokenizer(char *str, int i);
+int	copy_token(char *str, int i, int tk_len, int index);
 void	get_token_list(t_token **token_lst, int i);
+void	parse_commands(t_token *token_lst);
 
 // get_token.c
 void	free_token(void);
@@ -68,8 +70,11 @@ int		matrix_len(char *str);
 int		qt_len(char *str, int i);
 
 // utils.c
+int	separate_pipe(char *str, int *i, int len);
 int		quotes_end(char *str, int i);
 char	*ft_strjoin_nl(char *s1, char *s2);
+
+//struct_utils.c
 void	add_back(t_token **token_list, t_token *new);
 t_token	*lst_last(t_token *token_lst);
 t_token	*new_token(char *value, char *type);
@@ -77,7 +82,6 @@ void	free_list(t_token **token);
 
 // init.c
 t_input	*_input(void);
-t_token	*token_node(void);
 
 // minishell.c
 void	sig_handler(int n);
