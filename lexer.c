@@ -39,7 +39,7 @@ void	tokenizer(char *str, int i)
 	_input()->token_matrix = malloc(sizeof(char *) * (len + 1));
 	if (!_input()->token_matrix)
 		return ;
-	_input()->token_matrix[len] = '\0';
+	_input()->token_matrix[len] = NULL;
 	_input()->index = 0;
 	while (str[i])
 	{
@@ -50,6 +50,8 @@ void	tokenizer(char *str, int i)
 			tk_len = token_len(str, i);
 			_input()->token_matrix[_input()->index] = \
 			malloc(sizeof(char *) * (tk_len + 1));
+			if (!_input()->token_matrix[_input()->index])
+				return ;
 			tk_len = copy_token(str, i, tk_len, _input()->index);
 			_input()->index++;
 			i = i + tk_len;
@@ -92,15 +94,15 @@ void	analyze_and_parse(char *str)
 	tokenizer(str, 0);
 	token_lst = NULL;
 	get_token_list(&token_lst, 0);
-	if (token_lst)
-	{
-		while (token_lst->next)
-		{
-			printf("value - %s\ntype - %s\n------------\n", token_lst->value, token_lst->type);
-			token_lst = token_lst->next;
-		}
-		printf("value - %s\ntype - %s\n", token_lst->value, token_lst->type);
-	}
-	// parse_commands(token_lst);
+	// if (token_lst)
+	// {
+	// 	while (token_lst->next)
+	// 	{
+	// 		printf("value - %s\ntype - %s\n------------\n", token_lst->value, token_lst->type);
+	// 		token_lst = token_lst->next;
+	// 	}
+	// 	printf("value - %s\ntype - %s\n", token_lst->value, token_lst->type);
+	// }
+	parse_commands(token_lst);
 	free_list(&token_lst);
 }

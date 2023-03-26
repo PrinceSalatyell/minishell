@@ -12,13 +12,16 @@
 
 # COMPILATION VARS
 
-SRCS	=	minishell.c	\
-			parser.c	\
-			init.c		\
-			utils.c		\
-			get_input.c	\
-			check_str.c	\
-			get_token.c
+SRCS	=	minishell.c		\
+			parser.c		\
+			lexer.c			\
+			init.c			\
+			utils.c			\
+			struct_utils.c	\
+			get_input.c		\
+			check_str.c		\
+			get_token.c		\
+			execution.c
 
 OBJS	=	${SRCS:%.c=${DIR_OBJ}%.o}
 

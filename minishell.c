@@ -36,7 +36,7 @@ int	main(void)
 	{
 		get_input();
 		analyze_and_parse(_input()->command);
-		execute();
+		// execute();
 		free(_input()->command);
 		free_token();
 	}

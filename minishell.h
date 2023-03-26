@@ -52,6 +52,7 @@ typedef struct s_input
 typedef struct s_info
 {
 	char	**path;
+	int	nr_pipe;
 }	t_info;
 
 // check_str.c
@@ -71,6 +72,9 @@ void	get_token_list(t_token **token_lst, int i);
 
 // parser.c
 void	parse_commands(t_token *token_lst);
+int	check_nr_commands(t_token *token_lst);
+int	get_command_len(t_token **token_lst);
+void	send_simple_command(t_token *token_lst, int command_len, int nr_commands);
 
 // get_token.c
 void	free_token(void);
@@ -98,6 +102,8 @@ void	ignore_signal(void);
 
 // execution.c
 void	execute(void);
+char	*check_executable(void);
+void	run(char *command);
 
 // init.c
 t_input	*_input(void);
