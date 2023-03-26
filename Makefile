@@ -18,7 +18,8 @@ SRCS	=	minishell.c	\
 			utils.c		\
 			get_input.c	\
 			check_str.c	\
-			get_token.c
+			get_token.c \
+			struct_utils.c
 
 OBJS	=	${SRCS:%.c=${DIR_OBJ}%.o}
 
