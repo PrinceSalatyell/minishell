@@ -32,6 +32,13 @@
 # define RED "\033[1;31m"
 # define COLOUR_END "\033[0m"
 
+typedef struct s_token
+{
+    char    *value;
+    char    *type;
+    struct s_token *next;
+}   t_token;
+
 typedef struct s_input
 {
 	char	*command;
@@ -49,20 +56,33 @@ int		check_pipe_done(char *str, int i);
 void	get_input(void);
 void	loop_promt(char *str, int qt);
 
-// str_parse.c
+// lexer.c
 void	analyze_and_parse(char *str);
 void	tokenizer(char *str, int i);
+int	copy_token(char *str, int i, int tk_len, int index);
+void	get_token_list(t_token **token_lst, int i);
 
-// tokenizer.c
-void	free_token(char **token_matrix);
+// parser.c
+void	parse_commands(t_token *token_lst);
+
+// get_token.c
+void	free_token(void);
 int		token_len(char *str, int i);
 int		matrix_len(char *str);
 int		qt_len(char *str, int i);
 
 // utils.c
-void	*ft_memcpy(void *dest, const void *src, size_t n);
+int	separate_pipe(char *str, int *i, int len);
 int		quotes_end(char *str, int i);
 char	*ft_strjoin_nl(char *s1, char *s2);
+
+//struct_utils.c
+void	add_back(t_token **token_list, t_token *new);
+t_token	*lst_last(t_token *token_lst);
+t_token	*new_token(char *value, char *type);
+void	free_list(t_token **token);
+
+// init.c
 t_input	*_input(void);
 
 // minishell.c

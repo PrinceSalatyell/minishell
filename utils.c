@@ -12,6 +12,22 @@
 
 #include "minishell.h"
 
+int	separate_pipe(char *str, int *i, int len)
+{
+	if (str[*i] == '|')
+		return (len + 1);
+	while (str[*i] && !(str[*i] >= 9 && str[*i] <= 13) && str[*i] != 32 && str[*i] != '|')
+		*i = *i + 1;
+	if (!str[*i] || ((str[*i] >= 9 && str[*i] <= 13) || str[*i] == 32))
+	{
+		*i = *i - 1;
+		return (len + 1);
+	}
+	else if (str[*i] == '|')
+		return (len + 2);
+	return (len);
+}
+
 int	quotes_end(char *str, int i)
 {
 	if (str[i] == '"')
