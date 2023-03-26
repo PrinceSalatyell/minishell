@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/22 21:47:13 by josanton         ###   ########.fr       */
+/*   Updated: 2023/03/24 20:51:52 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 // COLORS
 
@@ -34,10 +36,10 @@
 
 typedef struct s_token
 {
-    char    *value;
-    char    *type;
-    struct s_token *next;
-}   t_token;
+	char			*value;
+	char			*type;
+	struct s_token	*next;
+}	t_token;
 
 typedef struct s_input
 {
@@ -46,6 +48,11 @@ typedef struct s_input
 	int		index;
 	int		qt_flag;
 }	t_input;
+
+typedef struct s_info
+{
+	char	**path;
+}	t_info;
 
 // check_str.c
 int		check_qt_marks(char *str, int i);
@@ -88,5 +95,12 @@ t_input	*_input(void);
 // minishell.c
 void	sig_handler(int n);
 void	ignore_signal(void);
+
+// execution.c
+void	execute(void);
+
+// init.c
+t_input	*_input(void);
+t_info	*info(void);
 
 #endif

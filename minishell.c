@@ -6,7 +6,7 @@
 /*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:04:50 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/22 21:38:21 by josanton         ###   ########.fr       */
+/*   Updated: 2023/03/26 13:32:14 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	ignore_signal(void)
 	signal(SIGINT, sig_handler);
 	signal(SIGTSTP, SIG_IGN);
 	signal(SIGSEGV, SIG_IGN);
-	//signal(SIGTSTP, SIG_IGN);
 }
 
 int	main(void)
@@ -37,6 +36,7 @@ int	main(void)
 	{
 		get_input();
 		analyze_and_parse(_input()->command);
+		execute();
 		free(_input()->command);
 		free_token();
 	}
