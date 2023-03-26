@@ -6,7 +6,7 @@
 /*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:06:02 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/22 21:47:02 by josanton         ###   ########.fr       */
+/*   Updated: 2023/03/26 19:07:22 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,20 +104,20 @@ void	parse_commands(t_token *token_lst)
 
 void	analyze_and_parse(char *str)
 {
-	t_token	*token_lst;
+	//t_token	*token_lst;
 
 	tokenizer(str, 0);
-	token_lst = NULL;
-	get_token_list(&token_lst, 0);
-	if (token_lst)
-	{
-		while (token_lst->next)
-		{
-			printf("value - %s\ntype - %s\n------------\n", token_lst->value, token_lst->type);
-			token_lst = token_lst->next;
-		}
-		printf("value - %s\ntype - %s\n", token_lst->value, token_lst->type);
-	}
-	parse_commands(token_lst);
-	free_list(&token_lst);
+	// token_lst = NULL;
+	// get_token_list(&token_lst, 0);
+	// if (token_lst)
+	// {
+	// 	while (token_lst->next)
+	// 	{
+	// 		printf("value - %s\ntype - %s\n------------\n", token_lst->value, token_lst->type);
+	// 		token_lst = token_lst->next;
+	// 	}
+	// 	printf("value - %s\ntype - %s\n", token_lst->value, token_lst->type);
+	// }
+	// parse_commands(token_lst);
+	// free_list(&token_lst);
 }

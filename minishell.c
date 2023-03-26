@@ -6,7 +6,7 @@
 /*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:04:50 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/22 21:38:21 by josanton         ###   ########.fr       */
+/*   Updated: 2023/03/26 19:07:41 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,18 @@ void	ignore_signal(void)
 	//signal(SIGTSTP, SIG_IGN);
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
+	(void)argc;
+	(void)argv;
+	(void)envp;
 	ignore_signal();
 	while (1)
 	{
+		//store_env(envp);
 		get_input();
 		analyze_and_parse(_input()->command);
+		execute();
 		free(_input()->command);
 		free_token();
 	}
