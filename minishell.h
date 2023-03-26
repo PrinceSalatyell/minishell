@@ -56,11 +56,13 @@ int		check_pipe_done(char *str, int i);
 void	get_input(void);
 void	loop_promt(char *str, int qt);
 
-// parser.c
+// lexer.c
 void	analyze_and_parse(char *str);
 void	tokenizer(char *str, int i);
 int	copy_token(char *str, int i, int tk_len, int index);
 void	get_token_list(t_token **token_lst, int i);
+
+// parser.c
 void	parse_commands(t_token *token_lst);
 
 // get_token.c
