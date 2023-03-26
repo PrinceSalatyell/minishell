@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 22:25:40 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/24 20:51:10 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/03/26 13:38:12 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,15 @@ char	*check_executable(void)
 	return (ret);
 }
 
+void	run(char *command)
+{
+	int	res;
+
+	res = execve(command, _input()->token_matrix, NULL);
+	if (res == -1)
+		exit(1);
+}
+
 void	execute(void)
 {
 	char	*command;
@@ -42,7 +51,7 @@ void	execute(void)
 		if (pid == -1)
 			return ;
 		if (pid == 0)
-			execve(command, _input()->token_matrix, NULL);
+			run(command);
 		wait(NULL);
 		free(command);
 	}

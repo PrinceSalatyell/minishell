@@ -6,7 +6,7 @@
 #    By: josanton <josanton@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/20 12:45:20 by josanton          #+#    #+#              #
-#    Updated: 2023/03/23 23:49:34 by josanton         ###   ########.fr        #
+#    Updated: 2023/03/26 12:03:00 by josanton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ DIR_OBJ = objs/
 
 #GCC & FLAGS
 
-CC	=	gcc
+CC	=	clang
 
 42FLAGS	=	-Wall -Werror -Wextra -g
 
