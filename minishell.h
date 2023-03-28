@@ -36,7 +36,7 @@
 
 typedef struct s_token
 {
-	char			*value;
+	char			**value;
 	char			*type;
 	struct s_token	*next;
 }	t_token;
@@ -69,11 +69,13 @@ void	analyze_and_parse(char *str);
 void	tokenizer(char *str, int i);
 int	copy_token(char *str, int i, int tk_len, int index);
 void	get_token_list(t_token **token_lst, int i);
+int	get_command_len(int i);
+void	cpy_command(t_token **token_lst, int *i, int cmd_len);
+
 
 // parser.c
 void	parse_commands(t_token *token_lst);
 int	check_nr_commands(t_token *token_lst);
-int	get_command_len(t_token **token_lst);
 void	send_simple_command(t_token *token_lst, int command_len, int nr_commands);
 
 // get_token.c
@@ -90,7 +92,7 @@ char	*ft_strjoin_nl(char *s1, char *s2);
 //struct_utils.c
 void	add_back(t_token **token_list, t_token *new);
 t_token	*lst_last(t_token *token_lst);
-t_token	*new_token(char *value, char *type);
+t_token	*new_token(char *type, int cmd_len);
 void	free_list(t_token **token);
 
 // init.c

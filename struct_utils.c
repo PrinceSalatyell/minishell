@@ -3,12 +3,19 @@
 void	free_list(t_token **token)
 {
 	t_token	*tmp;
+	int	i;
 
 	if (!token)
 		return ;
+	i = 0;
 	while (*token)
 	{
 		tmp = (*token)->next;
+		while ((*token)->value[i])
+		{
+			free((*token)->value[i]);
+			i++;
+		}
 		free((*token)->value);
 		free((*token)->type);
 		free(*token);
@@ -35,14 +42,15 @@ void	add_back(t_token **token_lst, t_token *new)
 		(lst_last(*token_lst))->next = new;
 }
 
-t_token	*new_token(char *value, char *type)
+t_token	*new_token(char *type, int len)
 {
 	t_token	*token_node;
 
 	token_node = malloc(sizeof(t_token));
 	if (!token_node)
 		return (NULL);
-	token_node->value = ft_strdup(value);
+	token_node->value = malloc(sizeof(token_node->value) * len + 1);
+	token_node->value[len] = NULL;
 	token_node->type = ft_strdup(type);
 	token_node->next = NULL;
 	return (token_node);
