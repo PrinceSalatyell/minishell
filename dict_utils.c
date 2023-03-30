@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   dict_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 18:55:18 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/26 20:35:37 by josanton         ###   ########.fr       */
+/*   Updated: 2023/03/30 12:50:40 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <minishell.h>
+#include "minishell.h"
 
 void	ft_dictadd_back(t_dict **dict, t_dict *new)
 {
