@@ -43,6 +43,8 @@ int	find_command(t_token *token_lst)
 	char	*command;
 	int	i;
 
+	// if (!token_lst->value[0])
+	// 	return (0);
 	i = 0;
 	while (token_lst)
 	{
@@ -63,7 +65,7 @@ int	find_command(t_token *token_lst)
 	return (1);
 }
 
-int	**get_pipes(void)
+int	**get_pipe_fd(void)
 {
 	int	**fd;
 	int	i;
@@ -94,19 +96,23 @@ int	**get_pipes(void)
 void	execute_multiple(t_token *token_lst, int i)
 {
 	char	*command;
-	int	pid;
+	pid_t	pid;
 	int	**fd;
 	int	j;
 	
-	fd = get_pipes();
+	fd = get_pipe_fd();
 	while (token_lst)
 	{
 		if (ft_strcmp(token_lst->type, "Command") == 0)
 		{
 			command = check_executable(token_lst->value[0]);
+			//printf("command - %s\n", command);
 			pid = fork();
 			if (pid == -1)
-				return ;
+			{
+				printf("Error forking process\n");
+				exit(1);
+			}
 			if (pid == 0)
 			{
 				if (i != 0)
@@ -145,7 +151,6 @@ void	execute_multiple(t_token *token_lst, int i)
 	// 	dup2(fd[1], STDOUT_FILENO);
 	// 	close(fd[0]);
 	// 	close(fd[1]);
-	// 	//printf("value -> %s\n", token_lst->value[0]);
 	// 	run(token_lst, command);
 	// }
 	// free(command);

@@ -108,7 +108,7 @@ char	*check_executable(char	*cmd);
 void	run(t_token *token_lst, char *command);
 void	execute_multiple(t_token *token_lst, int i);
 int	find_command(t_token *token_lst);
-int	**get_pipes(void);
+int	**get_pipe_fd(void);
 
 // init.c
 t_input	*_input(void);

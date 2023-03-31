@@ -129,6 +129,9 @@ void	analyze_and_parse(char *str)
 	// 	}
 	// 	printf(" ____-_____ type -> %s\n------------\n", token_lst->type);
 	// }
+	//printf("heyy\n");
+	if (!token_lst)
+		return ;
 	parse_commands(token_lst);
 	free_list(&temp);
 }

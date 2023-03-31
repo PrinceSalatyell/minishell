@@ -16,8 +16,10 @@ void	free_fd(int	**fd)
 {
 	int	i;
 
+	if (!fd)
+		return ;
 	i = 0;
-	while (fd[i])
+	while (i < info()->nr_pipe)
 	{
 		free(fd[i]);
 		i++;
