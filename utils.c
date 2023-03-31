@@ -12,6 +12,32 @@
 
 #include "minishell.h"
 
+void	free_fd(int	**fd)
+{
+	int	i;
+
+	i = 0;
+	while (fd[i])
+	{
+		free(fd[i]);
+		i++;
+	}
+	free(fd);
+}
+
+void	cpy_command(t_token **token_lst, int i)
+{
+	int	j;
+
+	j = 0;
+	while (_input()->token_matrix[i] && _input()->token_matrix[i][0] != '|')
+	{
+		(*token_lst)->value[j] = ft_strdup(_input()->token_matrix[i]);
+		i = i + 1;
+		j++;
+	}
+}
+
 int	separate_pipe(char *str, int *i, int len)
 {
 	if (str[*i] == '|')

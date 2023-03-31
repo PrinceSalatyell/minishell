@@ -7,9 +7,9 @@ void	free_list(t_token **token)
 
 	if (!token)
 		return ;
-	i = 0;
 	while (*token)
 	{
+		i = 0;
 		tmp = (*token)->next;
 		while ((*token)->value[i])
 		{
@@ -42,7 +42,7 @@ void	add_back(t_token **token_lst, t_token *new)
 		(lst_last(*token_lst))->next = new;
 }
 
-t_token	*new_token(char *type, int len)
+t_token	*new_token(char *type, int len, int i)
 {
 	t_token	*token_node;
 
@@ -50,6 +50,12 @@ t_token	*new_token(char *type, int len)
 	if (!token_node)
 		return (NULL);
 	token_node->value = malloc(sizeof(token_node->value) * len + 1);
+	if (!token_node->value)
+		return (NULL);
+	if (ft_strcmp(type, "Operator") != 0)
+		cpy_command(&token_node, i);
+	else
+		token_node->value[0] = ft_strdup(_input()->token_matrix[i]);
 	token_node->value[len] = NULL;
 	token_node->type = ft_strdup(type);
 	token_node->next = NULL;
