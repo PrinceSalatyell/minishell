@@ -19,6 +19,7 @@ SRCS	=	minishell.c		\
 			get_input.c		\
 			check_str.c		\
 			get_token.c		\
+			execution.c		\
 			struct_utils.c	\
 			dict_utils.c	\
 			builtins/env.c
@@ -35,7 +36,7 @@ DIR_OBJ = objs/
 
 #GCC & FLAGS
 
-CC	=	gcc
+CC	=	clang
 
 42FLAGS	=	-Wall -Werror -Wextra -g
 

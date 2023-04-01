@@ -6,7 +6,7 @@
 /*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:01:09 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/22 21:42:02 by josanton         ###   ########.fr       */
+/*   Updated: 2023/03/23 21:21:37 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	check_pipe_done(char *str, int i)
 
 void	check_if_complete(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	_input()->qt_flag = 1;

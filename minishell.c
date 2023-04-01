@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:04:50 by josanton          #+#    #+#             */
-/*   Updated: 2023/04/01 16:12:27 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/03/26 13:32:14 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	ignore_signal(void)
 	signal(SIGINT, sig_handler);
 	signal(SIGTSTP, SIG_IGN);
 	signal(SIGSEGV, SIG_IGN);
-	//signal(SIGTSTP, SIG_IGN);
 }
 
 int	main(int argc, char **argv, char **envp)

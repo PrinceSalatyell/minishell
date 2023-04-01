@@ -107,9 +107,6 @@ void	execute(void);
 t_input	*_input(void);
 t_info	*info(void);
 
-// builtins/env.c
-void	store_env(char **envp);
-
 // dict_utils.c
 t_dict	*ft_dictnew(char *key, char *value);
 void	ft_dictadd_back(t_dict **dict, t_dict *new);

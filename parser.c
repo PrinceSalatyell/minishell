@@ -39,7 +39,7 @@ void	tokenizer(char *str, int i)
 	_input()->token_matrix = malloc(sizeof(char *) * (len + 1));
 	if (!_input()->token_matrix)
 		return ;
-	_input()->token_matrix[len] = '\0';
+	_input()->token_matrix[len] = NULL;
 	_input()->index = 0;
 	while (str[i])
 	{
