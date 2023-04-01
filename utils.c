@@ -12,52 +12,20 @@
 
 #include "minishell.h"
 
-void	free_list(t_token **token)
+int	separate_pipe(char *str, int *i, int len)
 {
-	t_token	*tmp;
-
-	if (!token)
-		return ;
-	while (*token)
+	if (str[*i] == '|')
+		return (len + 1);
+	while (str[*i] && !(str[*i] >= 9 && str[*i] <= 13) && str[*i] != 32 && str[*i] != '|')
+		*i = *i + 1;
+	if (!str[*i] || ((str[*i] >= 9 && str[*i] <= 13) || str[*i] == 32))
 	{
-		tmp = (*token)->next;
-		free((*token)->value);
-		free((*token)->type);
-		free(*token);
-		*token = tmp;
+		*i = *i - 1;
+		return (len + 1);
 	}
-}
-
-t_token	*lst_last(t_token *token_lst)
-{
-	if (!token_lst)
-		return (NULL);
-	while (token_lst->next)
-		token_lst = (token_lst)->next;
-	return (token_lst);
-}
-
-void	add_back(t_token **token_lst, t_token *new)
-{
-	if (!new)
-		return ;
-	if (!*token_lst)
-		*token_lst = new;
-	else
-		(lst_last(*token_lst))->next = new;
-}
-
-t_token	*new_token(char *value, char *type)
-{
-	t_token	*token_node;
-
-	token_node = malloc(sizeof(t_token));
-	if (!token_node)
-		return (NULL);
-	token_node->value = ft_strdup(value);
-	token_node->type = ft_strdup(type);
-	token_node->next = NULL;
-	return (token_node);
+	else if (str[*i] == '|')
+		return (len + 2);
+	return (len);
 }
 
 int	quotes_end(char *str, int i)

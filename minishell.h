@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/24 20:51:52 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/04/01 16:08:59 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,13 @@
 # define RED "\033[1;31m"
 # define COLOUR_END "\033[0m"
 
+typedef struct s_dict
+{
+	char			*key;
+	char			*value;
+	struct s_dict	*next;
+}	t_dict;
+
 typedef struct s_token
 {
 	char			*value;
@@ -52,6 +59,7 @@ typedef struct s_input
 typedef struct s_info
 {
 	char	**path;
+	t_dict	*env;
 }	t_info;
 
 // check_str.c
@@ -81,6 +89,8 @@ void	add_back(t_token **token_list, t_token *new);
 t_token	*lst_last(t_token *token_lst);
 t_token	*new_token(char *value, char *type);
 void	free_list(t_token **token);
+int	separate_pipe(char *str, int *i, int len);
+
 
 // init.c
 t_input	*_input(void);
@@ -96,5 +106,18 @@ void	execute(void);
 // init.c
 t_input	*_input(void);
 t_info	*info(void);
+
+// dict_utils.c
+t_dict	*ft_dictnew(char *key, char *value);
+void	ft_dictadd_back(t_dict **dict, t_dict *new);
+int		ft_dictsize(t_dict *dict);
+void	ft_dictdellast(t_dict **dict);
+void	ft_dictclear(t_dict **dict);
+
+// BUILT-INS DIRECTORY
+
+// env.c
+void	store_env(char **envp);
+void	env(void);
 
 #endif
