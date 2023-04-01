@@ -77,7 +77,7 @@ int	check_nr_commands(t_token *token_lst);
 void	send_simple_command(t_token *token_lst, int command_len, int nr_commands);
 
 // get_token.c
-void	free_token(void);
+void	free_token_matrix(void);
 int		token_len(char *str, int i);
 int		matrix_len(char *str);
 int		qt_len(char *str, int i);

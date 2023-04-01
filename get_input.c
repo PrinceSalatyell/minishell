@@ -35,6 +35,10 @@ void	get_input(void)
 
 	tmp_command = readline(BLUE"minishell" RED ">$ " COLOUR_END);
 	check_if_complete(tmp_command);
+	if (_input()->command[0] == '\0')
+	{
+		return ;
+	}
 	if (_input()->command == NULL || !strcmp(_input()->command, "exit"))
 	{
 		write(1, "\n", 1);

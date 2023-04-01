@@ -101,12 +101,12 @@ void	execute_multiple(t_token *token_lst, int i)
 	int	j;
 	
 	fd = get_pipe_fd();
+	pid = 1;
 	while (token_lst)
 	{
 		if (ft_strcmp(token_lst->type, "Command") == 0)
 		{
 			command = check_executable(token_lst->value[0]);
-			//printf("command - %s\n", command);
 			pid = fork();
 			if (pid == -1)
 			{
@@ -119,12 +119,11 @@ void	execute_multiple(t_token *token_lst, int i)
 					dup2(fd[i-1][0], STDIN_FILENO);
 				if (token_lst->next)
 					dup2(fd[i][1], STDOUT_FILENO);
-				j = 0;	
-				while (j < info()->nr_pipe)
+				j = -1;	
+				while (++j < info()->nr_pipe)
 				{
 					close(fd[j][0]);
 					close(fd[j][1]);
-					j++;
 				}
 				run(token_lst, command);
 			}
@@ -133,41 +132,16 @@ void	execute_multiple(t_token *token_lst, int i)
 		}
 		token_lst = token_lst->next;
 	}
-	j = 0;
-	while (j < info()->nr_pipe)
+	j = -1;
+	while (++j < info()->nr_pipe)
 	{
 		close(fd[j][0]);
 		close(fd[j][1]);
-		j++;
 	}
-	wait(NULL);
 	free_fd(fd);
-	// command = check_executable(token_lst->value[0]);
-	// pid = fork();
-	// if (pid == -1)
-	// 	return ;
-	// if (pid == 0)
-	// {
-	// 	dup2(fd[1], STDOUT_FILENO);
-	// 	close(fd[0]);
-	// 	close(fd[1]);
-	// 	run(token_lst, command);
-	// }
-	// free(command);
-	// token_lst = token_lst->next;
-	// token_lst = token_lst->next;
-	// command = check_executable(token_lst->value[0]);
-	// pid2 = fork();
-	// if (pid2 == -1)
-	// 	return ;
-	// if (pid2 == 0)
-	// {
-	// 	dup2(fd[0], STDIN_FILENO);
-	// 	close(fd[0]);
-	// 	close(fd[1]);	
-	// 	//printf("value -> %s\n", token_lst->value[0]);
-	// 	run(token_lst, command);
-	// }
+	j = -1;
+	while (++j < info()->nr_pipe + 1)
+		wait(NULL);
 }
 
 void	execute(t_token *token_lst)

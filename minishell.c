@@ -35,10 +35,12 @@ int	main(void)
 	while (1)
 	{
 		get_input();
-		analyze_and_parse(_input()->command);
-		// execute();
+		if (_input()->command[0] != '\0')
+		{
+			analyze_and_parse(_input()->command);
+			free_token_matrix();
+		}
 		free(_input()->command);
-		free_token();
 	}
 	return (0);
 }
