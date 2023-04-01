@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/26 19:11:42 by josanton         ###   ########.fr       */
+/*   Updated: 2023/04/01 16:08:59 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ typedef struct s_input
 typedef struct s_info
 {
 	char	**path;
-	t_dict	**env;
+	t_dict	*env;
 }	t_info;
 
 // check_str.c
@@ -109,5 +109,18 @@ t_info	*info(void);
 
 // builtins/env.c
 void	store_env(char **envp);
+
+// dict_utils.c
+t_dict	*ft_dictnew(char *key, char *value);
+void	ft_dictadd_back(t_dict **dict, t_dict *new);
+int		ft_dictsize(t_dict *dict);
+void	ft_dictdellast(t_dict **dict);
+void	ft_dictclear(t_dict **dict);
+
+// BUILT-INS DIRECTORY
+
+// env.c
+void	store_env(char **envp);
+void	env(void);
 
 #endif

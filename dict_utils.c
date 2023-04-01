@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 18:55:18 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/30 12:50:40 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/04/01 15:41:31 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,27 @@ void	ft_dictadd_back(t_dict **dict, t_dict *new)
 {
 	t_dict	*temp;
 
-	if (!lst || !new)
+	if (!dict || !new)
 		return ;
-	if (!(*lst))
+	if (!(*dict))
 	{
-		*lst = new;
+		*dict = new;
 		return ;
 	}
-	temp = (*lst);
+	temp = (*dict);
 	while (temp->next)
 		(temp) = temp->next;
 	temp->next = new;
 }
 
-void	ft_dictclear(t_list **dict)
+void	ft_dictclear(t_dict **dict)
 {
-	t_dict	*temp;
-
 	if (!dict)
 		return ;
 	if (!(*dict))
 		return ;
 	while (*dict)
-		ft_dictdellast(*dict);
+		ft_dictdellast(dict);
 }
 
 t_dict	*ft_dictnew(char *key, char *value)
@@ -54,24 +52,41 @@ t_dict	*ft_dictnew(char *key, char *value)
 	return (temp);
 }
 
-void	ft_dictdellast(t_dict *dict)
-{
-	t_dict	*temp;
+// ft_dictdel(t_dict *dict, char *key)
+// {
+// 	t_dict *temp;
 
-	temp = dict;
-	if (!temp->next)
+// 	while(dict)
+// 	{
+// 		if (!ft_strcmp(dict->key, key))
+// 		{
+
+// 		}
+// 	}
+// }
+
+void	ft_dictdellast(t_dict **dict)
+{
+	t_dict	*head;
+
+	if (!dict || !(*dict))
+		return ;
+	head = *dict;
+	if (!(*dict)->next)
 	{
-		free(temp->key);
-		free(temp->value);
-		free(temp);
+		free((*dict)->key);
+		free((*dict)->value);
+		free((*dict));
+		(*dict) = NULL;
 		return ;
 	}
-	while (temp->next->next)
-		temp = temp->next;
-	free(temp->next->key);
-	free(temp->next->value);
-	free(temp->next);
-	temp->next = NULL;
+	while ((*dict)->next->next)
+		(*dict) = (*dict)->next;
+	free((*dict)->next->key);
+	free((*dict)->next->value);
+	free((*dict)->next);
+	(*dict)->next = NULL;
+	(*dict) = head;
 }
 
 int	ft_dictsize(t_dict *dict)

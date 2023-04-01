@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:04:50 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/26 19:07:41 by josanton         ###   ########.fr       */
+/*   Updated: 2023/04/01 16:12:27 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,15 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)envp;
 	ignore_signal();
+	store_env(envp);
 	while (1)
 	{
-		//store_env(envp);
 		get_input();
 		analyze_and_parse(_input()->command);
-		execute();
+		if (ft_strcmp(_input()->command, "env"))
+			env();
+		else
+			execute();
 		free(_input()->command);
 		free_token();
 	}
