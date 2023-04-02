@@ -95,9 +95,6 @@ t_token	*lst_last(t_token *token_lst);
 t_token	*new_token(char *type, int cmd_len, int i);
 void	free_list(t_token **token);
 
-// init.c
-t_input	*_input(void);
-
 // minishell.c
 void	sig_handler(int n);
 void	ignore_signal(void);
@@ -106,9 +103,10 @@ void	ignore_signal(void);
 void	execute(t_token *token_lst);
 char	*check_executable(char	*cmd);
 void	run(t_token *token_lst, char *command);
-void	execute_multiple(t_token *token_lst, int i);
+void	execute_multiple_pipe(t_token *token_lst, int i);
 int	find_command(t_token *token_lst);
 int	**get_pipe_fd(void);
+void	do_pipes(t_token *token_lst, int **fd, int i, int j);
 
 // init.c
 t_input	*_input(void);

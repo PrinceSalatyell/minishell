@@ -91,43 +91,47 @@ int	**get_pipe_fd(void)
 	return (fd);
 }
 
-// fd[0] - read
-// fd[1] - write
-void	execute_multiple(t_token *token_lst, int i)
+void	do_pipes(t_token *token_lst, int **fd, int i, int j)
 {
 	char	*command;
 	pid_t	pid;
+
+	command = check_executable(token_lst->value[0]);
+	pid = fork();
+	if (pid == -1)
+	{
+		printf("Error forking process\n");
+		exit(1);
+	}
+	if (pid == 0)
+	{
+		if (i != 0)
+			dup2(fd[i-1][0], STDIN_FILENO);
+		if (token_lst->next)
+			dup2(fd[i][1], STDOUT_FILENO);
+		while (++j < info()->nr_pipe)
+		{
+			close(fd[j][0]);
+			close(fd[j][1]);
+		}
+		run(token_lst, command);
+	}
+	free(command);
+}
+
+// fd[0] - read
+// fd[1] - write
+void	execute_multiple_pipe(t_token *token_lst, int i)
+{
 	int	**fd;
 	int	j;
 	
 	fd = get_pipe_fd();
-	pid = 1;
 	while (token_lst)
 	{
 		if (ft_strcmp(token_lst->type, "Command") == 0)
 		{
-			command = check_executable(token_lst->value[0]);
-			pid = fork();
-			if (pid == -1)
-			{
-				printf("Error forking process\n");
-				exit(1);
-			}
-			if (pid == 0)
-			{
-				if (i != 0)
-					dup2(fd[i-1][0], STDIN_FILENO);
-				if (token_lst->next)
-					dup2(fd[i][1], STDOUT_FILENO);
-				j = -1;	
-				while (++j < info()->nr_pipe)
-				{
-					close(fd[j][0]);
-					close(fd[j][1]);
-				}
-				run(token_lst, command);
-			}
-			free(command);
+			do_pipes(token_lst, fd, i, -1);
 			i++;
 		}
 		token_lst = token_lst->next;
@@ -163,5 +167,5 @@ void	execute(t_token *token_lst)
 		free(command);
 	}
 	else
-		execute_multiple(token_lst, 0);
+		execute_multiple_pipe(token_lst, 0);
 }
