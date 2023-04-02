@@ -14,5 +14,6 @@
 
 void	parse_commands(t_token *token_lst)
 {
-	execute(token_lst);
+	if (!is_builtin(_input()->command))
+		execute(token_lst);
 }

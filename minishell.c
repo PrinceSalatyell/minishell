@@ -65,8 +65,6 @@ int	main(int argc, char **argv, char **envp)
 		if (_input()->command[0] != '\0')
 		{
 			analyze_and_parse(_input()->command);
-			if (!is_builtin(_input()->command))
-				execute();
 			free_token_matrix();
 		}
 		free(_input()->command);

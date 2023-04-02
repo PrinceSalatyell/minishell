@@ -108,6 +108,7 @@ int	separate_pipe(char *str, int *i, int len);
 // minishell.c
 void	sig_handler(int n);
 void	ignore_signal(void);
+bool	is_builtin(char *command);
 
 // execution.c
 void	execute(t_token *token_lst);
