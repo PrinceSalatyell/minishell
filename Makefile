@@ -3,24 +3,28 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: josanton <josanton@student.42.fr>          +#+  +:+       +#+         #
+#    By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/20 12:45:20 by josanton          #+#    #+#              #
-#    Updated: 2023/03/22 21:42:47 by josanton         ###   ########.fr        #
+#    Updated: 2023/04/01 19:14:42 by salatiel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # COMPILATION VARS
 
-SRCS	=	minishell.c		\
-			parser.c		\
-			init.c			\
-			utils.c			\
-			get_input.c		\
-			check_str.c		\
-			get_token.c 	\
-			struct_utils.c	\
-			lexer.c
+SRCS	=	minishell.c			\
+			parser.c			\
+			lexer.c				\
+			init.c				\
+			utils.c				\
+			get_input.c			\
+			check_str.c			\
+			get_token.c			\
+			execution.c			\
+			struct_utils.c		\
+			dict_utils.c		\
+			builtins/env.c		\
+			builtins/export.c	
 
 OBJS	=	${SRCS:%.c=${DIR_OBJ}%.o}
 
@@ -34,11 +38,11 @@ DIR_OBJ = objs/
 
 #GCC & FLAGS
 
-CC	=	gcc
+CC	=	clang
 
 42FLAGS	=	-Wall -Werror -Wextra -g
 
-EXTRA_FLAGS =	-Ilibft/ -L${LIBFT_DIR} -lft -lreadline -fsanitize=leak
+EXTRA_FLAGS =	-Ilibft/ -L${LIBFT_DIR} -lft -lreadline -fsanitize=address
 
 GCC	=	${CC} ${42FLAGS}
 
@@ -52,7 +56,7 @@ COLOUR_GREEN=\033[7;1;32m
 COLOUR_END=\033[0m
 COLOUR_YELLOW=\033[7;1;33m
 
-# ================================ R U L E S ================================
+# ===============Implement================= R U L E S ================================
 
 all:	${NAME}
 

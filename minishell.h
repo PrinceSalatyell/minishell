@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/22 21:47:13 by josanton         ###   ########.fr       */
+/*   Updated: 2023/04/01 19:58:53 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 // COLORS
 
@@ -32,12 +34,19 @@
 # define RED "\033[1;31m"
 # define COLOUR_END "\033[0m"
 
+typedef struct s_dict
+{
+	char			*key;
+	char			*value;
+	struct s_dict	*next;
+}	t_dict;
+
 typedef struct s_token
 {
-    char    *value;
-    char    *type;
-    struct s_token *next;
-}   t_token;
+	char			**value;
+	char			*type;
+	struct s_token	*next;
+}	t_token;
 
 typedef struct s_input
 {
@@ -46,6 +55,13 @@ typedef struct s_input
 	int		index;
 	int		qt_flag;
 }	t_input;
+
+typedef struct s_info
+{
+	char	**path;
+	int	nr_pipe;
+	t_dict	*env;
+}	t_info;
 
 // check_str.c
 int		check_qt_marks(char *str, int i);
@@ -61,12 +77,15 @@ void	analyze_and_parse(char *str);
 void	tokenizer(char *str, int i);
 int	copy_token(char *str, int i, int tk_len, int index);
 void	get_token_list(t_token **token_lst, int i);
+int	get_command_len(int i);
 
 // parser.c
 void	parse_commands(t_token *token_lst);
+int	check_nr_commands(t_token *token_lst);
+void	send_simple_command(t_token *token_lst, int command_len, int nr_commands);
 
 // get_token.c
-void	free_token(void);
+void	free_token_matrix(void);
 int		token_len(char *str, int i);
 int		matrix_len(char *str);
 int		qt_len(char *str, int i);
@@ -75,18 +94,50 @@ int		qt_len(char *str, int i);
 int	separate_pipe(char *str, int *i, int len);
 int		quotes_end(char *str, int i);
 char	*ft_strjoin_nl(char *s1, char *s2);
+void	cpy_command(t_token **token_lst, int i);
+void	free_fd(int	**fd);
 
 //struct_utils.c
 void	add_back(t_token **token_list, t_token *new);
 t_token	*lst_last(t_token *token_lst);
-t_token	*new_token(char *value, char *type);
+t_token	*new_token(char *type, int cmd_len, int i);
 void	free_list(t_token **token);
+int	separate_pipe(char *str, int *i, int len);
 
-// init.c
-t_input	*_input(void);
 
 // minishell.c
 void	sig_handler(int n);
 void	ignore_signal(void);
+
+// execution.c
+void	execute(t_token *token_lst);
+char	*check_executable(char	*cmd);
+void	run(t_token *token_lst, char *command);
+void	execute_multiple_pipe(t_token *token_lst, int i);
+int	find_command(t_token *token_lst);
+int	**get_pipe_fd(void);
+void	do_pipes(t_token *token_lst, int **fd, int i, int j);
+
+// init.c
+t_input	*_input(void);
+t_info	*info(void);
+
+// dict_utils.c
+t_dict	*ft_dictnew(char *key, char *value);
+void	ft_dictadd_back(t_dict **dict, t_dict *new);
+int		ft_dictsize(t_dict *dict);
+void	ft_dictdellast(t_dict **dict);
+void	ft_dictclear(t_dict **dict);
+
+// BUILT-INS DIRECTORY
+
+// env.c
+void	store_env(char **envp);
+void	env(void);
+char	*get_value(char *env_line);
+char	*get_key(char *env_line);
+
+//export.c
+void	export(int size, char *last_printed);
 
 #endif

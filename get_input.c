@@ -6,7 +6,7 @@
 /*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:02:01 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/22 21:48:47 by josanton         ###   ########.fr       */
+/*   Updated: 2023/03/26 12:07:25 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	loop_promt(char *str, int flag)
 	char	*command;
 	char	*tmp_command;
 
+	tmp_command = NULL;
 	if (flag == 1)
 		tmp_command = readline(YELLOW"dquote> " COLOUR_END);
 	else if (flag == 2)
@@ -34,6 +35,8 @@ void	get_input(void)
 
 	tmp_command = readline(BLUE"minishell" RED ">$ " COLOUR_END);
 	check_if_complete(tmp_command);
+	if (_input()->command[0] == '\0')
+		return ;
 	if (_input()->command == NULL || !strcmp(_input()->command, "exit"))
 	{
 		write(1, "\n", 1);

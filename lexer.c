@@ -39,7 +39,7 @@ void	tokenizer(char *str, int i)
 	_input()->token_matrix = malloc(sizeof(char *) * (len + 1));
 	if (!_input()->token_matrix)
 		return ;
-	_input()->token_matrix[len] = '\0';
+	_input()->token_matrix[len] = NULL;
 	_input()->index = 0;
 	while (str[i])
 	{
@@ -50,6 +50,8 @@ void	tokenizer(char *str, int i)
 			tk_len = token_len(str, i);
 			_input()->token_matrix[_input()->index] = \
 			malloc(sizeof(char *) * (tk_len + 1));
+			if (!_input()->token_matrix[_input()->index])
+				return ;
 			tk_len = copy_token(str, i, tk_len, _input()->index);
 			_input()->index++;
 			i = i + tk_len;
@@ -57,50 +59,79 @@ void	tokenizer(char *str, int i)
 	}
 }
 
+int	get_command_len(int i)
+{
+	int	len;
+
+	len = 0;
+	while (_input()->token_matrix[i] &&_input()->token_matrix[i][0] != '|')
+	{
+		len++;
+		i++;
+	}
+	return (len);
+}
+
 void	get_token_list(t_token **token_lst, int i)
 {
-	int	flag;
+	int	cmd_len;
 
-	flag = 0;
+	info()->nr_pipe = 0;
 	while (_input()->token_matrix[i])
 	{
-		if (flag == 0)
+		cmd_len = 0;
+		if (_input()->token_matrix[i] && _input()->token_matrix[i][0] == '|')
 		{
-			add_back(token_lst, new_token(_input()->token_matrix[i], "Command"));
-			flag++;
+			add_back(token_lst, new_token("Operator", 1, i));
+			info()->nr_pipe++;
+			i++;
 		}
-		else if (flag == 1)
+		else
 		{
-			if (_input()->token_matrix[i][0] == '|')
-				flag++;
-			if (flag == 2)
-			{
-				add_back(token_lst, new_token(_input()->token_matrix[i], "Operator"));
-				flag = 0;
-			}
-			else
-				add_back(token_lst, new_token(_input()->token_matrix[i], "Argument"));
+			cmd_len = get_command_len(i);
+			add_back(token_lst, new_token("Command", cmd_len, i));
+			i =  i + cmd_len;
 		}
-		i++;
 	}
 }
 
 void	analyze_and_parse(char *str)
 {
 	t_token	*token_lst;
+	t_token *temp;
+	//int	i;
 
 	tokenizer(str, 0);
 	token_lst = NULL;
-	get_token_list(&token_lst, 0);
-	if (token_lst)
-	{
-		while (token_lst->next)
-		{
-			printf("value - %s\ntype - %s\n------------\n", token_lst->value, token_lst->type);
-			token_lst = token_lst->next;
-		}
-		printf("value - %s\ntype - %s\n", token_lst->value, token_lst->type);
-	}
-	// parse_commands(token_lst);
-	free_list(&token_lst);
+	temp = token_lst;
+	get_token_list(&temp, 0);
+	token_lst = temp;
+	// if (token_lst)
+	// {
+	// 	while (token_lst->next)
+	// 	{
+	// 		i = 0;
+	// 		printf("value -> ");
+	// 		while (token_lst->value[i])
+	// 		{
+	// 			printf("%s ", token_lst->value[i]);
+	// 			i++;
+	// 		}
+	// 		printf(" ____-_____ type -> %s\n------------\n", token_lst->type);
+	// 		token_lst = token_lst->next;
+	// 	}
+	// 	i = 0;
+	// 	printf("value -> ");
+	// 	while (token_lst->value[i])
+	// 	{
+	// 		printf("%s ", token_lst->value[i]);
+	// 		i++;
+	// 	}
+	// 	printf(" ____-_____ type -> %s\n------------\n", token_lst->type);
+	// }
+	//printf("heyy\n");
+	// if (!token_lst)
+	// 	return ;
+	parse_commands(token_lst);
+	free_list(&temp);
 }

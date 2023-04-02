@@ -6,13 +6,13 @@
 /*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:02:50 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/22 21:29:00 by josanton         ###   ########.fr       */
+/*   Updated: 2023/03/23 21:21:59 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_token(void)
+void	free_token_matrix(void)
 {
 	int	i;
 
