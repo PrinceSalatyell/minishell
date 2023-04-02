@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:04:50 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/26 13:32:14 by josanton         ###   ########.fr       */
+/*   Updated: 2023/04/01 19:59:23 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,10 @@ int	main(int argc, char **argv, char **envp)
 	{
 		get_input();
 		analyze_and_parse(_input()->command);
-		if (ft_strcmp(_input()->command, "env"))
+		if (!ft_strcmp(_input()->command, "env"))
 			env();
+		else if (!ft_strcmp(_input()->command, "export"))
+			export(0, NULL);
 		else
 			execute();
 		free(_input()->command);

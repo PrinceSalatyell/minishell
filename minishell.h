@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/04/01 16:08:59 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/04/01 19:58:53 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,10 @@ void	ft_dictclear(t_dict **dict);
 // env.c
 void	store_env(char **envp);
 void	env(void);
+char	*get_value(char *env_line);
+char	*get_key(char *env_line);
+
+//export.c
+void	export(int size, char *last_printed);
 
 #endif
