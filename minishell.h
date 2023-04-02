@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/04/01 19:58:53 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/04/02 18:30:25 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ int	separate_pipe(char *str, int *i, int len);
 // minishell.c
 void	sig_handler(int n);
 void	ignore_signal(void);
+bool	is_builtin(char **command);
 
 // execution.c
 void	execute(t_token *token_lst);
@@ -138,6 +139,8 @@ char	*get_value(char *env_line);
 char	*get_key(char *env_line);
 
 //export.c
-void	export(int size, char *last_printed);
+void	print_export(int size, char *last_printed);
+void	export(char **command);
+void	add_to_env(char **comand);
 
 #endif

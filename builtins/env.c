@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 18:16:08 by josanton          #+#    #+#             */
-/*   Updated: 2023/04/01 17:38:26 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/04/02 21:21:24 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*get_value(char *env_line)
 	int		i;
 	char	*value;
 
+	if (env_line == NULL)
+		return (NULL);
 	i = 0;
 	while (env_line[i] && env_line[i] != '=')
 		i++;
@@ -29,6 +31,8 @@ char	*get_key(char *env_line)
 	int		i;
 	char	*key;
 
+	if (env_line == NULL)
+		return (NULL);
 	i = 0;
 	while (env_line[i] && env_line[i] != '=')
 		i++;
