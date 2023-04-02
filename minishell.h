@@ -43,7 +43,7 @@ typedef struct s_dict
 
 typedef struct s_token
 {
-	char			*value;
+	char			**value;
 	char			*type;
 	struct s_token	*next;
 }	t_token;
@@ -59,6 +59,7 @@ typedef struct s_input
 typedef struct s_info
 {
 	char	**path;
+	int	nr_pipe;
 	t_dict	*env;
 }	t_info;
 
@@ -71,37 +72,51 @@ int		check_pipe_done(char *str, int i);
 void	get_input(void);
 void	loop_promt(char *str, int qt);
 
-// str_parse.c
+// lexer.c
 void	analyze_and_parse(char *str);
 void	tokenizer(char *str, int i);
+int	copy_token(char *str, int i, int tk_len, int index);
 void	get_token_list(t_token **token_lst, int i);
+int	get_command_len(int i);
+
+// parser.c
+void	parse_commands(t_token *token_lst);
+int	check_nr_commands(t_token *token_lst);
+void	send_simple_command(t_token *token_lst, int command_len, int nr_commands);
 
 // get_token.c
-void	free_token(void);
+void	free_token_matrix(void);
 int		token_len(char *str, int i);
 int		matrix_len(char *str);
 int		qt_len(char *str, int i);
 
 // utils.c
+int	separate_pipe(char *str, int *i, int len);
 int		quotes_end(char *str, int i);
 char	*ft_strjoin_nl(char *s1, char *s2);
+void	cpy_command(t_token **token_lst, int i);
+void	free_fd(int	**fd);
+
+//struct_utils.c
 void	add_back(t_token **token_list, t_token *new);
 t_token	*lst_last(t_token *token_lst);
-t_token	*new_token(char *value, char *type);
+t_token	*new_token(char *type, int cmd_len, int i);
 void	free_list(t_token **token);
 int	separate_pipe(char *str, int *i, int len);
 
-
-// init.c
-t_input	*_input(void);
-t_token	*token_node(void);
 
 // minishell.c
 void	sig_handler(int n);
 void	ignore_signal(void);
 
 // execution.c
-void	execute(void);
+void	execute(t_token *token_lst);
+char	*check_executable(char	*cmd);
+void	run(t_token *token_lst, char *command);
+void	execute_multiple_pipe(t_token *token_lst, int i);
+int	find_command(t_token *token_lst);
+int	**get_pipe_fd(void);
+void	do_pipes(t_token *token_lst, int **fd, int i, int j);
 
 // init.c
 t_input	*_input(void);

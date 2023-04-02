@@ -25,13 +25,5 @@ t_info	*info(void)
 
 	if (!info.path)
 		(info.path) = ft_split(getenv("PATH"), ':');
-
 	return (&info);
-}
-
-t_token	*token_node(void)
-{
-	static t_token	token;
-
-	return (&token);
 }

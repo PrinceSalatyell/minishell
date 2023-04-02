@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	free_token(void)
+void	free_token_matrix(void)
 {
 	int	i;
 

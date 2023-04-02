@@ -14,6 +14,7 @@
 
 SRCS	=	minishell.c			\
 			parser.c			\
+			lexer.c				\
 			init.c				\
 			utils.c				\
 			get_input.c			\
@@ -41,7 +42,7 @@ CC	=	clang
 
 42FLAGS	=	-Wall -Werror -Wextra -g
 
-EXTRA_FLAGS =	-Ilibft/ -L${LIBFT_DIR} -lft -lreadline -fsanitize=leak
+EXTRA_FLAGS =	-Ilibft/ -L${LIBFT_DIR} -lft -lreadline -fsanitize=address
 
 GCC	=	${CC} ${42FLAGS}
 
@@ -55,7 +56,7 @@ COLOUR_GREEN=\033[7;1;32m
 COLOUR_END=\033[0m
 COLOUR_YELLOW=\033[7;1;33m
 
-# ================================ R U L E S ================================
+# ===============Implement================= R U L E S ================================
 
 all:	${NAME}
 
