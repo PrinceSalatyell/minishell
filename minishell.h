@@ -59,7 +59,6 @@ typedef struct s_input
 typedef struct s_info
 {
 	char	**path;
-	int	nr_op;
 	int	nr_pipe;
 	t_dict	*env;
 }	t_info;
@@ -82,8 +81,11 @@ int	get_command_len(int i);
 
 // parser.c
 void	parse_commands(t_token *token_lst);
-int	check_nr_commands(t_token *token_lst);
-void	send_simple_command(t_token *token_lst, int command_len, int nr_commands);
+void	check_command_type(t_token *token_lst, char **cmd, int cmd_nr);
+void	execute_simple_cmd(t_token *token_lst, char **cmd, int cmd_nr);
+void	parse_redirection(t_token *token_lst, char **cmd, int cmd_nr);
+void	simple_redirection(t_token *token_lst, char **cmd, int cmd_nr);
+void	multi_redirection(t_token *token_lst, char **cmd, int cmd_nr);
 
 // get_token.c
 void	free_token_matrix(void);
@@ -114,16 +116,16 @@ void	ignore_signal(void);
 bool	is_builtin(char *command);
 
 // execution.c
-void	execute(t_token *token_lst);
+void	execute_old(t_token *token_lst);
 char	*check_executable(char	*cmd);
-void	run(t_token *token_lst, char *command);
+void	run(char **cmd, char *command);
 void	execute_multiple_pipe(t_token *token_lst, int i);
 int	find_command(t_token *token_lst);
 int	**get_pipe_fd(void);
 void	do_pipes(t_token *token_lst, int **fd, int i, int j);
+void	execute(char **cmd);
 
 // init.c
-void	init_info(void);
 t_input	*_input(void);
 t_info	*info(void);
 

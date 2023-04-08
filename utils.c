@@ -71,8 +71,7 @@ void	cpy_command(t_token **token_lst, int i)
 	int	len;
 
 	j = 0;
-	while (_input()->token_matrix[i] && _input()->token_matrix[i][0] != '|' &&
-			_input()->token_matrix[i][0] != '>' && _input()->token_matrix[i][0] != '<')
+	while (_input()->token_matrix[i] && _input()->token_matrix[i][0] != '|')
 	{
 		if (_input()->token_matrix[i][0] == '"' || _input()->token_matrix[i][0] == 39)
 		{
