@@ -12,22 +12,11 @@
 
 #include "minishell.h"
 
-int	copy_token(char *str, int i, int tk_len, int index)
+void	copy_token(char *str, int i, int tk_len, int index)
 {
-	if (str[i] == '"' || str[i] == 39)
-	{
-		ft_strncpy(_input()->token_matrix[index], \
-			str + i + 1, tk_len);
-		_input()->token_matrix[index][tk_len] = '\0';
-		return (tk_len + 2);
-	}
-	else
-	{
-		ft_strncpy(_input()->token_matrix[index], \
-				str + i, tk_len);
-		_input()->token_matrix[index][tk_len] = '\0';
-		return (tk_len);
-	}
+	ft_strncpy(_input()->token_matrix[index], \
+			str + i, tk_len);
+	_input()->token_matrix[index][tk_len] = '\0';
 }
 
 void	tokenizer(char *str, int i)
@@ -52,7 +41,7 @@ void	tokenizer(char *str, int i)
 			malloc(sizeof(char *) * (tk_len + 1));
 			if (!_input()->token_matrix[_input()->index])
 				return ;
-			tk_len = copy_token(str, i, tk_len, _input()->index);
+			copy_token(str, i, tk_len, _input()->index);
 			_input()->index++;
 			i = i + tk_len;
 		}
@@ -64,7 +53,8 @@ int	get_command_len(int i)
 	int	len;
 
 	len = 0;
-	while (_input()->token_matrix[i] &&_input()->token_matrix[i][0] != '|')
+	while (_input()->token_matrix[i] && _input()->token_matrix[i][0] != '|' &&
+		_input()->token_matrix[i][0] != '>' && _input()->token_matrix[i][0] != '<' )
 	{
 		len++;
 		i++;
@@ -76,14 +66,16 @@ void	get_token_list(t_token **token_lst, int i)
 {
 	int	cmd_len;
 
-	info()->nr_pipe = 0;
 	while (_input()->token_matrix[i])
 	{
 		cmd_len = 0;
-		if (_input()->token_matrix[i] && _input()->token_matrix[i][0] == '|')
+		if (_input()->token_matrix[i][0] == '|' || _input()->token_matrix[i][0] == '>' ||
+			_input()->token_matrix[i][0] == '<')
 		{
 			add_back(token_lst, new_token("Operator", 1, i));
-			info()->nr_pipe++;
+			if (_input()->token_matrix[i][0] == '|')
+				info()->nr_pipe++;
+			info()->nr_op++;
 			i++;
 		}
 		else
@@ -102,8 +94,12 @@ void	analyze_and_parse(char *str)
 	//int	i;
 
 	tokenizer(str, 0);
+	// i = -1;
+	// while (_input()->token_matrix[++i])
+	// 	printf("value - %s | len - %zu\n", _input()->token_matrix[i], ft_strlen(_input()->token_matrix[i]));
 	token_lst = NULL;
 	temp = token_lst;
+	init_info();
 	get_token_list(&temp, 0);
 	token_lst = temp;
 	// if (token_lst)
@@ -129,9 +125,6 @@ void	analyze_and_parse(char *str)
 	// 	}
 	// 	printf(" ____-_____ type -> %s\n------------\n", token_lst->type);
 	// }
-	//printf("heyy\n");
-	// if (!token_lst)
-	// 	return ;
 	parse_commands(token_lst);
 	free_list(&temp);
 }

@@ -155,7 +155,7 @@ void	execute(t_token *token_lst)
 
 	if (!find_command(token_lst))
 		return ;
-	if (info()->nr_pipe == 0)
+	if (info()->nr_op == 0)
 	{
 		command = check_executable(token_lst->value[0]);
 		pid = fork();

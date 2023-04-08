@@ -59,6 +59,7 @@ typedef struct s_input
 typedef struct s_info
 {
 	char	**path;
+	int	nr_op;
 	int	nr_pipe;
 	t_dict	*env;
 }	t_info;
@@ -75,7 +76,7 @@ void	loop_promt(char *str, int qt);
 // lexer.c
 void	analyze_and_parse(char *str);
 void	tokenizer(char *str, int i);
-int	copy_token(char *str, int i, int tk_len, int index);
+void	copy_token(char *str, int i, int tk_len, int index);
 void	get_token_list(t_token **token_lst, int i);
 int	get_command_len(int i);
 
@@ -88,14 +89,16 @@ void	send_simple_command(t_token *token_lst, int command_len, int nr_commands);
 void	free_token_matrix(void);
 int		token_len(char *str, int i);
 int		matrix_len(char *str);
+int	separate_pipe(char *str, int *i, int len);
 int		qt_len(char *str, int i);
 
 // utils.c
-int	separate_pipe(char *str, int *i, int len);
 int		quotes_end(char *str, int i);
 char	*ft_strjoin_nl(char *s1, char *s2);
 void	cpy_command(t_token **token_lst, int i);
+void	cpy_operator(t_token **token_lst, int i);
 void	free_fd(int	**fd);
+t_token	*rm_quotes(t_token *token_lst, char *str);
 
 //struct_utils.c
 void	add_back(t_token **token_list, t_token *new);
@@ -120,6 +123,7 @@ int	**get_pipe_fd(void);
 void	do_pipes(t_token *token_lst, int **fd, int i, int j);
 
 // init.c
+void	init_info(void);
 t_input	*_input(void);
 t_info	*info(void);
 

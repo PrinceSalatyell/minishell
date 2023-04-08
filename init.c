@@ -12,6 +12,12 @@
 
 #include "minishell.h"
 
+void	init_info(void)
+{
+	info()->nr_op = 0;
+	info()->nr_pipe = 0;
+}
+
 t_input	*_input(void)
 {
 	static t_input	input;
