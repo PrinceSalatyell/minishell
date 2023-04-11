@@ -12,19 +12,19 @@
 
 #include "minishell.h"
 
-void	free_token_matrix(void)
+void	free_matrix(char **matrix)
 {
 	int	i;
 
-	if (_input()->token_matrix)
+	if (matrix)
 	{
 		i = 0;
-		while (_input()->token_matrix[i])
+		while (matrix[i])
 		{
-			free(_input()->token_matrix[i]);
+			free(matrix[i]);
 			i++;
 		}
-		free(_input()->token_matrix);
+		free(matrix);
 	}
 }
 

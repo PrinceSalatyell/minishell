@@ -59,18 +59,24 @@ typedef struct s_input
 typedef struct s_info
 {
 	char	**path;
+	int	cmd_nr;
 	int	nr_pipe;
 	t_dict	*env;
 }	t_info;
+
+// minishell.c
+void	sig_handler(int n);
+void	ignore_signal(void);
+bool	is_builtin(char *command);
+
+// get_input.c
+void	get_input(void);
+void	loop_promt(char *str, int qt);
 
 // check_str.c
 int		check_qt_marks(char *str, int i);
 void	check_if_complete(char *str);
 int		check_pipe_done(char *str, int i);
-
-// get_input.c
-void	get_input(void);
-void	loop_promt(char *str, int qt);
 
 // lexer.c
 void	analyze_and_parse(char *str);
@@ -79,20 +85,34 @@ void	copy_token(char *str, int i, int tk_len, int index);
 void	get_token_list(t_token **token_lst, int i);
 int	get_command_len(int i);
 
-// parser.c
-void	parse_commands(t_token *token_lst);
-void	check_command_type(t_token *token_lst, char **cmd, int cmd_nr);
-void	execute_simple_cmd(t_token *token_lst, char **cmd, int cmd_nr);
-void	parse_redirection(t_token *token_lst, char **cmd, int cmd_nr);
-void	simple_redirection(t_token *token_lst, char **cmd, int cmd_nr);
-void	multi_redirection(t_token *token_lst, char **cmd, int cmd_nr);
-
 // get_token.c
-void	free_token_matrix(void);
 int		token_len(char *str, int i);
 int		matrix_len(char *str);
 int	separate_pipe(char *str, int *i, int len);
 int		qt_len(char *str, int i);
+void	free_matrix(char **matrix);
+
+// parser.c
+void	parse_commands(t_token *token_lst);
+void	check_command_type(t_token *token_lst, char **cmd, int **fd);
+void	parse_redirection(t_token *token_lst, char **cmd);
+void	simple_redirection(char **cmd);
+void	multi_redirection(t_token *token_lst, char **cmd);
+char	*get_dir_path(char *cmd);
+int	open_file(char *file, int flag);
+
+
+// redirections.c
+void	redirect_out(char **cmd);
+void	redirect_in();
+void	heredocs();
+
+// execution.c
+void	run(char **cmd, char *command);
+char	*check_executable(char	*cmd);
+void	execute(t_token *token_lst, char **cmd, char *command, int **fd);
+void	execute_simple_cmd(t_token *token_lst, char **cmd, int **fd);
+void	execute_redirection(char **cmd, int fd);
 
 // utils.c
 int		quotes_end(char *str, int i);
@@ -102,32 +122,17 @@ void	cpy_operator(t_token **token_lst, int i);
 void	free_fd(int	**fd);
 t_token	*rm_quotes(t_token *token_lst, char *str);
 
-//struct_utils.c
+// utils2.c
+char    **get_next_command(char **cmd, int *i);
+int get_redirection_len(char **cmd, int i);
+int	**get_pipe_fd(void);
+
+// struct_utils.c
 void	add_back(t_token **token_list, t_token *new);
 t_token	*lst_last(t_token *token_lst);
 t_token	*new_token(char *type, int cmd_len, int i);
 void	free_list(t_token **token);
 int	separate_pipe(char *str, int *i, int len);
-
-
-// minishell.c
-void	sig_handler(int n);
-void	ignore_signal(void);
-bool	is_builtin(char *command);
-
-// execution.c
-void	execute_old(t_token *token_lst);
-char	*check_executable(char	*cmd);
-void	run(char **cmd, char *command);
-void	execute_multiple_pipe(t_token *token_lst, int i);
-int	find_command(t_token *token_lst);
-int	**get_pipe_fd(void);
-void	do_pipes(t_token *token_lst, int **fd, int i, int j);
-void	execute(char **cmd);
-
-// init.c
-t_input	*_input(void);
-t_info	*info(void);
 
 // dict_utils.c
 t_dict	*ft_dictnew(char *key, char *value);
@@ -135,6 +140,10 @@ void	ft_dictadd_back(t_dict **dict, t_dict *new);
 int		ft_dictsize(t_dict *dict);
 void	ft_dictdellast(t_dict **dict);
 void	ft_dictclear(t_dict **dict);
+
+// init.c
+t_input	*_input(void);
+t_info	*info(void);
 
 // BUILT-INS DIRECTORY
 
