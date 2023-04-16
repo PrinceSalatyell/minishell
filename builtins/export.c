@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 17:38:33 by salatiel          #+#    #+#             */
-/*   Updated: 2023/04/02 21:27:34 by josanton         ###   ########.fr       */
+/*   Updated: 2023/04/05 18:28:14 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,19 @@ void	print_export(int size, char *last_printed)
 
 void	add_to_env(char **command)
 {
-	int	i;
+	int		i;
+	char	*key;
 
-	i = -0;
+	i = 0;
 	while (command[++i])
 	{
+		key = get_key(command[i]);
+		ft_dictdel(&(info()->env), key);
 		if (ft_strchr(command[i], '='))
-			ft_dictadd_back(&(info()->env), ft_dictnew(get_key(command[i]), \
+			ft_dictadd_back(&(info()->env), ft_dictnew(key, \
 			get_value(command[i])));
 		else
 			ft_dictadd_back(&(info()->env), \
-			ft_dictnew(get_key(command[i]), ""));
+			ft_dictnew(key, ""));
 	}
 }

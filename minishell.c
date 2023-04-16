@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:04:50 by josanton          #+#    #+#             */
-/*   Updated: 2023/04/02 18:23:23 by josanton         ###   ########.fr       */
+/*   Updated: 2023/04/16 17:57:33 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,14 @@ bool	is_builtin(char **command)
 		env();
 	else if (!ft_strcmp(command[0], "export"))
 		export(command);
-	// else if (!ft_strcmp(command, "echo"))
-	// 	echo();
-	// else if (!ft_strcmp(command, "pwd"))
-	// 	pwd();
-	// else if (!ft_strcmp(command, "cd"))
-	// 	cd();
-	// else if (!ft_strcmp(command, "unset"))
-	// 	unset();
+	else if (!ft_strcmp(command[0], "unset"))
+		unset(command);
+	else if (!ft_strcmp(command[0], "cd"))
+		cd(command);
+	else if (!ft_strcmp(command[0], "pwd"))
+		pwd(command);
+	else if (!ft_strcmp(command[0], "echo"))
+		echo(command);
 	else if (!ft_strcmp(command[0], "exit"))
 		exit(0);
 	else
