@@ -39,7 +39,8 @@ char	*check_executable(char *cmd)
 	return (NULL);
 }
 
-void	execute_redirection(char **cmd, int fd)
+// flag -> red_in = 0 | red_out - 1
+void	execute_redirection(char **cmd, int fd_in, int fd_out)
 {
 	char	*command;
 	int	pid;
@@ -55,8 +56,10 @@ void	execute_redirection(char **cmd, int fd)
 		return ;
 	if (pid == 0)
 	{
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
+		if (info()->in_flag == TRUE)
+			dup2(fd_in, STDIN_FILENO);
+		if (info()->out_flag == TRUE)
+			dup2(fd_out, STDOUT_FILENO);
 		run(cmd, command);
 	}
 	free(command);

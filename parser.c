@@ -17,11 +17,6 @@ void	heredocs()
 
 }
 
-void	redirect_in()
-{
-
-}
-
 char	*get_dir_path(char *cmd)
 {
 	char	*path;
@@ -37,7 +32,7 @@ char	*get_dir_path(char *cmd)
 	return (file);
 }
 
-// flag -> 0 - TRUNC | 1 - APPEND
+// flag -> 0 - WR_TRUNC | 1 - WR_APPEND | 2 - RDONLY 
 int	open_file(char *file, int flag)
 {
 	char	*full_path;
@@ -49,93 +44,152 @@ int	open_file(char *file, int flag)
 		fd = open(full_path, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	else if (flag == 1)
 		fd = open(full_path, O_WRONLY | O_CREAT | O_APPEND, 0777);
+	else if (flag == 2)
+		fd = open(full_path, O_RDONLY | O_CLOEXEC, 0777);
 	free(full_path);
 	return (fd);
 }
 
-void	redirect_out(char **cmd)
+// void	redirect_out(char **cmd_red, int open_flag)
+// {
+// 	int	i;
+// 	int	fd;
+// 	char	**cmd_matrix;
+
+// 	i = 0;
+// 	fd = -1;
+// 	while (cmd_red[i])
+// 	{
+// 		if (cmd_red[i][0] == '>')
+// 		{
+// 			if (fd != -1)
+// 				close(fd);
+// 			if (cmd_red[i][1] == '>')
+// 				fd = open_file(cmd_red[i + 1], open_flag);
+// 			else
+// 				fd = open_file(cmd_red[i + 1], open_flag);
+// 			while (cmd_red[i + 1] && cmd_red[i + 1][0] != '>')
+// 				i++;	
+// 		}
+// 		i++;
+// 	}
+// 	cmd_matrix = get_cmd_red_matrix(cmd_red, 0);
+// 	execute_redirection_out(cmd_matrix, fd, 1);
+// 	close(fd);
+// 	wait(NULL);
+// 	free_matrix(cmd_matrix);
+// }
+
+// void	redirect_in(char **cmd_red, int open_flag)
+// {
+// 	int	i;
+// 	int	fd;
+// 	char	**cmd_matrix;
+
+// 	// i = -1;
+// 	// while (cmd_red[++i])
+// 	// 	printf("cmd -> %s\n", cmd_red[i]);
+// 	fd = -1;
+// 	i = 0;
+// 	while (cmd_red[i])
+// 	{
+// 		if (fd != -1)
+// 			close(fd);
+// 		if (cmd_red[i][0] == '<')
+// 		{
+// 			fd = open_file(cmd_red[i + 1], open_flag);
+// 			if (fd == -1)
+// 				printf("%s: file does not exist\n", cmd_red[i + 1]);
+// 			while (cmd_red[i + 1] && cmd_red[i + 1][0] != '<')
+// 				i++;
+// 		}
+// 		i++;
+// 	}
+// 	if (fd == -1)
+// 		return ;
+// 	cmd_matrix = get_cmd_red_matrix(cmd_red, 0);
+// 	execute_redirection_in(cmd_matrix, fd);
+// 	wait(NULL);
+// 	free_matrix(cmd_matrix);
+// 	close(fd);
+// }
+
+int	get_fd_in(char **cmd_red)
 {
 	int	i;
 	int	fd;
-	char	**red_cmd;
 
 	i = 0;
 	fd = -1;
-	while (cmd[i])
+	while (cmd_red[i])
 	{
-		if (cmd[i][0] == '>')
+		if (fd != -1)
+			close(fd);
+		if (cmd_red[i][0] == '<')
+		{
+			fd = open_file(cmd_red[i + 1], 2);
+			info()->file_flag = 1;
+			if (fd == -1)
+			{
+				printf("%s: file does not exist\n", cmd_red[i + 1]);
+				info()->file_flag = 2;
+				return (fd);
+			}
+			while (cmd_red[i + 1] && cmd_red[i + 1][0] != '<')
+				i++;
+		}
+		i++;
+	}
+	return (fd);
+}
+
+int	get_fd_out(char **cmd_red)
+{
+	int	i;
+	int	fd;
+
+	i = 0;
+	fd = -1;
+	while (cmd_red[i])
+	{
+		if (cmd_red[i][0] == '>')
 		{
 			if (fd != -1)
 				close(fd);
-			if (cmd[i][1] == '>')
-				fd = open_file(cmd[i + 1], 1);
+			if (cmd_red[i][1] == '>')
+				fd = open_file(cmd_red[i + 1], 1);
 			else
-				fd = open_file(cmd[i + 1], 0);
-		}	
+				fd = open_file(cmd_red[i + 1], 0);
+			while (cmd_red[i + 1] && cmd_red[i + 1][0] != '>')
+				i++;	
+		}
 		i++;
 	}
-	i = 0;
-	red_cmd = get_next_command(cmd, &i);
-	execute_redirection(red_cmd, fd);
-	close(fd);
-	wait(NULL);
-	free_matrix(red_cmd);
+	return (fd);
 }
 
 //dont forget to handlde >< and <>
-void	simple_redirection(char **cmd)
+void	parse_redirection(char **cmd)
 {
-	int	i;
+	int	fd_in;
+	int	fd_out;
+	char	**cmd_matrix;
 
-	i = 0;
-	while (cmd[i])
-	{
-		if (cmd[i][0] == '>')
-		{
-			// if (cmd[i][1] == '>' )
-			// 	redirect_append();
-			// else
-			// {
-			redirect_out(cmd);
-			return ;
-			// }
-		}
-		else if (cmd[i][0] == '<')
-		{
-			if (cmd[i][1] == '<')
-				heredocs();
-			else
-				redirect_in();
-		}
-		i++;
-	}
-}
-
-void	multi_redirection(t_token *token_lst, char **cmd)
-{
-	(void)token_lst;
-	(void)cmd;
-}
-
-void	parse_redirection(t_token *token_lst, char **cmd)
-{
-	int	i;
-	int	counter;
-
-	i = 0;
-	(void)token_lst;
-	//len = get_redirection_len(cmd, i);
-	counter = 0;
-	while (cmd[i])
-	{
-		if (cmd[i][0] == '>' || cmd[i][0] == '<')
-			counter++;
-		i++;
-	}
-	// if (counter == 1)
-	simple_redirection(cmd);
-	// else
-	// 	multi_redirection(token_lst, cmd);
+	info()->file_flag = 0;
+	fd_in = get_fd_in(cmd);
+	fd_out = get_fd_out(cmd);
+	if (info()->file_flag == 2)
+		return ;
+	cmd_matrix = get_cmd_red_matrix(cmd, 0);
+	if (fd_in != -1)
+		info()->in_flag = TRUE;
+	if (fd_out != -1)
+		info()->out_flag = TRUE;
+	execute_redirection_out(cmd_matrix, fd_in, fd_out);
+	wait(NULL);
+	close(fd_in);
+	close(fd_out);
+	free_matrix(cmd_matrix);
 }
 
 void	check_command_type(t_token *token_lst, char **cmd, int **fd)
@@ -143,19 +197,19 @@ void	check_command_type(t_token *token_lst, char **cmd, int **fd)
 	int	i;
 	int	flag;
 
+	info()->in_flag = FALSE;
+	info()->out_flag = FALSE;
 	i = 0;
 	flag = 0;
 	while (cmd[i])
 	{
 		if (cmd[i][0] == '>' || cmd[i][0] == '<')
-		{
-			parse_redirection(token_lst, cmd);
-			flag = 1;
-			return ;
-		}
+			break ;
 		i++;
-	}
-	if (flag == 0)
+	}	
+	if (cmd[i])
+		parse_redirection(cmd);
+	else
 		execute_simple_cmd(token_lst, cmd, fd);
 }
 

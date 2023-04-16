@@ -34,6 +34,9 @@
 # define RED "\033[1;31m"
 # define COLOUR_END "\033[0m"
 
+# define FALSE 0
+# define TRUE 1
+
 typedef struct s_dict
 {
 	char			*key;
@@ -61,6 +64,9 @@ typedef struct s_info
 	char	**path;
 	int	cmd_nr;
 	int	nr_pipe;
+	int	file_flag;
+	bool	in_flag;
+	bool	out_flag;
 	t_dict	*env;
 }	t_info;
 
@@ -95,16 +101,13 @@ void	free_matrix(char **matrix);
 // parser.c
 void	parse_commands(t_token *token_lst);
 void	check_command_type(t_token *token_lst, char **cmd, int **fd);
-void	parse_redirection(t_token *token_lst, char **cmd);
-void	simple_redirection(char **cmd);
-void	multi_redirection(t_token *token_lst, char **cmd);
+void	parse_redirection(char **cmd);
+int	get_fd_out(char **cmd_red);
+int	get_fd_in(char **cmd_red);
 char	*get_dir_path(char *cmd);
 int	open_file(char *file, int flag);
 
-
 // redirections.c
-void	redirect_out(char **cmd);
-void	redirect_in();
 void	heredocs();
 
 // execution.c
@@ -112,7 +115,7 @@ void	run(char **cmd, char *command);
 char	*check_executable(char	*cmd);
 void	execute(t_token *token_lst, char **cmd, char *command, int **fd);
 void	execute_simple_cmd(t_token *token_lst, char **cmd, int **fd);
-void	execute_redirection(char **cmd, int fd);
+void	execute_redirection(char **cmd, int fd_in, int fd_out);
 
 // utils.c
 int		quotes_end(char *str, int i);
@@ -123,8 +126,8 @@ void	free_fd(int	**fd);
 t_token	*rm_quotes(t_token *token_lst, char *str);
 
 // utils2.c
-char    **get_next_command(char **cmd, int *i);
-int get_redirection_len(char **cmd, int i);
+char    **get_cmd_red_matrix(char **cmd_red, int j);
+int get_cmd_red_len(char **cmd_red);
 int	**get_pipe_fd(void);
 
 // struct_utils.c
