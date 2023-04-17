@@ -213,6 +213,7 @@ void	check_command_type(t_token *token_lst, char **cmd, int **fd)
 		execute_simple_cmd(token_lst, cmd, fd);
 }
 
+//yey
 void	parse_commands(t_token *token_lst)
 {
 	int	**fd;
