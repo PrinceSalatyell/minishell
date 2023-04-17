@@ -13,16 +13,17 @@
 # COMPILATION VARS
 
 SRCS	=	minishell.c			\
-			parser.c			\
-			lexer.c				\
-			init.c				\
-			utils.c				\
 			get_input.c			\
 			check_str.c			\
+			lexer.c				\
 			get_token.c			\
+			parser.c			\
 			execution.c			\
+			utils.c				\
+			utils2.c			\
 			struct_utils.c		\
 			dict_utils.c		\
+			init.c				\
 			builtins/env.c		\
 			builtins/export.c	\
 			builtins/unset.c	\
