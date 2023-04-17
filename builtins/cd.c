@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 18:22:46 by salatiel          #+#    #+#             */
-/*   Updated: 2023/04/09 15:44:55 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/04/16 19:50:43 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,39 @@ char	*get_home(void)
 	return (info()->home);
 }
 
+void	change_pwd(char *to_change, char *new_value)
+{
+	t_dict	*temp;
+
+	temp = info()->env;
+	while (temp)
+	{
+		if (!ft_strcmp(temp->key, to_change))
+		{
+			free(temp->value);
+			temp->value = ft_substr(new_value, 0, ft_strlen(new_value));
+		}
+		temp = temp->next;
+	}
+}
+
 void	change_directory(char *path)
 {
+	char	*current_path;
+
+	current_path = malloc(sizeof(char) * 100);
+	getcwd(current_path, 100);
 	if (!*path)
 		return ;
 	if (chdir(path))
 		perror("minishell");
+	else
+	{
+		change_pwd("OLDPWD", current_path);
+		getcwd(current_path, 100);
+		change_pwd("PWD", current_path);
+		free(current_path);
+	}
 }
 
 void	cd(char **command)

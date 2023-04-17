@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/04/12 19:37:02 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/04/16 19:48:17 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ void	unset(char **command);
 void	cd(char **command);
 char	*get_home(void);
 void	change_directory(char *path);
+void	change_pwd(char *to_change, char *new_value);
 
 // pwd.c
 void	pwd(char **command);
