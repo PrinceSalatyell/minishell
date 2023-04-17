@@ -185,7 +185,7 @@ void	parse_redirection(char **cmd)
 		info()->in_flag = TRUE;
 	if (fd_out != -1)
 		info()->out_flag = TRUE;
-	execute_redirection_out(cmd_matrix, fd_in, fd_out);
+	execute_redirection(cmd_matrix, fd_in, fd_out);
 	wait(NULL);
 	close(fd_in);
 	close(fd_out);
