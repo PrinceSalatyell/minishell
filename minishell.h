@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/04/01 19:58:53 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/04/16 19:48:17 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ typedef struct s_info
 	bool	in_flag;
 	bool	out_flag;
 	t_dict	*env;
+	char	*home;
+	bool	home_set;
 }	t_info;
 
 // minishell.c
@@ -89,7 +91,7 @@ void	analyze_and_parse(char *str);
 void	tokenizer(char *str, int i);
 void	copy_token(char *str, int i, int tk_len, int index);
 void	get_token_list(t_token **token_lst, int i);
-int	get_command_len(int i);
+int		get_command_len(int i);
 
 // get_token.c
 int		token_len(char *str, int i);
@@ -135,13 +137,13 @@ void	add_back(t_token **token_list, t_token *new);
 t_token	*lst_last(t_token *token_lst);
 t_token	*new_token(char *type, int cmd_len, int i);
 void	free_list(t_token **token);
-int	separate_pipe(char *str, int *i, int len);
+int		separate_pipe(char *str, int *i, int len);
 
 // dict_utils.c
 t_dict	*ft_dictnew(char *key, char *value);
 void	ft_dictadd_back(t_dict **dict, t_dict *new);
 int		ft_dictsize(t_dict *dict);
-void	ft_dictdellast(t_dict **dict);
+void	ft_dictdel(t_dict **dict, char *key);
 void	ft_dictclear(t_dict **dict);
 
 // init.c
@@ -157,6 +159,23 @@ char	*get_value(char *env_line);
 char	*get_key(char *env_line);
 
 //export.c
-void	export(int size, char *last_printed);
+void	print_export(int size, char *last_printed);
+void	export(char **command);
+void	add_to_env(char **comand);
+
+// unset.c
+void	unset(char **command);
+
+// cd.c
+void	cd(char **command);
+char	*get_home(void);
+void	change_directory(char *path);
+void	change_pwd(char *to_change, char *new_value);
+
+// pwd.c
+void	pwd(char **command);
+
+// echo.c
+void	echo(char **command);
 
 #endif

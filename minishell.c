@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:04:50 by josanton          #+#    #+#             */
-/*   Updated: 2023/04/02 17:58:46 by josanton         ###   ########.fr       */
+/*   Updated: 2023/04/16 17:57:33 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,24 @@ void	ignore_signal(void)
 	signal(SIGSEGV, SIG_IGN);
 }
 
-bool	is_builtin(char *command)
+bool	is_builtin(char **command)
 {
 	bool	ret;
 
 	ret = true;
-	if (!ft_strcmp(command, "env"))
+	if (!ft_strcmp(command[0], "env"))
 		env();
-	else if (!ft_strcmp(command, "export"))
-		export(0, NULL);
-	// else if (!ft_strcmp(command, "echo"))
-	// 	echo();
-	// else if (!ft_strcmp(command, "pwd"))
-	// 	pwd();
-	// else if (!ft_strcmp(command, "cd"))
-	// 	cd();
-	// else if (!ft_strcmp(command, "unset"))
-	// 	unset();
-	else if (!ft_strcmp(command, "exit"))
+	else if (!ft_strcmp(command[0], "export"))
+		export(command);
+	else if (!ft_strcmp(command[0], "unset"))
+		unset(command);
+	else if (!ft_strcmp(command[0], "cd"))
+		cd(command);
+	else if (!ft_strcmp(command[0], "pwd"))
+		pwd(command);
+	else if (!ft_strcmp(command[0], "echo"))
+		echo(command);
+	else if (!ft_strcmp(command[0], "exit"))
 		exit(0);
 	else
 		ret = false;
