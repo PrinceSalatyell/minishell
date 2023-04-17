@@ -6,7 +6,7 @@
 #    By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/20 12:45:20 by josanton          #+#    #+#              #
-#    Updated: 2023/04/01 19:14:42 by salatiel         ###   ########.fr        #
+#    Updated: 2023/04/12 19:36:33 by salatiel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,11 @@ SRCS	=	minishell.c			\
 			struct_utils.c		\
 			dict_utils.c		\
 			builtins/env.c		\
-			builtins/export.c	
+			builtins/export.c	\
+			builtins/unset.c	\
+			builtins/cd.c		\
+			builtins/pwd.c		\
+			builtins/echo.c
 
 OBJS	=	${SRCS:%.c=${DIR_OBJ}%.o}
 

@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 18:55:18 by josanton          #+#    #+#             */
-/*   Updated: 2023/04/01 15:41:31 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/04/03 22:17:10 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,21 @@ void	ft_dictadd_back(t_dict **dict, t_dict *new)
 
 void	ft_dictclear(t_dict **dict)
 {
+	t_dict	*curr;
+	t_dict	*next;
+
 	if (!dict)
 		return ;
-	if (!(*dict))
-		return ;
-	while (*dict)
-		ft_dictdellast(dict);
+	curr = *dict;
+	while (curr)
+	{
+		next = curr->next;
+		free(curr->key);
+		free(curr->value);
+		free(curr);
+		curr = next;
+	}
+	*dict = NULL;
 }
 
 t_dict	*ft_dictnew(char *key, char *value)
@@ -52,41 +61,29 @@ t_dict	*ft_dictnew(char *key, char *value)
 	return (temp);
 }
 
-// ft_dictdel(t_dict *dict, char *key)
-// {
-// 	t_dict *temp;
-
-// 	while(dict)
-// 	{
-// 		if (!ft_strcmp(dict->key, key))
-// 		{
-
-// 		}
-// 	}
-// }
-
-void	ft_dictdellast(t_dict **dict)
+void	ft_dictdel(t_dict **dict, char *key)
 {
-	t_dict	*head;
+	t_dict	*prev;
+	t_dict	*curr;
 
-	if (!dict || !(*dict))
-		return ;
-	head = *dict;
-	if (!(*dict)->next)
+	prev = NULL;
+	curr = *dict;
+	while (curr != NULL)
 	{
-		free((*dict)->key);
-		free((*dict)->value);
-		free((*dict));
-		(*dict) = NULL;
-		return ;
+		if (!ft_strcmp(curr->key, key))
+		{
+			if (prev == NULL)
+				*dict = curr->next;
+			else
+				prev->next = curr->next;
+			free(curr->key);
+			free(curr->value);
+			free(curr);
+			return ;
+		}
+		prev = curr;
+		curr = curr->next;
 	}
-	while ((*dict)->next->next)
-		(*dict) = (*dict)->next;
-	free((*dict)->next->key);
-	free((*dict)->next->value);
-	free((*dict)->next);
-	(*dict)->next = NULL;
-	(*dict) = head;
 }
 
 int	ft_dictsize(t_dict *dict)
