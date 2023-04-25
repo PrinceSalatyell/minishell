@@ -29,13 +29,13 @@ void	ignore_signal(void)
 	signal(SIGSEGV, SIG_IGN);
 }
 
-bool	is_builtin(char **command)
+bool	is_builtin(char **command, t_token *token_lst)
 {
 	bool	ret;
 
 	ret = true;
 	if (!ft_strcmp(command[0], "env"))
-		env();
+		env(token_lst);
 	else if (!ft_strcmp(command[0], "export"))
 		export(command);
 	else if (!ft_strcmp(command[0], "unset"))

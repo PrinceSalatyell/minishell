@@ -58,14 +58,23 @@ void	store_env(char **envp)
 	}
 }
 
-void	env(void)
+void	env(t_token *token_lst)
 {
 	t_dict	*temp;
+	int	pid;
 
-	temp = info()->env;
-	while (temp)
+	pid = fork();
+	if (pid == -1)
+		return ;
+	if (pid == 0)
 	{
-		printf("%s=%s\n", temp->key, temp->value);
-		temp = temp->next;
+		dup_bult_in(token_lst);
+		temp = info()->env;
+		while (temp)
+		{
+			printf("%s=%s\n", temp->key, temp->value);
+			temp = temp->next;
+		}
+		exit (0);
 	}
 }

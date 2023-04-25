@@ -65,6 +65,7 @@ typedef struct s_info
 	int	cmd_nr;
 	int	nr_pipe;
 	int	file_flag;
+	int	**fd;
 	bool	in_flag;
 	bool	out_flag;
 	t_dict	*env;
@@ -75,7 +76,7 @@ typedef struct s_info
 // minishell.c
 void	sig_handler(int n);
 void	ignore_signal(void);
-bool	is_builtin(char *command);
+bool	is_builtin(char **command, t_token *token_lst);
 
 // get_input.c
 void	get_input(void);
@@ -102,7 +103,7 @@ void	free_matrix(char **matrix);
 
 // parser.c
 void	parse_commands(t_token *token_lst);
-void	check_command_type(t_token *token_lst, char **cmd, int **fd);
+void	check_command_type(t_token *token_lst, char **cmd);
 void	parse_redirection(char **cmd);
 int	get_fd_out(char **cmd_red);
 int	get_fd_in(char **cmd_red);
@@ -115,8 +116,8 @@ void	heredocs();
 // execution.c
 void	run(char **cmd, char *command);
 char	*check_executable(char	*cmd);
-void	execute(t_token *token_lst, char **cmd, char *command, int **fd);
-void	execute_simple_cmd(t_token *token_lst, char **cmd, int **fd);
+void	execute(t_token *token_lst, char **cmd, char *command);
+void	execute_simple_cmd(t_token *token_lst, char **cmd);
 void	execute_redirection(char **cmd, int fd_in, int fd_out);
 
 // utils.c
@@ -128,6 +129,7 @@ void	free_fd(int	**fd);
 t_token	*rm_quotes(t_token *token_lst, char *str);
 
 // utils2.c
+void	dup_bult_in(t_token *token_lst);
 char    **get_cmd_red_matrix(char **cmd_red, int j);
 int get_cmd_red_len(char **cmd_red);
 int	**get_pipe_fd(void);
@@ -154,7 +156,7 @@ t_info	*info(void);
 
 // env.c
 void	store_env(char **envp);
-void	env(void);
+void	env(t_token *token_lst);
 char	*get_value(char *env_line);
 char	*get_key(char *env_line);
 

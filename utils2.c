@@ -1,5 +1,21 @@
 #include "minishell.h"
 
+void	dup_bult_in(t_token *token_lst)
+{
+	int	j;
+
+	if (info()->cmd_nr != 0)
+		dup2(info()->fd[info()->cmd_nr - 1][0], STDIN_FILENO);
+	if (token_lst->next)
+		dup2(info()->fd[info()->cmd_nr][1], STDOUT_FILENO);
+	j = -1;
+	while (++j < info()->nr_pipe)
+	{
+		close(info()->fd[j][0]);
+		close(info()->fd[j][1]);
+	}
+}
+
 char    **get_cmd_red_matrix(char **cmd_red, int j)
 {
     char    **cmd_matrix;

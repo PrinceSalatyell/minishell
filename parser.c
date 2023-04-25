@@ -192,7 +192,7 @@ void	parse_redirection(char **cmd)
 	free_matrix(cmd_matrix);
 }
 
-void	check_command_type(t_token *token_lst, char **cmd, int **fd)
+void	check_command_type(t_token *token_lst, char **cmd)
 {
 	int	i;
 	int	flag;
@@ -210,22 +210,20 @@ void	check_command_type(t_token *token_lst, char **cmd, int **fd)
 	if (cmd[i])
 		parse_redirection(cmd);
 	else
-		execute_simple_cmd(token_lst, cmd, fd);
+		execute_simple_cmd(token_lst, cmd);
 }
 
-//yey
 void	parse_commands(t_token *token_lst)
 {
-	int	**fd;
 	int	j;
 
 	info()->cmd_nr = 0;
-	fd = get_pipe_fd();
+	info()->fd = get_pipe_fd();
 	while (token_lst)
 	{
 		if (ft_strcmp(token_lst->type, "Command") == 0)
 		{
-			check_command_type(token_lst, token_lst->value, fd);
+			check_command_type(token_lst, token_lst->value);
 			info()->cmd_nr++;
 		}
 		token_lst = token_lst->next;
@@ -233,10 +231,10 @@ void	parse_commands(t_token *token_lst)
 	j = -1;
 	while (++j < info()->nr_pipe)
 	{
-		close(fd[j][0]);
-		close(fd[j][1]);
+		close(info()->fd[j][0]);
+		close(info()->fd[j][1]);
 	}
-	free_fd(fd);
+	free_fd(info()->fd);
 	j = -1;
 	while (++j < info()->nr_pipe + 1)
 		wait(NULL);
