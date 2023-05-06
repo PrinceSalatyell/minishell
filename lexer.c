@@ -53,7 +53,7 @@ int	get_command_len(int i)
 	int	len;
 
 	len = 0;
-	while (_input()->token_matrix[i] && _input()->token_matrix[i][0] != '|')
+	while (_input()->new_token_matrix[i] && _input()->new_token_matrix[i][0] != '|')
 	{
 		len++;
 		i++;
@@ -66,10 +66,10 @@ void	get_token_list(t_token **token_lst, int i)
 	int	cmd_len;
 
 	info()->nr_pipe = 0;
-	while (_input()->token_matrix[i])
+	while (_input()->new_token_matrix[i])
 	{
 		cmd_len = 0;
-		if (_input()->token_matrix[i] && _input()->token_matrix[i][0] == '|')
+		if (_input()->new_token_matrix[i] && _input()->new_token_matrix[i][0] == '|')
 		{
 			add_back(token_lst, new_token("Operator", 1, i));
 			info()->nr_pipe++;
@@ -88,13 +88,20 @@ void	analyze_and_parse(char *str)
 {
 	t_token	*token_lst;
 	t_token *temp;
-	// int	i;
+	//int	i;
 
 	tokenizer(str, 0);
+	
 	// i = -1;
 	// while (_input()->token_matrix[++i])
-	// 	printf("value - %s | len - %zu\n", _input()->token_matrix[i], ft_strlen(_input()->token_matrix[i]));
-	// printf("----------------------\n");
+	// 	printf("-> %s\n", _input()->token_matrix[i]);
+	
+	_input()->new_token_matrix = handle_expansion(_input()->token_matrix);
+
+	// i = -1;
+	// while (_input()->new_token_matrix[++i])
+	// 	printf("-> %s\n", _input()->new_token_matrix[i]);
+	
 	token_lst = NULL;
 	temp = token_lst;
 	get_token_list(&temp, 0);
