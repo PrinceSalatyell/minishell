@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 18:22:46 by salatiel          #+#    #+#             */
-/*   Updated: 2023/04/16 19:50:43 by josanton         ###   ########.fr       */
+/*   Updated: 2023/05/06 22:14:33 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,22 @@ void	change_directory(char *path)
 {
 	char	*current_path;
 
-	current_path = malloc(sizeof(char) * 100);
-	getcwd(current_path, 100);
+	current_path = getcwd(NULL, 0);
 	if (!*path)
+	{
+		free(current_path);
 		return ;
+	}
 	if (chdir(path))
+	{
 		perror("minishell");
+		free(current_path);
+	}
 	else
 	{
 		change_pwd("OLDPWD", current_path);
-		getcwd(current_path, 100);
+		free(current_path);
+		current_path = getcwd(NULL, 0);
 		change_pwd("PWD", current_path);
 		free(current_path);
 	}

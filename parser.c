@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:06:02 by josanton          #+#    #+#             */
-/*   Updated: 2023/04/02 18:20:09 by josanton         ###   ########.fr       */
+/*   Updated: 2023/05/01 01:30:52 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,12 +195,12 @@ void	parse_redirection(char **cmd)
 void	check_command_type(t_token *token_lst, char **cmd)
 {
 	int	i;
-	int	flag;
+	//int	flag;
 
 	info()->in_flag = FALSE;
 	info()->out_flag = FALSE;
 	i = 0;
-	flag = 0;
+	//flag = 0;
 	while (cmd[i])
 	{
 		if (cmd[i][0] == '>' || cmd[i][0] == '<')

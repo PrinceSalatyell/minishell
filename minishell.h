@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/04/16 19:48:17 by josanton         ###   ########.fr       */
+/*   Updated: 2023/05/06 23:07:23 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ char	*get_key(char *env_line);
 void	print_export(int size, char *last_printed);
 void	export(char **command);
 void	add_to_env(char **comand);
+void	print_it(char *key, char *value);
 
 // unset.c
 void	unset(char **command);

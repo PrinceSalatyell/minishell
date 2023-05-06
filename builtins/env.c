@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 18:16:08 by josanton          #+#    #+#             */
-/*   Updated: 2023/04/02 21:21:24 by josanton         ###   ########.fr       */
+/*   Updated: 2023/05/06 23:20:51 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ void	env(t_token *token_lst)
 		temp = info()->env;
 		while (temp)
 		{
-			printf("%s=%s\n", temp->key, temp->value);
+			if (temp->value)
+				printf("%s=%s\n", temp->key, temp->value);
 			temp = temp->next;
 		}
 		exit (0);

@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 17:38:33 by salatiel          #+#    #+#             */
-/*   Updated: 2023/04/05 18:28:14 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/06 23:11:18 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,37 @@
 
 void	export(char **command)
 {
-	int	size;
+	int		size;
+	pid_t	pid;
 
 	size = 0;
 	while (command[size])
 		size++;
+
 	if (size == 1)
-		print_export(0, NULL);
+	{
+		pid = fork();
+		if (pid == -1)
+			return ;
+		if (pid == 0)
+		{
+			print_export(0, NULL);
+			exit(0);
+		}
+		else
+			wait(NULL);
+	}
 	else
 		add_to_env(command);
+}
+
+void	print_it(char *key, char *value)
+{
+	printf("declare -x ");
+	if (value)
+		printf("%s=\"%s\"\n", key, value);
+	else
+		printf("%s\n", key);
 }
 
 void	print_export(int size, char *last_printed)
@@ -49,8 +71,7 @@ void	print_export(int size, char *last_printed)
 			temp = temp->next;
 		}
 		last_printed = print->key;
-		printf("declare -x ");
-		printf("%s=\"%s\"\n", print->key, print->value);
+		print_it(print->key, print->value);
 	}
 }
 
@@ -65,10 +86,16 @@ void	add_to_env(char **command)
 		key = get_key(command[i]);
 		ft_dictdel(&(info()->env), key);
 		if (ft_strchr(command[i], '='))
-			ft_dictadd_back(&(info()->env), ft_dictnew(key, \
-			get_value(command[i])));
+		{
+			if (*(ft_strchr(command[i], '=') + 1) == '\0')
+				ft_dictadd_back(&(info()->env), \
+				ft_dictnew(key, ""));
+			else
+				ft_dictadd_back(&(info()->env), ft_dictnew(key, \
+				get_value(command[i])));
+		}
 		else
 			ft_dictadd_back(&(info()->env), \
-			ft_dictnew(key, ""));
+			ft_dictnew(key, NULL));
 	}
 }

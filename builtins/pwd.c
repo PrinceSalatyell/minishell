@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 15:51:47 by salatiel          #+#    #+#             */
-/*   Updated: 2023/04/09 17:15:08 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/06 21:45:39 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,28 @@
 void	pwd(char **command)
 {
 	char	*path;
-	int		length;
+	pid_t	pid;
 
 	if (command[1] && command[1][0] == '-' && command[1][1])
-		printf("minishell: pwd: -%c: invalid option\n\
-pwd: usage: pwd [no options]\n", command[1][1]);
+		printf("minishell: pwd: -%c: invalid option\npwd: usage: pwd [no options]\n", command[1][1]);
 	else
 	{
-		length = 100;
-		path = malloc(sizeof(char) * length);
-		getcwd(path, length);
-		printf("%s\n", path);
-		free(path);
+		pid = fork();
+		if (pid < 0)
+			perror("minishell");
+		else if (pid == 0)
+		{
+			path = getcwd(NULL, 0);
+			if (path != NULL)
+			{
+				printf("%s\n", path);
+				free(path);
+			}
+			else
+				perror("minishell");
+			exit(0);
+		}
+		else
+			wait(NULL);
 	}
 }
