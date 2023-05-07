@@ -162,7 +162,7 @@ char	*get_key(char *env_line);
 
 //export.c
 void	print_export(int size, char *last_printed);
-void	export(char **command);
+void	export(char **command, t_token *token_lst);
 void	add_to_env(char **comand);
 void	print_it(char *key, char *value);
 
@@ -176,9 +176,9 @@ void	change_directory(char *path);
 void	change_pwd(char *to_change, char *new_value);
 
 // pwd.c
-void	pwd(char **command);
+void	pwd(char **command, t_token *token_lst);
 
 // echo.c
-void	echo(char **command);
+void	echo(char **command, t_token *token_lst);
 
 #endif

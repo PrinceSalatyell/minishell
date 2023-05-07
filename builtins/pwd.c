@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	pwd(char **command)
+void	pwd(char **command, t_token *token_lst)
 {
 	char	*path;
 	pid_t	pid;
@@ -26,6 +26,7 @@ void	pwd(char **command)
 			perror("minishell");
 		else if (pid == 0)
 		{
+			dup_bult_in(token_lst);
 			path = getcwd(NULL, 0);
 			if (path != NULL)
 			{

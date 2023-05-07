@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-void	export(char **command)
+void	export(char **command, t_token *token_lst)
 {
 	int		size;
 	pid_t	pid;
@@ -28,6 +28,7 @@ void	export(char **command)
 			return ;
 		if (pid == 0)
 		{
+			dup_bult_in(token_lst);
 			print_export(0, NULL);
 			exit(0);
 		}

@@ -48,7 +48,7 @@ void	echo_output(char **command, int i, bool no_newline)
 		printf("\n");
 }
 
-void	echo(char **command)
+void	echo(char **command, t_token *token_lst)
 {
 	int		i;
 	bool	no_newline;
@@ -62,6 +62,7 @@ void	echo(char **command)
 		return ;
 	if (pid == 0)
 	{
+		dup_bult_in(token_lst);
 		echo_output(command, i, no_newline);
 		exit(0);
 	}

@@ -22,5 +22,6 @@ void	unset(char **command)
 	{
 		key = get_key(command[i]);
 		ft_dictdel(&(info()->env), key);
+		free(key);
 	}
 }

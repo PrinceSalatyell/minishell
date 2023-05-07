@@ -37,15 +37,15 @@ bool	is_builtin(char **command, t_token *token_lst)
 	if (!ft_strcmp(command[0], "env"))
 		env(token_lst);
 	else if (!ft_strcmp(command[0], "export"))
-		export(command);
+		export(command, token_lst);
 	else if (!ft_strcmp(command[0], "unset"))
 		unset(command);
 	else if (!ft_strcmp(command[0], "cd"))
 		cd(command);
 	else if (!ft_strcmp(command[0], "pwd"))
-		pwd(command);
+		pwd(command, token_lst);
 	else if (!ft_strcmp(command[0], "echo"))
-		echo(command);
+		echo(command, token_lst);
 	else if (!ft_strcmp(command[0], "exit"))
 		exit(0);
 	else
