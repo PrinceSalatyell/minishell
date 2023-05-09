@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 17:38:33 by salatiel          #+#    #+#             */
-/*   Updated: 2023/04/05 18:28:14 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/07 20:09:37 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,26 @@ void	print_export(int size, char *last_printed)
 		printf("%s=\"%s\"\n", print->key, print->value);
 	}
 }
+
+// void	add_to_temp(char **command)
+// {
+// 	int	i;
+
+// 	i = -1;
+// 	while (command[++i])
+// 	{
+// 		if (!ft_strchr(command[i], '='))
+// 		{
+// 			printf("command not found");
+// 			return ;
+// 		}
+// 	}
+// 	i = -1;
+// 	while (command[++i])
+// 	{
+// 		if ()
+// 	}
+// }
 
 void	add_to_env(char **command)
 {

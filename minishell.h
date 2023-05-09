@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/04/16 19:48:17 by josanton         ###   ########.fr       */
+/*   Updated: 2023/05/07 14:22:12 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_info
 	bool	in_flag;
 	bool	out_flag;
 	t_dict	*env;
+	t_dict	*temp_vars;
 	char	*home;
 	bool	home_set;
 }	t_info;
@@ -75,7 +76,7 @@ typedef struct s_info
 // minishell.c
 void	sig_handler(int n);
 void	ignore_signal(void);
-bool	is_builtin(char *command);
+bool	is_builtin(char **command);
 
 // get_input.c
 void	get_input(void);
