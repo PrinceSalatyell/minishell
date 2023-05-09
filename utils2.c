@@ -1,5 +1,22 @@
 #include "minishell.h"
 
+bool	check_pipe(t_token *token_lst)
+{
+	int	i;
+
+	while (token_lst)
+	{
+		i = -1;
+		while (token_lst->value[++i])
+		{
+			if (!strcmp(token_lst->value[i], "|"))
+				return (true);
+		}
+		token_lst = token_lst->next;
+	}
+	return (false);
+}
+
 void	dup_bult_in(t_token *token_lst)
 {
 	int	j;

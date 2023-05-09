@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:04:50 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/06 21:36:09 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/09 23:10:33 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ bool	is_builtin(char **command, t_token *token_lst)
 	else if (!ft_strcmp(command[0], "export"))
 		export(command, token_lst);
 	else if (!ft_strcmp(command[0], "unset"))
-		unset(command);
+		unset(command, token_lst);
 	else if (!ft_strcmp(command[0], "cd"))
-		cd(command);
+		cd(command, token_lst);
 	else if (!ft_strcmp(command[0], "pwd"))
 		pwd(command, token_lst);
 	else if (!ft_strcmp(command[0], "echo"))

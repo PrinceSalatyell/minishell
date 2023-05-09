@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/06 23:07:23 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/09 23:15:11 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ void	dup_bult_in(t_token *token_lst);
 char    **get_cmd_red_matrix(char **cmd_red, int j);
 int get_cmd_red_len(char **cmd_red);
 int	**get_pipe_fd(void);
+bool	check_pipe(t_token *token_lst);
 
 // struct_utils.c
 void	add_back(t_token **token_list, t_token *new);
@@ -163,17 +164,18 @@ char	*get_key(char *env_line);
 //export.c
 void	print_export(int size, char *last_printed);
 void	export(char **command, t_token *token_lst);
-void	add_to_env(char **comand);
+void	add_to_env(char **comand, t_token *token_lst);
 void	print_it(char *key, char *value);
 
 // unset.c
-void	unset(char **command);
+void	unset(char **command, t_token *token_lst);
 
 // cd.c
-void	cd(char **command);
+void	cd(char **command, t_token *token_lst);
 char	*get_home(void);
-void	change_directory(char *path);
+void	change_directory(char *path, t_token *token_lst);
 void	change_pwd(char *to_change, char *new_value);
+char	*get_old_pwd(void);
 
 // pwd.c
 void	pwd(char **command, t_token *token_lst);

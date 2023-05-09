@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 17:38:33 by salatiel          #+#    #+#             */
-/*   Updated: 2023/05/06 23:11:18 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/09 23:15:20 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	export(char **command, t_token *token_lst)
 			wait(NULL);
 	}
 	else
-		add_to_env(command);
+		add_to_env(command, token_lst);
 }
 
 void	print_it(char *key, char *value)
@@ -76,27 +76,30 @@ void	print_export(int size, char *last_printed)
 	}
 }
 
-void	add_to_env(char **command)
+void	add_to_env(char **command, t_token *token_lst)
 {
 	int		i;
 	char	*key;
 
 	i = 0;
-	while (command[++i])
+	if (!check_pipe(token_lst))
 	{
-		key = get_key(command[i]);
-		ft_dictdel(&(info()->env), key);
-		if (ft_strchr(command[i], '='))
+		while (command[++i])
 		{
-			if (*(ft_strchr(command[i], '=') + 1) == '\0')
-				ft_dictadd_back(&(info()->env), \
-				ft_dictnew(key, ""));
+			key = get_key(command[i]);
+			ft_dictdel(&(info()->env), key);
+			if (ft_strchr(command[i], '='))
+			{
+				if (*(ft_strchr(command[i], '=') + 1) == '\0')
+					ft_dictadd_back(&(info()->env), \
+					ft_dictnew(key, ""));
+				else
+					ft_dictadd_back(&(info()->env), ft_dictnew(key, \
+					get_value(command[i])));
+			}
 			else
-				ft_dictadd_back(&(info()->env), ft_dictnew(key, \
-				get_value(command[i])));
+				ft_dictadd_back(&(info()->env), \
+				ft_dictnew(key, NULL));
 		}
-		else
-			ft_dictadd_back(&(info()->env), \
-			ft_dictnew(key, NULL));
 	}
 }
