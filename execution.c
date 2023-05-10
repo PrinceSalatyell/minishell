@@ -19,7 +19,10 @@ void	run(char **cmd, char *command)
 	res = execve(command, cmd, NULL);
 	if (res == -1)
 	{
-		printf("'%s': file does not exist\n", cmd[0]);
+		if (access(command, F_OK) == 0)
+			printf("'%s': Permission denied\n", cmd[0]);
+		else
+			printf("'%s': File does not exist\n", cmd[0]);
 		exit(1);
 	}
 }
