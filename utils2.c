@@ -17,19 +17,29 @@ bool	check_pipe(t_token *token_lst)
 	return (false);
 }
 
-void	dup_bult_in(t_token *token_lst)
+void	dup_bult_in(t_token *token_lst, int fd_in, int fd_out)
 {
 	int	j;
 
-	if (info()->cmd_nr != 0)
-		dup2(info()->fd[info()->cmd_nr - 1][0], STDIN_FILENO);
-	if (token_lst->next)
-		dup2(info()->fd[info()->cmd_nr][1], STDOUT_FILENO);
-	j = -1;
-	while (++j < info()->nr_pipe)
+	if (info()->fd_red == TRUE)
 	{
-		close(info()->fd[j][0]);
-		close(info()->fd[j][1]);
+		if (info()->in_flag == TRUE)
+			dup2(fd_in, STDIN_FILENO);
+		if (info()->out_flag == TRUE)
+			dup2(fd_out, STDOUT_FILENO);
+	}
+	else
+	{
+		if (info()->cmd_nr != 0)
+			dup2(info()->fd_pipe[info()->cmd_nr - 1][0], STDIN_FILENO);
+		if (token_lst->next)
+			dup2(info()->fd_pipe[info()->cmd_nr][1], STDOUT_FILENO);
+		j = -1;
+		while (++j < info()->nr_pipe)
+		{
+			close(info()->fd_pipe[j][0]);
+			close(info()->fd_pipe[j][1]);
+		}
 	}
 }
 

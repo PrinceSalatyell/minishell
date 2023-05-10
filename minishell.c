@@ -29,23 +29,23 @@ void	ignore_signal(void)
 	signal(SIGSEGV, SIG_IGN);
 }
 
-bool	is_builtin(char **command, t_token *token_lst)
+bool	is_builtin(char **command, t_token *token_lst, int fd_in, int fd_out)
 {
 	bool	ret;
 
 	ret = true;
 	if (!ft_strcmp(command[0], "env"))
-		env(token_lst);
+		env(token_lst, fd_in, fd_out);
 	else if (!ft_strcmp(command[0], "export"))
-		export(command, token_lst);
+		export(command, token_lst, fd_in, fd_out);
 	else if (!ft_strcmp(command[0], "unset"))
 		unset(command, token_lst);
 	else if (!ft_strcmp(command[0], "cd"))
 		cd(command, token_lst);
 	else if (!ft_strcmp(command[0], "pwd"))
-		pwd(command, token_lst);
+		pwd(command, token_lst, fd_in, fd_out);
 	else if (!ft_strcmp(command[0], "echo"))
-		echo(command, token_lst);
+		echo(command, token_lst, fd_in, fd_out);
 	else if (!ft_strcmp(command[0], "exit"))
 		exit(0);
 	else

@@ -169,7 +169,7 @@ int	get_fd_out(char **cmd_red)
 }
 
 //dont forget to handlde >< and <>
-void	parse_redirection(char **cmd)
+void	parse_redirection(t_token *token_lst, char **cmd)
 {
 	int	fd_in;
 	int	fd_out;
@@ -185,7 +185,7 @@ void	parse_redirection(char **cmd)
 		info()->in_flag = TRUE;
 	if (fd_out != -1)
 		info()->out_flag = TRUE;
-	execute_redirection(cmd_matrix, fd_in, fd_out);
+	execute_redirection(token_lst, cmd_matrix, fd_in, fd_out);
 	wait(NULL);
 	close(fd_in);
 	close(fd_out);
@@ -199,6 +199,7 @@ void	check_command_type(t_token *token_lst, char **cmd)
 
 	info()->in_flag = FALSE;
 	info()->out_flag = FALSE;
+	info()->fd_red = FALSE;
 	i = 0;
 	//flag = 0;
 	while (cmd[i])
@@ -208,7 +209,7 @@ void	check_command_type(t_token *token_lst, char **cmd)
 		i++;
 	}	
 	if (cmd[i])
-		parse_redirection(cmd);
+		parse_redirection(token_lst, cmd);
 	else
 		execute_simple_cmd(token_lst, cmd);
 }
@@ -218,7 +219,7 @@ void	parse_commands(t_token *token_lst)
 	int	j;
 
 	info()->cmd_nr = 0;
-	info()->fd = get_pipe_fd();
+	info()->fd_pipe = get_pipe_fd();
 	while (token_lst)
 	{
 		if (ft_strcmp(token_lst->type, "Command") == 0)
@@ -231,10 +232,10 @@ void	parse_commands(t_token *token_lst)
 	j = -1;
 	while (++j < info()->nr_pipe)
 	{
-		close(info()->fd[j][0]);
-		close(info()->fd[j][1]);
+		close(info()->fd_pipe[j][0]);
+		close(info()->fd_pipe[j][1]);
 	}
-	free_fd(info()->fd);
+	free_fd(info()->fd_pipe);
 	j = -1;
 	while (++j < info()->nr_pipe + 1)
 		wait(NULL);

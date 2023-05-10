@@ -40,29 +40,36 @@ char	*check_executable(char *cmd)
 }
 
 // flag -> red_in = 0 | red_out - 1
-void	execute_redirection(char **cmd, int fd_in, int fd_out)
+void	execute_redirection(t_token *token_lst, char **cmd, int fd_in, int fd_out)
 {
 	char	*command;
 	int	pid;
+	bool	blt_in;
 
-	command = check_executable(cmd[0]);
-	if (!command)
+	info()->fd_red = TRUE;
+	blt_in = is_builtin(cmd, token_lst, fd_in, fd_out);
+	if (!blt_in)
 	{
+		command = check_executable(cmd[0]);
+		if (!command)
+		{
+			free(command);
+			return ;
+		}
+		pid = fork();
+		if (pid == -1)
+			return ;
+		if (pid == 0)
+		{
+			if (info()->in_flag == TRUE)
+				dup2(fd_in, STDIN_FILENO);
+			if (info()->out_flag == TRUE)
+				dup2(fd_out, STDOUT_FILENO);
+			run(cmd, command);
+		}
 		free(command);
-		return ;
 	}
-	pid = fork();
-	if (pid == -1)
-		return ;
-	if (pid == 0)
-	{
-		if (info()->in_flag == TRUE)
-			dup2(fd_in, STDIN_FILENO);
-		if (info()->out_flag == TRUE)
-			dup2(fd_out, STDOUT_FILENO);
-		run(cmd, command);
-	}
-	free(command);
+	info()->fd_red = FALSE;
 }
 
 void	execute(t_token *token_lst, char **cmd, char *command)
@@ -75,13 +82,13 @@ void	execute(t_token *token_lst, char **cmd, char *command)
 	else
 	{
 		if (info()->cmd_nr != 0)
-			dup2(info()->fd[info()->cmd_nr - 1][0], STDIN_FILENO);
+			dup2(info()->fd_pipe[info()->cmd_nr - 1][0], STDIN_FILENO);
 		if (token_lst->next)
-			dup2(info()->fd[info()->cmd_nr][1], STDOUT_FILENO);
+			dup2(info()->fd_pipe[info()->cmd_nr][1], STDOUT_FILENO);
 		while (++j < info()->nr_pipe)
 		{
-			close(info()->fd[j][0]);
-			close(info()->fd[j][1]);
+			close(info()->fd_pipe[j][0]);
+			close(info()->fd_pipe[j][1]);
 		}
 		run(cmd, command);
 	}
@@ -95,7 +102,7 @@ void	execute_simple_cmd(t_token *token_lst, char **cmd)
 	int		pid;
 	bool	blt_in;
 
-	blt_in = is_builtin(cmd, token_lst);
+	blt_in = is_builtin(cmd, token_lst, 0, 0);
 	if (!blt_in)
 	{
 		command = check_executable(cmd[0]);
