@@ -75,7 +75,7 @@ typedef struct s_info
 // minishell.c
 void	sig_handler(int n);
 void	ignore_signal(void);
-bool	is_builtin(char *command);
+bool	is_builtin(char **command);
 
 // get_input.c
 void	get_input(void);
@@ -106,10 +106,6 @@ void	check_command_type(t_token *token_lst, char **cmd, int **fd);
 void	parse_redirection(char **cmd);
 int	get_fd_out(char **cmd_red);
 int	get_fd_in(char **cmd_red);
-char	*get_dir_path(char *cmd);
-int	open_file(char *file, int flag);
-
-// redirections.c
 void	heredocs();
 
 // execution.c
@@ -125,12 +121,16 @@ char	*ft_strjoin_nl(char *s1, char *s2);
 void	cpy_command(t_token **token_lst, int i);
 void	cpy_operator(t_token **token_lst, int i);
 void	free_fd(int	**fd);
-t_token	*rm_quotes(t_token *token_lst, char *str);
 
 // utils2.c
 char    **get_cmd_red_matrix(char **cmd_red, int j);
 int get_cmd_red_len(char **cmd_red);
 int	**get_pipe_fd(void);
+
+// red_utils.c
+char	*get_dir_path(char *cmd);
+int	open_file(char *file, int flag);
+int	check_if_invalid(char **cmd);
 
 // struct_utils.c
 void	add_back(t_token **token_list, t_token *new);

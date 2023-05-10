@@ -18,7 +18,10 @@ void	run(char **cmd, char *command)
 
 	res = execve(command, cmd, NULL);
 	if (res == -1)
+	{
+		printf("'%s': file does not exist\n", cmd[0]);
 		exit(1);
+	}
 }
 
 char	*check_executable(char *cmd)
@@ -26,6 +29,11 @@ char	*check_executable(char *cmd)
 	int		i;
 	char	*command;
 
+	if (cmd[0] == '.' && cmd[1] == '/')
+	{
+		command = ft_strdup(cmd);
+		return (command);
+	}
 	i = -1;
 	while (info()->path[++i])
 	{

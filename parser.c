@@ -17,39 +17,6 @@ void	heredocs()
 
 }
 
-char	*get_dir_path(char *cmd)
-{
-	char	*path;
-	char	*file;
-
-	path = NULL;
-	path = getcwd(path, 100);
-	if (!path)
-		return (NULL);
-
-	file = ft_strjoin_sep(path, cmd, '/');
-	free(path);
-	return (file);
-}
-
-// flag -> 0 - WR_TRUNC | 1 - WR_APPEND | 2 - RDONLY 
-int	open_file(char *file, int flag)
-{
-	char	*full_path;
-	int	fd;
-
-	fd = 0;
-	full_path = get_dir_path(file);
-	if (flag == 0)
-		fd = open(full_path, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	else if (flag == 1)
-		fd = open(full_path, O_WRONLY | O_CREAT | O_APPEND, 0777);
-	else if (flag == 2)
-		fd = open(full_path, O_RDONLY | O_CLOEXEC, 0777);
-	free(full_path);
-	return (fd);
-}
-
 // void	redirect_out(char **cmd_red, int open_flag)
 // {
 // 	int	i;
@@ -222,6 +189,8 @@ void	parse_commands(t_token *token_lst)
 	fd = get_pipe_fd();
 	while (token_lst)
 	{
+		if (check_if_invalid(token_lst->value))
+			break ;
 		if (ft_strcmp(token_lst->type, "Command") == 0)
 		{
 			check_command_type(token_lst, token_lst->value, fd);
