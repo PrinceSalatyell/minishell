@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:04:50 by josanton          #+#    #+#             */
-/*   Updated: 2023/04/16 17:57:33 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/09 23:10:33 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,23 +29,23 @@ void	ignore_signal(void)
 	signal(SIGSEGV, SIG_IGN);
 }
 
-bool	is_builtin(char **command)
+bool	is_builtin(char **command, t_token *token_lst, int fd_in, int fd_out)
 {
 	bool	ret;
 
 	ret = true;
 	if (!ft_strcmp(command[0], "env"))
-		env();
+		env(token_lst, fd_in, fd_out);
 	else if (!ft_strcmp(command[0], "export"))
-		export(command);
+		export(command, token_lst, fd_in, fd_out);
 	else if (!ft_strcmp(command[0], "unset"))
-		unset(command);
+		unset(command, token_lst);
 	else if (!ft_strcmp(command[0], "cd"))
-		cd(command);
+		cd(command, token_lst);
 	else if (!ft_strcmp(command[0], "pwd"))
-		pwd(command);
+		pwd(command, token_lst, fd_in, fd_out);
 	else if (!ft_strcmp(command[0], "echo"))
-		echo(command);
+		echo(command, token_lst, fd_in, fd_out);
 	else if (!ft_strcmp(command[0], "exit"))
 		exit(0);
 	else

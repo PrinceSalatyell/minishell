@@ -1,36 +1,79 @@
 #include "minishell.h"
 
+bool	check_pipe(t_token *token_lst)
+{
+	int	i;
+
+	while (token_lst)
+	{
+		i = -1;
+		while (token_lst->value[++i])
+		{
+			if (!strcmp(token_lst->value[i], "|"))
+				return (true);
+		}
+		token_lst = token_lst->next;
+	}
+	return (false);
+}
+
+void	dup_bult_in(t_token *token_lst, int fd_in, int fd_out)
+{
+	int	j;
+
+	if (info()->fd_red == TRUE)
+	{
+		if (info()->in_flag == TRUE)
+			dup2(fd_in, STDIN_FILENO);
+		if (info()->out_flag == TRUE)
+			dup2(fd_out, STDOUT_FILENO);
+	}
+	else
+	{
+		if (info()->cmd_nr != 0)
+			dup2(info()->fd_pipe[info()->cmd_nr - 1][0], STDIN_FILENO);
+		if (token_lst->next)
+			dup2(info()->fd_pipe[info()->cmd_nr][1], STDOUT_FILENO);
+		j = -1;
+		while (++j < info()->nr_pipe)
+		{
+			close(info()->fd_pipe[j][0]);
+			close(info()->fd_pipe[j][1]);
+		}
+	}
+}
+
 char    **get_cmd_red_matrix(char **cmd_red, int j)
 {
-    char    **cmd_matrix;
-    int i;
-    int len;
-    int arg_len;
+	char    **cmd_matrix;
+	int i;
+	int len;
+	//int arg_len;
 
-    len = get_cmd_red_len(cmd_red);
-    cmd_matrix = malloc(sizeof(char*) * len + 1);
+	len = get_cmd_red_len(cmd_red);
+	cmd_matrix = malloc(sizeof(char*) * len + 1);
 	if (!cmd_matrix)
 		return (NULL);
 	cmd_matrix[len] = NULL;
-    i = 0;
-    while (cmd_red[i] != NULL)
+	i = 0;
+	while (cmd_red[i] != NULL)
 	{
 		if (cmd_red[i][0] != '>' && cmd_red[i][0] != '<')
 		{
-			arg_len = ft_strlen(cmd_red[i]);
+			//arg_len = ft_strlen(cmd_red[i]);
 			cmd_matrix[j] = ft_strdup(cmd_red[i]);
 			j++;
 		}
 		else
 			i++;
-        i++;
+		i++;
 	}
-    return (cmd_matrix);
+	return (cmd_matrix);
 }
 
 int get_cmd_red_len(char **cmd_red)
 {
-    int	len;
+	int	len;
 	int	i;
 
 	len = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:06:02 by josanton          #+#    #+#             */
-/*   Updated: 2023/04/02 18:20:09 by josanton         ###   ########.fr       */
+/*   Updated: 2023/05/01 01:30:52 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ int	get_fd_out(char **cmd_red)
 }
 
 //dont forget to handlde >< and <>
-void	parse_redirection(char **cmd)
+void	parse_redirection(t_token *token_lst, char **cmd)
 {
 	int	fd_in;
 	int	fd_out;
@@ -185,22 +185,23 @@ void	parse_redirection(char **cmd)
 		info()->in_flag = TRUE;
 	if (fd_out != -1)
 		info()->out_flag = TRUE;
-	execute_redirection(cmd_matrix, fd_in, fd_out);
+	execute_redirection(token_lst, cmd_matrix, fd_in, fd_out);
 	wait(NULL);
 	close(fd_in);
 	close(fd_out);
 	free_matrix(cmd_matrix);
 }
 
-void	check_command_type(t_token *token_lst, char **cmd, int **fd)
+void	check_command_type(t_token *token_lst, char **cmd)
 {
 	int	i;
-	int	flag;
+	//int	flag;
 
 	info()->in_flag = FALSE;
 	info()->out_flag = FALSE;
+	info()->fd_red = FALSE;
 	i = 0;
-	flag = 0;
+	//flag = 0;
 	while (cmd[i])
 	{
 		if (cmd[i][0] == '>' || cmd[i][0] == '<')
@@ -208,23 +209,22 @@ void	check_command_type(t_token *token_lst, char **cmd, int **fd)
 		i++;
 	}	
 	if (cmd[i])
-		parse_redirection(cmd);
+		parse_redirection(token_lst, cmd);
 	else
-		execute_simple_cmd(token_lst, cmd, fd);
+		execute_simple_cmd(token_lst, cmd);
 }
 
 void	parse_commands(t_token *token_lst)
 {
-	int	**fd;
 	int	j;
 
 	info()->cmd_nr = 0;
-	fd = get_pipe_fd();
+	info()->fd_pipe = get_pipe_fd();
 	while (token_lst)
 	{
 		if (ft_strcmp(token_lst->type, "Command") == 0)
 		{
-			check_command_type(token_lst, token_lst->value, fd);
+			check_command_type(token_lst, token_lst->value);
 			info()->cmd_nr++;
 		}
 		token_lst = token_lst->next;
@@ -232,10 +232,10 @@ void	parse_commands(t_token *token_lst)
 	j = -1;
 	while (++j < info()->nr_pipe)
 	{
-		close(fd[j][0]);
-		close(fd[j][1]);
+		close(info()->fd_pipe[j][0]);
+		close(info()->fd_pipe[j][1]);
 	}
-	free_fd(fd);
+	free_fd(info()->fd_pipe);
 	j = -1;
 	while (++j < info()->nr_pipe + 1)
 		wait(NULL);
