@@ -55,7 +55,7 @@ t_token	*new_token(char *type, int len, int i)
 	if (ft_strcmp(type, "Operator") != 0)
 		cpy_command(&token_node, i);
 	else
-		token_node->value[0] = ft_strdup(_input()->token_matrix[i]);
+		token_node->value[0] = ft_strdup(_input()->new_token_matrix[i]);
 	token_node->value[len] = NULL;
 	token_node->type = ft_strdup(type);
 	token_node->next = NULL;

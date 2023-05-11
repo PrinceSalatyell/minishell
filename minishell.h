@@ -55,6 +55,7 @@ typedef struct s_input
 {
 	char	*command;
 	char	**token_matrix;
+	char	**new_token_matrix;
 	int		index;
 	int		qt_flag;
 }	t_input;
@@ -120,6 +121,18 @@ char	*check_executable(char	*cmd);
 void	execute(t_token *token_lst, char **cmd, char *command);
 void	execute_simple_cmd(t_token *token_lst, char **cmd);
 void	execute_redirection(t_token *token_lst, char **cmd, int fd_in, int fd_out);
+
+// expansions.c
+void	cpy_var_value(char *new_str, char *old_str, int *i, int *k);
+char	*replace_var(char *old_str, int len, int i, int k);
+char	*expand_var(char *old_str);
+char	**handle_expansion(char **token_matrix);
+
+// expd_utils.c
+int get_expanded_len(char *old_str, int i);
+char    *get_var_value(char *var_key);
+char	*get_var_key(char *str, int i);
+bool	is_expansion(char *str);
 
 // utils.c
 int		quotes_end(char *str, int i);

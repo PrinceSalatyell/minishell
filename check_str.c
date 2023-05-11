@@ -38,10 +38,12 @@ int	check_qt_marks(char *str, int i)
 int	check_pipe_done(char *str, int i)
 {
 	i++;
-	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+	while ((str[i] >= 9 && str[i] <= 13) && str[i] == 32)
 		i++;
 	if (!str[i])
 		loop_promt(str, 3);
+	if (str[i] == '"' || str[i] == 39)
+		return (i - 1);
 	return (i);
 }
 
