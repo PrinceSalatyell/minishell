@@ -19,6 +19,8 @@ SRCS	=	minishell.c			\
 			get_token.c			\
 			parser.c			\
 			execution.c			\
+			expansions.c		\
+			expd_utils.c		\
 			utils.c				\
 			utils2.c			\
 			struct_utils.c		\
@@ -29,7 +31,7 @@ SRCS	=	minishell.c			\
 			builtins/unset.c	\
 			builtins/cd.c		\
 			builtins/pwd.c		\
-			builtins/echo.c
+			builtins/echo.c		
 
 OBJS	=	${SRCS:%.c=${DIR_OBJ}%.o}
 
