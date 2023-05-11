@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 18:22:46 by salatiel          #+#    #+#             */
-/*   Updated: 2023/05/09 23:04:56 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/11 22:33:46 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,9 @@ void	change_directory(char *path, t_token *token_lst)
 {
 	char	*current_path;
 
-	current_path = getcwd(NULL, 0);
 	if (!*path)
-	{
-		free(current_path);
 		return ;
-	}
+	current_path = getcwd(NULL, 0);
 	if (!check_pipe(token_lst))
 	{
 		if (chdir(path))
@@ -72,6 +69,8 @@ void	change_directory(char *path, t_token *token_lst)
 			free(current_path);
 		}
 	}
+	else
+		free(current_path);
 }
 
 char	*get_old_pwd(void)
