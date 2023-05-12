@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 22:25:40 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/26 13:38:12 by josanton         ###   ########.fr       */
+/*   Updated: 2023/05/12 05:23:42 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 void	run(char **cmd, char *command)
 {
-	int	res;
+	int		res;
+	char	**env_list;
 
-	res = execve(command, cmd, NULL);
+	env_list = create_env_list();
+	res = execve(command, cmd, env_list);
+	free_env_list(env_list);
 	if (res == -1)
 		exit(1);
 }

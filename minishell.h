@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/11 22:57:32 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/12 05:21:01 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,11 @@ void	ft_dictclear(t_dict **dict);
 // init.c
 t_input	*_input(void);
 t_info	*info(void);
+
+// exec_utils.c
+int		size_of_env(void);
+char	**create_env_list(void);
+void	free_env_list(char **env_list);
 
 // BUILT-INS DIRECTORY
 
