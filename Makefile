@@ -6,7 +6,7 @@
 #    By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/20 12:45:20 by josanton          #+#    #+#              #
-#    Updated: 2023/04/12 19:36:33 by salatiel         ###   ########.fr        #
+#    Updated: 2023/05/12 05:21:28 by salatiel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRCS	=	minishell.c			\
 			get_token.c			\
 			parser.c			\
 			execution.c			\
+			exec_utils.c		\
 			expansions.c		\
 			expd_utils.c		\
 			utils.c				\
