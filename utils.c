@@ -33,20 +33,20 @@ void	cpy_command(t_token **token_lst, int i)
 	int	len;
 
 	j = 0;
-	while (_input()->token_matrix[i] && _input()->token_matrix[i][0] != '|')
+	while (_input()->new_token_matrix[i] && _input()->new_token_matrix[i][0] != '|')
 	{
-		if (_input()->token_matrix[i][0] == '"' || _input()->token_matrix[i][0] == 39)
+		if (_input()->new_token_matrix[i][0] == '"' || _input()->new_token_matrix[i][0] == 39)
 		{
-			len = ft_strlen(_input()->token_matrix[i]);
+			len = ft_strlen(_input()->new_token_matrix[i]);
 			(*token_lst)->value[j] = malloc(sizeof(char) * (len - 1));
-			(*token_lst)->value[j] = ft_strncpy((*token_lst)->value[j], _input()->token_matrix[i] + 1, len - 2);
+			(*token_lst)->value[j] = ft_strncpy((*token_lst)->value[j], _input()->new_token_matrix[i] + 1, len - 2);
 			(*token_lst)->value[j][len - 2] = '\0';
 			i = i + 1;
 			j++;
 		}
 		else
 		{
-			(*token_lst)->value[j] = ft_strdup(_input()->token_matrix[i]);
+			(*token_lst)->value[j] = ft_strdup(_input()->new_token_matrix[i]);
 			i = i + 1;
 			j++;
 		}

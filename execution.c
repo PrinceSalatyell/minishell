@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 22:25:40 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/26 13:38:12 by josanton         ###   ########.fr       */
+/*   Updated: 2023/05/12 05:23:42 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,12 @@
 
 void	run(char **cmd, char *command)
 {
-	int	res;
+	int		res;
+	char	**env_list;
 
-	res = execve(command, cmd, NULL);
+	env_list = create_env_list();
+	res = execve(command, cmd, env_list);
+	free_env_list(env_list);
 	if (res == -1)
 	{
 		if (access(command, F_OK) == 0)
@@ -51,32 +54,39 @@ char	*check_executable(char *cmd)
 }
 
 // flag -> red_in = 0 | red_out - 1
-void	execute_redirection(char **cmd, int fd_in, int fd_out)
+void	execute_redirection(t_token *token_lst, char **cmd, int fd_in, int fd_out)
 {
 	char	*command;
 	int	pid;
+	bool	blt_in;
 
-	command = check_executable(cmd[0]);
-	if (!command)
+	info()->fd_red = TRUE;
+	blt_in = is_builtin(cmd, token_lst, fd_in, fd_out);
+	if (!blt_in)
 	{
+		command = check_executable(cmd[0]);
+		if (!command)
+		{
+			free(command);
+			return ;
+		}
+		pid = fork();
+		if (pid == -1)
+			return ;
+		if (pid == 0)
+		{
+			if (info()->in_flag == TRUE)
+				dup2(fd_in, STDIN_FILENO);
+			if (info()->out_flag == TRUE)
+				dup2(fd_out, STDOUT_FILENO);
+			run(cmd, command);
+		}
 		free(command);
-		return ;
 	}
-	pid = fork();
-	if (pid == -1)
-		return ;
-	if (pid == 0)
-	{
-		if (info()->in_flag == TRUE)
-			dup2(fd_in, STDIN_FILENO);
-		if (info()->out_flag == TRUE)
-			dup2(fd_out, STDOUT_FILENO);
-		run(cmd, command);
-	}
-	free(command);
+	info()->fd_red = FALSE;
 }
 
-void	execute(t_token *token_lst, char **cmd, char *command, int **fd)
+void	execute(t_token *token_lst, char **cmd, char *command)
 {
 	int	j;
 
@@ -86,13 +96,13 @@ void	execute(t_token *token_lst, char **cmd, char *command, int **fd)
 	else
 	{
 		if (info()->cmd_nr != 0)
-			dup2(fd[info()->cmd_nr - 1][0], STDIN_FILENO);
+			dup2(info()->fd_pipe[info()->cmd_nr - 1][0], STDIN_FILENO);
 		if (token_lst->next)
-			dup2(fd[info()->cmd_nr][1], STDOUT_FILENO);
+			dup2(info()->fd_pipe[info()->cmd_nr][1], STDOUT_FILENO);
 		while (++j < info()->nr_pipe)
 		{
-			close(fd[j][0]);
-			close(fd[j][1]);
+			close(info()->fd_pipe[j][0]);
+			close(info()->fd_pipe[j][1]);
 		}
 		run(cmd, command);
 	}
@@ -100,23 +110,26 @@ void	execute(t_token *token_lst, char **cmd, char *command, int **fd)
 
 // fd[0] - read
 // fd[1] - write
-void	execute_simple_cmd(t_token *token_lst, char **cmd, int **fd)
+void	execute_simple_cmd(t_token *token_lst, char **cmd)
 {
 	char	*command;
 	int		pid;
-	int	j;
+	bool	blt_in;
 
-	command = check_executable(cmd[0]);
-	if (!command)
+	blt_in = is_builtin(cmd, token_lst, 0, 0);
+	if (!blt_in)
 	{
+		command = check_executable(cmd[0]);
+		if (!command)
+		{
+			free(command);
+			return ;
+		}
+		pid = fork();
+		if (pid == -1)
+			return ;
+		if (pid == 0)
+				execute(token_lst, cmd, command);
 		free(command);
-		return ;
 	}
-	pid = fork();
-	if (pid == -1)
-		return ;
-	j = -1;
-	if (pid == 0)
-			execute(token_lst, cmd, command, fd);
-	free(command);
 }

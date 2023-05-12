@@ -6,7 +6,7 @@
 #    By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/20 12:45:20 by josanton          #+#    #+#              #
-#    Updated: 2023/04/12 19:36:33 by salatiel         ###   ########.fr        #
+#    Updated: 2023/05/12 05:21:28 by salatiel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,9 @@ SRCS	=	minishell.c			\
 			parser.c			\
 			red_utils.c			\
 			execution.c			\
+			exec_utils.c		\
+			expansions.c		\
+			expd_utils.c		\
 			utils.c				\
 			utils2.c			\
 			struct_utils.c		\
@@ -30,7 +33,7 @@ SRCS	=	minishell.c			\
 			builtins/unset.c	\
 			builtins/cd.c		\
 			builtins/pwd.c		\
-			builtins/echo.c
+			builtins/echo.c		
 
 OBJS	=	${SRCS:%.c=${DIR_OBJ}%.o}
 

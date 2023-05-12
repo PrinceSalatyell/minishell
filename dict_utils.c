@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 18:55:18 by josanton          #+#    #+#             */
-/*   Updated: 2023/04/03 22:17:10 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/11 23:32:51 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,8 @@ void	ft_dictdel(t_dict **dict, char *key)
 			else
 				prev->next = curr->next;
 			free(curr->key);
-			free(curr->value);
+			if (curr->value && curr->value[0])
+				free(curr->value);
 			free(curr);
 			return ;
 		}
