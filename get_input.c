@@ -37,9 +37,8 @@ void	get_input(void)
 	check_if_complete(tmp_command);
 	if (_input()->command[0] == '\0')
 		return ;
-	if (_input()->command == NULL || !strcmp(_input()->command, "exit"))
+	if (!strcmp(_input()->command, "exit"))
 	{
-		write(1, "\n", 1);
 		free(_input()->command);
 		exit(1);
 	}
