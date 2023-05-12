@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_input.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:02:01 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/26 12:07:25 by josanton         ###   ########.fr       */
+/*   Updated: 2023/05/12 18:21:32 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	get_input(void)
 	char	*tmp_command;
 
 	tmp_command = readline(BLUE"minishell" RED ">$ " COLOUR_END);
+	if (!tmp_command)
+		exit(0);
 	check_if_complete(tmp_command);
 	if (_input()->command[0] == '\0')
 		return ;
