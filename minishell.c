@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:04:50 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/09 23:10:33 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/12 18:30:06 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ignore_signal(void)
 {
 	signal(SIGINT, sig_handler);
 	signal(SIGTSTP, SIG_IGN);
-	signal(SIGSEGV, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 bool	is_builtin(char **command, t_token *token_lst, int fd_in, int fd_out)
