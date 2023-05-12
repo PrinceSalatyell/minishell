@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/09 23:15:11 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/11 22:57:32 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,7 @@ void	print_export(int size, char *last_printed);
 void	export(char **command, t_token *token_lst, int fd_in, int fd_out);
 void	add_to_env(char **comand, t_token *token_lst);
 void	print_it(char *key, char *value);
+bool	search_for_variable(char *key);
 
 // unset.c
 void	unset(char **command, t_token *token_lst);
