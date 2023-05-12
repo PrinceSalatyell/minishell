@@ -21,7 +21,13 @@ void	run(char **cmd, char *command)
 	res = execve(command, cmd, env_list);
 	free_env_list(env_list);
 	if (res == -1)
+	{
+		if (access(command, F_OK) == 0)
+			printf("'%s': Permission denied\n", cmd[0]);
+		else
+			printf("'%s': File does not exist\n", cmd[0]);
 		exit(1);
+	}
 }
 
 char	*check_executable(char *cmd)
@@ -29,6 +35,11 @@ char	*check_executable(char *cmd)
 	int		i;
 	char	*command;
 
+	if (cmd[0] == '.' && cmd[1] == '/')
+	{
+		command = ft_strdup(cmd);
+		return (command);
+	}
 	i = -1;
 	while (info()->path[++i])
 	{

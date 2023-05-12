@@ -18,6 +18,7 @@ SRCS	=	minishell.c			\
 			lexer.c				\
 			get_token.c			\
 			parser.c			\
+			red_utils.c			\
 			execution.c			\
 			exec_utils.c		\
 			expansions.c		\
