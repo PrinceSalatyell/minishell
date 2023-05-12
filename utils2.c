@@ -48,7 +48,6 @@ char    **get_cmd_red_matrix(char **cmd_red, int j)
 	char    **cmd_matrix;
 	int i;
 	int len;
-	//int arg_len;
 
 	len = get_cmd_red_len(cmd_red);
 	cmd_matrix = malloc(sizeof(char*) * len + 1);
@@ -60,7 +59,6 @@ char    **get_cmd_red_matrix(char **cmd_red, int j)
 	{
 		if (cmd_red[i][0] != '>' && cmd_red[i][0] != '<')
 		{
-			//arg_len = ft_strlen(cmd_red[i]);
 			cmd_matrix[j] = ft_strdup(cmd_red[i]);
 			j++;
 		}

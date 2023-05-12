@@ -152,7 +152,8 @@ void	parse_redirection(t_token *token_lst, char **cmd)
 		info()->in_flag = TRUE;
 	if (fd_out != -1)
 		info()->out_flag = TRUE;
-	execute_redirection(token_lst, cmd_matrix, fd_in, fd_out);
+	if (cmd_matrix[0])
+		execute_redirection(token_lst, cmd_matrix, fd_in, fd_out);
 	wait(NULL);
 	close(fd_in);
 	close(fd_out);
@@ -162,13 +163,11 @@ void	parse_redirection(t_token *token_lst, char **cmd)
 void	check_command_type(t_token *token_lst, char **cmd)
 {
 	int	i;
-	//int	flag;
 
 	info()->in_flag = FALSE;
 	info()->out_flag = FALSE;
 	info()->fd_red = FALSE;
 	i = 0;
-	//flag = 0;
 	while (cmd[i])
 	{
 		if (cmd[i][0] == '>' || cmd[i][0] == '<')
