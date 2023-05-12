@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/12 05:21:01 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/12 16:53:17 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_info
 	t_dict	*env;
 	char	*home;
 	bool	home_set;
+	int		shlvl;
 }	t_info;
 
 // minishell.c
