@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:04:50 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/12 18:30:06 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/12 21:31:52 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ bool	is_builtin(char **command, t_token *token_lst, int fd_in, int fd_out)
 		pwd(command, token_lst, fd_in, fd_out);
 	else if (!ft_strcmp(command[0], "echo"))
 		echo(command, token_lst, fd_in, fd_out);
+	else if (!ft_strcmp(command[0], "heredoc"))
+		heredoc("EOF");
 	else
 		ret = false;
 	return (ret);

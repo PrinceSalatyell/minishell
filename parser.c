@@ -6,16 +6,11 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:06:02 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/01 01:30:52 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/12 21:06:58 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	heredocs()
-{
-
-}
 
 // void	redirect_out(char **cmd_red, int open_flag)
 // {
