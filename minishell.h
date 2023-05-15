@@ -114,9 +114,7 @@ void	heredocs();
 // execution.c
 void	run(char **cmd, char *command);
 char	*check_executable(char	*cmd);
-void	execute(t_token *token_lst, char **cmd, char *command);
-void	execute_simple_cmd(t_token *token_lst, char **cmd);
-void	execute_redirection(t_token *token_lst, char **cmd, int fd_in, int fd_out);
+void	execute(t_token *token_lst, char **cmd, int fd_in, int fd_out);
 
 // expansions.c
 void	cpy_var_value(char *new_str, char *old_str, int *i, int *k);
@@ -134,11 +132,10 @@ bool	is_expansion(char *str);
 int		quotes_end(char *str, int i);
 char	*ft_strjoin_nl(char *s1, char *s2);
 void	cpy_command(t_token **token_lst, int i);
-void	cpy_operator(t_token **token_lst, int i);
 void	free_fd(int	**fd);
 
 // utils2.c
-void	dup_bult_in(t_token *token_lst, int fd_in, int fd_out);
+void	dup_info(t_token *token_lst, int fd_in, int fd_out);
 char    **get_cmd_red_matrix(char **cmd_red, int j);
 int get_cmd_red_len(char **cmd_red);
 int	**get_pipe_fd(void);
@@ -147,7 +144,7 @@ bool	check_pipe(t_token *token_lst);
 // red_utils.c
 char	*get_dir_path(char *cmd);
 int	open_file(char *file, int flag);
-int	check_if_invalid(char **cmd);
+int	check_invalid_red(char **cmd);
 
 // struct_utils.c
 void	add_back(t_token **token_list, t_token *new);

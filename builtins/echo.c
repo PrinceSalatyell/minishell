@@ -62,7 +62,7 @@ void	echo(char **command, t_token *token_lst, int fd_in, int fd_out)
 		return ;
 	if (pid == 0)
 	{
-		dup_bult_in(token_lst, fd_in, fd_out);
+		dup_info(token_lst, fd_in, fd_out);
 		echo_output(command, i, no_newline);
 		exit(0);
 	}

@@ -68,7 +68,7 @@ void	env(t_token *token_lst, int fd_in, int fd_out)
 		return ;
 	if (pid == 0)
 	{
-		dup_bult_in(token_lst, fd_in, fd_out);
+		dup_info(token_lst, fd_in, fd_out);
 		temp = info()->env;
 		while (temp)
 		{

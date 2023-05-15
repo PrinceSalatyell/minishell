@@ -31,19 +31,28 @@ void	free_matrix(char **matrix)
 int	qt_len(char *str, int i)
 {
 	int	len;
+	int	qt;
 
 	len = 0;
-	if (str[i] == '"')
+	qt = 0;
+	while (str[i] && (str[i] == '"' || str[i] == 39))
 	{
-		while (str[++i] != '"')
-			len++;
+		qt++;
+		len++;
+		i++;
 	}
-	else if (str[i] == 39)
+	while (str[i] && qt != 0)
 	{
-		while (str[++i] != 39)
-			len++;
+		len++;
+		if (str[i] == '"' || str[i] == 39)
+		{
+			qt--;
+			if (qt == 0 && str[i + 1] != 32 && str[i + 1] != '\0')
+				qt++;
+		}
+		i++;
 	}
-	return (len + 2);
+	return (len);
 }
 
 int	token_len(char *str, int i)
@@ -59,9 +68,7 @@ int	token_len(char *str, int i)
 	}
 	while (str[i] && !(str[i] >= 9 && str[i] <= 13) && str[i] != 32)
 	{
-		if (str[i] == '"')
-			return (qt_len(str, i));
-		else if (str[i] == 39)
+		if (str[i] == '"' || str[i] == 39)
 			return (qt_len(str, i));
 		if (str[i] == '|' || str[i] == '>' || str[i] == '<')
 			return (len);
