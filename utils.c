@@ -55,19 +55,25 @@ void	cpy_command(t_token **token_lst, int i)
 
 int	quotes_end(char *str, int i)
 {
-	if (str[i] == '"')
+	int	qt;
+
+	qt = 0;
+	while (str[i] && (str[i] == '"' || str[i] == 39))
 	{
+		qt++;
 		i++;
-		while (str[i] && str[i] != '"')
-			i++;
 	}
-	else if (str[i] == 39)
+	while (str[i] && qt != 0)
 	{
+		if (str[i] == '"' || str[i] == 39)
+		{
+			qt--;
+			if (qt == 0 && str[i + 1] != 32 && str[i + 1] != '\0')
+				qt++;
+		}
 		i++;
-		while (str[i] && str[i] != 39)
-			i++;
 	}
-	return (i);
+	return (i - 1);
 }
 
 char	*ft_strjoin_nl(char *s1, char *s2)

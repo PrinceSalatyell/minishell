@@ -32,7 +32,7 @@ int	open_file(char *file, int flag)
 	return (fd);
 }
 
-int	check_if_invalid(char **cmd)
+int	check_invalid_red(char **cmd)
 {
 	int	i;
 

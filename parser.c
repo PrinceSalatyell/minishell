@@ -135,7 +135,6 @@ int	get_fd_out(char **cmd_red)
 	return (fd);
 }
 
-//dont forget to handlde >< and <>
 void	parse_redirection(t_token *token_lst, char **cmd)
 {
 	int	fd_in;
@@ -148,15 +147,11 @@ void	parse_redirection(t_token *token_lst, char **cmd)
 	if (info()->file_flag == 2)
 		return ;
 	cmd_matrix = get_cmd_red_matrix(cmd, 0);
-	if (fd_in != -1)
-		info()->in_flag = TRUE;
-	if (fd_out != -1)
-		info()->out_flag = TRUE;
 	if (cmd_matrix[0])
-		execute_redirection(token_lst, cmd_matrix, fd_in, fd_out);
-	wait(NULL);
+		execute(token_lst, cmd_matrix, fd_in, fd_out);
 	close(fd_in);
 	close(fd_out);
+	wait(NULL);
 	free_matrix(cmd_matrix);
 }
 
@@ -164,9 +159,6 @@ void	check_command_type(t_token *token_lst, char **cmd)
 {
 	int	i;
 
-	info()->in_flag = FALSE;
-	info()->out_flag = FALSE;
-	info()->fd_red = FALSE;
 	i = 0;
 	while (cmd[i])
 	{
@@ -177,7 +169,7 @@ void	check_command_type(t_token *token_lst, char **cmd)
 	if (cmd[i])
 		parse_redirection(token_lst, cmd);
 	else
-		execute_simple_cmd(token_lst, cmd);
+		execute(token_lst, cmd, 0, 0);
 }
 
 void	parse_commands(t_token *token_lst)
@@ -188,7 +180,7 @@ void	parse_commands(t_token *token_lst)
 	info()->fd_pipe = get_pipe_fd();
 	while (token_lst)
 	{
-		if (check_if_invalid(token_lst->value))
+		if (check_invalid_red(token_lst->value))
 			break ;
 		if (ft_strcmp(token_lst->type, "Command") == 0)
 		{

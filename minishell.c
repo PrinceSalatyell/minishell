@@ -15,11 +15,20 @@
 // changes Ctrl+C to \n
 void	sig_handler(int n)
 {
+	pid_t	pid;
+	int		status;
+
 	(void)n;
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	pid = waitpid(-1, &status, 0);
+	if (pid == -1)
+	{
+		write(1, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+	else
+		write(1, "\n", 1);
 }
 
 void	ignore_signal(void)
