@@ -23,7 +23,7 @@ void	export(char **command, t_token *token_lst, int fd_in, int fd_out)
 			return ;
 		if (pid == 0)
 		{
-			dup_bult_in(token_lst, fd_in, fd_out);
+			dup_info(token_lst, fd_in, fd_out);
 			print_export(0, NULL);
 			exit(0);
 		}
