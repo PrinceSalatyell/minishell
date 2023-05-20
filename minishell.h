@@ -69,6 +69,8 @@ typedef struct s_info
 	int	nr_pipe;
 	int	file_flag;
 	int	**fd_pipe;
+	int	*here_pipe;
+	bool	here_flag;
 	bool	fd_red;
 	bool	in_flag;
 	bool	out_flag;
@@ -173,8 +175,10 @@ char	**create_env_list(void);
 void	free_env_list(char **env_list);
 
 //heredoc.c
-void	heredoc(char *delimiter);
-void	write_to_pipe(int fd, char *delimiter);
+int	heredoc(char *delimiter);
+int	here_pipe_fd(char *delimiter);
+char	*get_heredoc_str(char *delimiter);
+int	write_to_file(char	*cmd);
 void	read_from_pipe(int fd);
 
 // BUILT-INS DIRECTORY

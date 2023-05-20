@@ -12,57 +12,27 @@
 
 #include "minishell.h"
 
-void	read_from_pipe(int fd)
+int	heredoc(char *delimiter)
 {
-	char	buffer[BUFFER_SIZE_HD + 1];
-	int		bytes_read;
-
-	bytes_read = 1;
-	while (bytes_read > 0)
-	{
-		bytes_read = read(fd, buffer, BUFFER_SIZE_HD);
-		if (bytes_read > 0)
-		{
-			buffer[bytes_read] = '\0';
-			write(1, buffer, bytes_read);
-		}
-	}
-}
-
-void	write_to_pipe(int fd, char *delimiter)
-{
+	int	fd[2];
 	char	*line;
-
+	
+	info()->here_flag = TRUE;
+	if (pipe(fd) == -1)
+		return (-1);
 	while (1)
 	{
 		line = readline("> ");
 		if (!line || strcmp(line, delimiter) == 0)
+		{
+			free(line);
 			break ;
-		write(fd, line, strlen(line));
-		write(fd, "\n", 1);
+		}
+		write(fd[1], line, ft_strlen(line));
+		write(fd[1], "\n", 1);
 		free(line);
 	}
-}
-
-void	heredoc(char *delimiter)
-{
-	int	fd[2];
-
-	if (pipe(fd) == -1)
-		return ;
-	if (fork() == 0)
-	{
-		close(fd[0]);
-		write_to_pipe(fd[1], delimiter);
-		close(fd[1]);
-		exit(0);
-	}
-	else
-	{
-		wait(NULL);
-		close(fd[1]);
-		read_from_pipe(fd[0]);
-		close(fd[0]);
-	}
+	close(fd[1]);
+	return (fd[0]);
 }
 

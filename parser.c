@@ -85,15 +85,19 @@ int	get_fd_in(char **cmd_red)
 	fd = -1;
 	while (cmd_red[i])
 	{
-		if (fd != -1)
-			close(fd);
 		if (cmd_red[i][0] == '<')
 		{
-			fd = open_file(cmd_red[i + 1], 2);
+			if (fd != -1)
+				close(fd);
+			if (cmd_red[i][1] == '<')
+				fd = heredoc(cmd_red[i + 1]);
+			else
+				fd = open_file(cmd_red[i + 1], 2);
 			info()->file_flag = 1;
 			if (fd == -1)
 			{
-				printf("%s: file does not exist\n", cmd_red[i + 1]);
+				if (info()->here_flag == FALSE)
+					printf("%s: file does not exist\n", cmd_red[i + 1]);
 				info()->file_flag = 2;
 				return (fd);
 			}
@@ -171,6 +175,7 @@ void	parse_commands(t_token *token_lst)
 {
 	int	j;
 
+	info()->here_flag = FALSE;
 	info()->cmd_nr = 0;
 	info()->fd_pipe = get_pipe_fd();
 	while (token_lst)
@@ -182,6 +187,7 @@ void	parse_commands(t_token *token_lst)
 			check_command_type(token_lst, token_lst->value);
 			info()->cmd_nr++;
 		}
+		info()->here_flag = FALSE;
 		token_lst = token_lst->next;
 	}
 	j = -1;

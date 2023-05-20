@@ -55,8 +55,6 @@ bool	is_builtin(char **command, t_token *token_lst, int fd_in, int fd_out)
 		pwd(command, token_lst, fd_in, fd_out);
 	else if (!ft_strcmp(command[0], "echo"))
 		echo(command, token_lst, fd_in, fd_out);
-	else if (!ft_strcmp(command[0], "heredoc"))
-		heredoc("EOF");
 	else
 		ret = false;
 	return (ret);
