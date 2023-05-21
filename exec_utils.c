@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 04:37:59 by salatiel          #+#    #+#             */
-/*   Updated: 2023/05/12 05:19:55 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/13 21:11:14 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,22 @@ void	free_env_list(char **env_list)
 	while (env_list[++i])
 		free(env_list[i]);
 	free(env_list);
+}
+
+char	*get_path(t_dict *env)
+{
+	t_dict	*temp;
+	char	**path;
+
+	temp = env;
+	while (temp)
+	{
+		if (ft_strcmp(temp->key, "PATH"))
+		{
+			path = ft_split(temp->value, ':');
+			return (path);
+		}
+		temp = temp->next;
+	}
+	return (NULL);
 }

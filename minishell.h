@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/12 16:53:17 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/13 21:03:28 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ t_info	*info(void);
 int		size_of_env(void);
 char	**create_env_list(void);
 void	free_env_list(char **env_list);
+char	*get_path(t_dict *env);
 
 // BUILT-INS DIRECTORY
 
