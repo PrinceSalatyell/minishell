@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 17:38:33 by salatiel          #+#    #+#             */
-/*   Updated: 2023/05/11 23:43:38 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/21 03:51:35 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,13 @@ void	export(char **command, t_token *token_lst, int fd_in, int fd_out)
 		if (command[1][0] != '=')
 			add_to_env(command, token_lst);
 		else
+		{
 			perror("minishell: export: `=': not a valid identifier");
+			info()->error_code = 1;
+			return ;
+		}
 	}
+	info()->error_code = 0;
 }
 
 void	print_it(char *key, char *value)

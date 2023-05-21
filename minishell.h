@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/12 16:53:17 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/21 03:59:25 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <readline/history.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <errno.h>
 
 // COLORS
 
@@ -74,6 +75,7 @@ typedef struct s_info
 	char	*home;
 	bool	home_set;
 	int		shlvl;
+	int		error_code;
 }	t_info;
 
 // minishell.c
@@ -193,10 +195,11 @@ void	cd(char **command, t_token *token_lst);
 char	*get_home(void);
 void	change_directory(char *path, t_token *token_lst);
 void	change_pwd(char *to_change, char *new_value);
-char	*get_old_pwd(void);
+void	get_old_pwd(t_token *token_lst);
 
 // pwd.c
 void	pwd(char **command, t_token *token_lst, int fd_in, int fd_out);
+void	navigate(t_token *token_lst, int fd_in, int fd_out);
 
 // echo.c
 void	echo(char **command, t_token *token_lst, int fd_in, int fd_out);

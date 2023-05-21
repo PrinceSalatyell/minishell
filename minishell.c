@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:04:50 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/12 18:30:06 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/21 02:21:25 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	ignore_signal();
 	store_env(envp);
+	info()->error_code = 0;
 	while (1)
 	{
 		get_input();

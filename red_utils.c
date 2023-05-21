@@ -42,11 +42,13 @@ int	check_invalid_red(char **cmd)
 		if (cmd[i][0] == '>' && cmd[i][1] == '<')
 		{
 			printf("Unexpected token '><'\n");
+			info()->error_code = 2;
 			return (1);
 		}
 		if (cmd[i][0] == '<' && cmd[i][1] == '>')
 		{
 			printf("Unexpected token '<>'\n");
+			info()->error_code = 2;
 			return (1);
 		}
 		i++;

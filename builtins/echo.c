@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 19:22:24 by salatiel          #+#    #+#             */
-/*   Updated: 2023/05/06 22:14:20 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/21 03:15:59 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,5 @@ void	echo(char **command, t_token *token_lst, int fd_in, int fd_out)
 	}
 	else
 		wait(NULL);
+	info()->error_code = 0;
 }

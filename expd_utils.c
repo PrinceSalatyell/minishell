@@ -41,7 +41,12 @@ char    *get_var_value(char *var_key)
         {
             value = ft_strdup(temp->value);
             break ;
-        }    
+        }
+		else if (!ft_strcmp(var_key, "?"))
+		{
+			value = ft_itoa(info()->error_code);
+			break ;
+		}
         temp = temp->next;
     }
     if (!value)

@@ -26,10 +26,10 @@ char	*replace_var(char *old_str, int len, int i, int k)
 {
 	char	*new_str;
 
-    new_str = malloc(sizeof(char) * len + 1);
-    while (old_str[i])
-    {
-        if (old_str[i] == '$')
+	new_str = malloc(sizeof(char) * len + 1);
+	while (old_str[i])
+	{
+		if (old_str[i] == '$')
 			if (!old_str[i + 1] || (old_str[i + 1] >= 9 && old_str[i + 1] <= 13)
 				|| old_str[i + 1] == 32 || old_str[i + 1] == '"' || old_str[i + 1] == 39)
 			{
@@ -39,15 +39,15 @@ char	*replace_var(char *old_str, int len, int i, int k)
 			}
 			else
 				cpy_var_value(new_str, old_str, &i, &k);
-        else
+		else
 		{
-            new_str[k] = old_str[i];
-        	i++;
-        	k++;
+			new_str[k] = old_str[i];
+			i++;
+			k++;
 		}
-    }
-    new_str[k] = '\0';
-    return (new_str);
+	}
+	new_str[k] = '\0';
+	return (new_str);
 }
 
 char	*expand_var(char *old_str)
@@ -85,6 +85,6 @@ char	**handle_expansion(char **token_matrix)
 			new_token_matrix[i] = ft_strdup(token_matrix[i]);
 		i++;
 	}
-    new_token_matrix[i] = NULL;
+	new_token_matrix[i] = NULL;
 	return (new_token_matrix);
 }

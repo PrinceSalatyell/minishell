@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 22:25:40 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/12 05:23:42 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/21 03:06:38 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	run(char **cmd, char *command)
 			printf("'%s': Permission denied\n", cmd[0]);
 		else
 			printf("'%s': File does not exist\n", cmd[0]);
-		exit(1);
+		exit(errno);
 	}
 }
 
@@ -51,15 +51,19 @@ char	*check_executable(char *cmd)
 		free(command);
 	}
 	if (strcmp(cmd, "exit"))
+	{
 		printf("Command '%s' not found\n", cmd);
+		info()->error_code = 127;
+	}
 	return (NULL);
 }
 
 void	execute(t_token *token_lst, char **cmd, int fd_in, int fd_out)
 {
 	char	*command;
-	int	pid;
+	int		pid;
 	bool	blt_in;
+	//int		status;
 
 	blt_in = is_builtin(cmd, token_lst, fd_in, fd_out);
 	if (!blt_in)
@@ -73,12 +77,17 @@ void	execute(t_token *token_lst, char **cmd, int fd_in, int fd_out)
 		pid = fork();
 		if (pid == -1)
 			return ;
-		if (pid == 0)
+		else if (pid == 0)
 		{
 			dup_info(token_lst, fd_in, fd_out);
 			run(cmd, command);
+			exit(info()->error_code);
 		}
+		//else
+		//{
+		//	waitpid(pid, &status, 0);
+		//	info()->error_code = WEXITSTATUS(status);
+		//}
 		free(command);
 	}
 }
-
