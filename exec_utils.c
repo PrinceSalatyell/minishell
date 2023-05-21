@@ -6,7 +6,7 @@
 /*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 04:37:59 by salatiel          #+#    #+#             */
-/*   Updated: 2023/05/13 21:11:14 by josanton         ###   ########.fr       */
+/*   Updated: 2023/05/21 18:18:19 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	free_env_list(char **env_list)
 	free(env_list);
 }
 
-char	*get_path(t_dict *env)
+char	**get_path(t_dict *env)
 {
 	t_dict	*temp;
 	char	**path;
