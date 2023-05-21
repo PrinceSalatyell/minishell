@@ -6,7 +6,7 @@
 #    By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/20 12:45:20 by josanton          #+#    #+#              #
-#    Updated: 2023/05/12 05:21:28 by salatiel         ###   ########.fr        #
+#    Updated: 2023/05/12 21:32:27 by salatiel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRCS	=	minishell.c			\
 			struct_utils.c		\
 			dict_utils.c		\
 			init.c				\
+			heredoc.c			\
 			builtins/env.c		\
 			builtins/export.c	\
 			builtins/unset.c	\
