@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/21 03:59:25 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/21 05:17:31 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@
 # define YELLOW "\033[0;33m"
 # define RED "\033[1;31m"
 # define COLOUR_END "\033[0m"
+
+# define BUFFER_SIZE_HD 1024
 
 # define FALSE 0
 # define TRUE 1
@@ -68,6 +70,8 @@ typedef struct s_info
 	int	nr_pipe;
 	int	file_flag;
 	int	**fd_pipe;
+	int	*here_pipe;
+	bool	here_flag;
 	bool	fd_red;
 	bool	in_flag;
 	bool	out_flag;
@@ -171,6 +175,13 @@ t_info	*info(void);
 int		size_of_env(void);
 char	**create_env_list(void);
 void	free_env_list(char **env_list);
+
+//heredoc.c
+int	heredoc(char *delimiter);
+int	here_pipe_fd(char *delimiter);
+char	*get_heredoc_str(char *delimiter);
+int	write_to_file(char	*cmd);
+void	read_from_pipe(int fd);
 
 // BUILT-INS DIRECTORY
 
