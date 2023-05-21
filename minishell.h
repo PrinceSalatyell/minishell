@@ -6,7 +6,7 @@
 /*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/21 18:18:31 by josanton         ###   ########.fr       */
+/*   Updated: 2023/05/21 18:20:27 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 # define YELLOW "\033[0;33m"
 # define RED "\033[1;31m"
 # define COLOUR_END "\033[0m"
+
+# define BUFFER_SIZE_HD 1024
 
 # define FALSE 0
 # define TRUE 1
@@ -67,6 +69,8 @@ typedef struct s_info
 	int	nr_pipe;
 	int	file_flag;
 	int	**fd_pipe;
+	int	*here_pipe;
+	bool	here_flag;
 	bool	fd_red;
 	bool	in_flag;
 	bool	out_flag;
@@ -115,9 +119,7 @@ void	heredocs();
 // execution.c
 void	run(char **cmd, char *command);
 char	*check_executable(char	*cmd);
-void	execute(t_token *token_lst, char **cmd, char *command);
-void	execute_simple_cmd(t_token *token_lst, char **cmd);
-void	execute_redirection(t_token *token_lst, char **cmd, int fd_in, int fd_out);
+void	execute(t_token *token_lst, char **cmd, int fd_in, int fd_out);
 
 // expansions.c
 void	cpy_var_value(char *new_str, char *old_str, int *i, int *k);
@@ -135,11 +137,10 @@ bool	is_expansion(char *str);
 int		quotes_end(char *str, int i);
 char	*ft_strjoin_nl(char *s1, char *s2);
 void	cpy_command(t_token **token_lst, int i);
-void	cpy_operator(t_token **token_lst, int i);
 void	free_fd(int	**fd);
 
 // utils2.c
-void	dup_bult_in(t_token *token_lst, int fd_in, int fd_out);
+void	dup_info(t_token *token_lst, int fd_in, int fd_out);
 char    **get_cmd_red_matrix(char **cmd_red, int j);
 int get_cmd_red_len(char **cmd_red);
 int	**get_pipe_fd(void);
@@ -148,7 +149,7 @@ bool	check_pipe(t_token *token_lst);
 // red_utils.c
 char	*get_dir_path(char *cmd);
 int	open_file(char *file, int flag);
-int	check_if_invalid(char **cmd);
+int	check_invalid_red(char **cmd);
 
 // struct_utils.c
 void	add_back(t_token **token_list, t_token *new);
@@ -173,6 +174,13 @@ int		size_of_env(void);
 char	**create_env_list(void);
 void	free_env_list(char **env_list);
 char	**get_path(t_dict *env);
+
+//heredoc.c
+int	heredoc(char *delimiter);
+int	here_pipe_fd(char *delimiter);
+char	*get_heredoc_str(char *delimiter);
+int	write_to_file(char	*cmd);
+void	read_from_pipe(int fd);
 
 // BUILT-INS DIRECTORY
 
