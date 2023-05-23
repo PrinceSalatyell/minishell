@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:04:07 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/13 21:00:55 by josanton         ###   ########.fr       */
+/*   Updated: 2023/05/23 13:26:32 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_info	*info(void)
 {
 	static t_info	info;
 
-	if (!info.path)
+	if (!info.shlvl)
 	{
 		if (getenv("SHLVL"))
 		{
@@ -34,7 +34,6 @@ t_info	*info(void)
 		}
 		else
 			info.shlvl = 1;
-		(info.path) = get_path(info.env);
 		info.home = getenv("HOME");
 	}
 	return (&info);
