@@ -6,38 +6,66 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 19:22:24 by salatiel          #+#    #+#             */
-/*   Updated: 2023/04/16 17:56:53 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/06 22:14:20 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	echo(char **command)
+void	check_newline(char **command, int *i, bool *no_newline)
+{
+	int	j;
+
+	while (command[*i] && command[*i][0] == '-')
+	{
+		j = 1;
+		while (command[*i][j] == 'n')
+		{
+			*no_newline = true;
+			j++;
+		}
+		if (command[*i][j] != '\0')
+			break ;
+		(*i)++;
+	}
+}
+
+void	echo_output(char **command, int i, bool no_newline)
+{
+	bool	first_word;
+
+	first_word = true;
+	while (command[i])
+	{
+		if (first_word)
+			first_word = false;
+		else
+			printf(" ");
+		printf("%s", command[i]);
+		i++;
+	}
+	if (!no_newline)
+		printf("\n");
+}
+
+void	echo(char **command, t_token *token_lst, int fd_in, int fd_out)
 {
 	int		i;
-	bool	word_found;
+	bool	no_newline;
+	pid_t	pid;
 
-	word_found = false;
-	i = 0;
-	while (command[++i])
+	no_newline = false;
+	i = 1;
+	check_newline(command, &i, &no_newline);
+	pid = fork();
+	if (pid == -1)
+		return ;
+	if (pid == 0)
 	{
-		while (command[i] && !ft_strcmp(command[i], "-n") && !word_found)
-			i++;
-		if (!command[i])
-			break ;
-		if (!ft_strcmp(command[1], "-n"))
-		{
-			if (ft_strcmp(command[i - 1], "-n") || word_found)
-				printf(" ");
-		}
-		else
-			if (i != 1)
-				printf(" ");
-		printf("%s", command[i]);
-		word_found = true;
+		dup_info(token_lst, fd_in, fd_out);
+		echo_output(command, i, no_newline);
+		exit(0);
 	}
-	if (!command[1])
-		printf("\n");
-	else if (ft_strcmp(command[1], "-n"))
-		printf("\n");
+	else
+		wait(NULL);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 18:16:08 by josanton          #+#    #+#             */
-/*   Updated: 2023/04/02 21:21:24 by josanton         ###   ########.fr       */
+/*   Updated: 2023/05/12 17:37:24 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,16 +56,29 @@ void	store_env(char **envp)
 		value = get_value(envp[i]);
 		ft_dictadd_back(&(info()->env), ft_dictnew(key, value));
 	}
+	ft_dictdel(&(info()->env), "SHLVL");
+	ft_dictadd_back(&(info()->env), \
+	ft_dictnew("SHLVL", ft_itoa(info()->shlvl)));
 }
 
-void	env(void)
+void	env(t_token *token_lst, int fd_in, int fd_out)
 {
 	t_dict	*temp;
+	int		pid;
 
-	temp = info()->env;
-	while (temp)
+	pid = fork();
+	if (pid == -1)
+		return ;
+	if (pid == 0)
 	{
-		printf("%s=%s\n", temp->key, temp->value);
-		temp = temp->next;
+		dup_info(token_lst, fd_in, fd_out);
+		temp = info()->env;
+		while (temp)
+		{
+			if (temp->value)
+				printf("%s=%s\n", temp->key, temp->value);
+			temp = temp->next;
+		}
+		exit (0);
 	}
 }

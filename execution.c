@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 22:25:40 by josanton          #+#    #+#             */
-/*   Updated: 2023/03/26 13:38:12 by josanton         ###   ########.fr       */
+/*   Updated: 2023/05/12 05:23:42 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,21 @@
 
 void	run(char **cmd, char *command)
 {
-	int	res;
+	int		res;
+	char	**env_list;
 
-	res = execve(command, cmd, NULL);
+	env_list = create_env_list();
+	res = execve(command, cmd, env_list);
+	free_env_list(env_list);
+	signal(SIGINT, SIG_DFL);
 	if (res == -1)
+	{
+		if (access(command, F_OK) == 0)
+			printf("'%s': Permission denied\n", cmd[0]);
+		else
+			printf("'%s': File does not exist\n", cmd[0]);
 		exit(1);
+	}
 }
 
 char	*check_executable(char *cmd)
@@ -26,6 +36,11 @@ char	*check_executable(char *cmd)
 	int		i;
 	char	*command;
 
+	if (cmd[0] == '.' && cmd[1] == '/')
+	{
+		command = ft_strdup(cmd);
+		return (command);
+	}
 	i = -1;
 	while (info()->path[++i])
 	{
@@ -35,77 +50,35 @@ char	*check_executable(char *cmd)
 			return (command);
 		free(command);
 	}
-	printf("Command '%s' not found\n", cmd);
+	if (strcmp(cmd, "exit"))
+		printf("Command '%s' not found\n", cmd);
 	return (NULL);
 }
 
-// flag -> red_in = 0 | red_out - 1
-void	execute_redirection(char **cmd, int fd_in, int fd_out)
+void	execute(t_token *token_lst, char **cmd, int fd_in, int fd_out)
 {
 	char	*command;
 	int	pid;
+	bool	blt_in;
 
-	command = check_executable(cmd[0]);
-	if (!command)
+	blt_in = is_builtin(cmd, token_lst, fd_in, fd_out);
+	if (!blt_in)
 	{
-		free(command);
-		return ;
-	}
-	pid = fork();
-	if (pid == -1)
-		return ;
-	if (pid == 0)
-	{
-		if (info()->in_flag == TRUE)
-			dup2(fd_in, STDIN_FILENO);
-		if (info()->out_flag == TRUE)
-			dup2(fd_out, STDOUT_FILENO);
-		run(cmd, command);
-	}
-	free(command);
-}
-
-void	execute(t_token *token_lst, char **cmd, char *command, int **fd)
-{
-	int	j;
-
-	j = -1;
-	if (info()->cmd_nr == 0 && !token_lst->next)
-		run(cmd, command);
-	else
-	{
-		if (info()->cmd_nr != 0)
-			dup2(fd[info()->cmd_nr - 1][0], STDIN_FILENO);
-		if (token_lst->next)
-			dup2(fd[info()->cmd_nr][1], STDOUT_FILENO);
-		while (++j < info()->nr_pipe)
+		command = check_executable(cmd[0]);
+		if (!command)
 		{
-			close(fd[j][0]);
-			close(fd[j][1]);
+			free(command);
+			return ;
 		}
-		run(cmd, command);
-	}
-}
-
-// fd[0] - read
-// fd[1] - write
-void	execute_simple_cmd(t_token *token_lst, char **cmd, int **fd)
-{
-	char	*command;
-	int		pid;
-	int	j;
-
-	command = check_executable(cmd[0]);
-	if (!command)
-	{
+		pid = fork();
+		if (pid == -1)
+			return ;
+		if (pid == 0)
+		{
+			dup_info(token_lst, fd_in, fd_out);
+			run(cmd, command);
+		}
 		free(command);
-		return ;
 	}
-	pid = fork();
-	if (pid == -1)
-		return ;
-	j = -1;
-	if (pid == 0)
-			execute(token_lst, cmd, command, fd);
-	free(command);
 }
+

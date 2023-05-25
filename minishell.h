@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/04/16 19:48:17 by josanton         ###   ########.fr       */
+/*   Updated: 2023/05/12 21:37:28 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 # define YELLOW "\033[0;33m"
 # define RED "\033[1;31m"
 # define COLOUR_END "\033[0m"
+
+# define BUFFER_SIZE_HD 1024
 
 # define FALSE 0
 # define TRUE 1
@@ -66,17 +68,22 @@ typedef struct s_info
 	int	cmd_nr;
 	int	nr_pipe;
 	int	file_flag;
+	int	**fd_pipe;
+	int	*here_pipe;
+	bool	here_flag;
+	bool	fd_red;
 	bool	in_flag;
 	bool	out_flag;
 	t_dict	*env;
 	char	*home;
 	bool	home_set;
+	int		shlvl;
 }	t_info;
 
 // minishell.c
 void	sig_handler(int n);
 void	ignore_signal(void);
-bool	is_builtin(char **command);
+bool	is_builtin(char **command, t_token *token_lst, int fd_in, int fd_out);
 
 // get_input.c
 void	get_input(void);
@@ -103,22 +110,16 @@ void	free_matrix(char **matrix);
 
 // parser.c
 void	parse_commands(t_token *token_lst);
-void	check_command_type(t_token *token_lst, char **cmd, int **fd);
-void	parse_redirection(char **cmd);
+void	check_command_type(t_token *token_lst, char **cmd);
+void	parse_redirection(t_token *token_lst, char **cmd);
 int	get_fd_out(char **cmd_red);
 int	get_fd_in(char **cmd_red);
-char	*get_dir_path(char *cmd);
-int	open_file(char *file, int flag);
-
-// redirections.c
 void	heredocs();
 
 // execution.c
 void	run(char **cmd, char *command);
 char	*check_executable(char	*cmd);
-void	execute(t_token *token_lst, char **cmd, char *command, int **fd);
-void	execute_simple_cmd(t_token *token_lst, char **cmd, int **fd);
-void	execute_redirection(char **cmd, int fd_in, int fd_out);
+void	execute(t_token *token_lst, char **cmd, int fd_in, int fd_out);
 
 // expansions.c
 void	cpy_var_value(char *new_str, char *old_str, int *i, int *k);
@@ -136,14 +137,19 @@ bool	is_expansion(char *str);
 int		quotes_end(char *str, int i);
 char	*ft_strjoin_nl(char *s1, char *s2);
 void	cpy_command(t_token **token_lst, int i);
-void	cpy_operator(t_token **token_lst, int i);
 void	free_fd(int	**fd);
-t_token	*rm_quotes(t_token *token_lst, char *str);
 
 // utils2.c
+void	dup_info(t_token *token_lst, int fd_in, int fd_out);
 char    **get_cmd_red_matrix(char **cmd_red, int j);
 int get_cmd_red_len(char **cmd_red);
 int	**get_pipe_fd(void);
+bool	check_pipe(t_token *token_lst);
+
+// red_utils.c
+char	*get_dir_path(char *cmd);
+int	open_file(char *file, int flag);
+int	check_invalid_red(char **cmd);
 
 // struct_utils.c
 void	add_back(t_token **token_list, t_token *new);
@@ -163,32 +169,47 @@ void	ft_dictclear(t_dict **dict);
 t_input	*_input(void);
 t_info	*info(void);
 
+// exec_utils.c
+int		size_of_env(void);
+char	**create_env_list(void);
+void	free_env_list(char **env_list);
+
+//heredoc.c
+int	heredoc(char *delimiter);
+int	here_pipe_fd(char *delimiter);
+char	*get_heredoc_str(char *delimiter);
+int	write_to_file(char	*cmd);
+void	read_from_pipe(int fd);
+
 // BUILT-INS DIRECTORY
 
 // env.c
 void	store_env(char **envp);
-void	env(void);
+void	env(t_token *token_lst, int fd_in, int fd_out);
 char	*get_value(char *env_line);
 char	*get_key(char *env_line);
 
 //export.c
 void	print_export(int size, char *last_printed);
-void	export(char **command);
-void	add_to_env(char **comand);
+void	export(char **command, t_token *token_lst, int fd_in, int fd_out);
+void	add_to_env(char **comand, t_token *token_lst);
+void	print_it(char *key, char *value);
+bool	search_for_variable(char *key);
 
 // unset.c
-void	unset(char **command);
+void	unset(char **command, t_token *token_lst);
 
 // cd.c
-void	cd(char **command);
+void	cd(char **command, t_token *token_lst);
 char	*get_home(void);
-void	change_directory(char *path);
+void	change_directory(char *path, t_token *token_lst);
 void	change_pwd(char *to_change, char *new_value);
+char	*get_old_pwd(void);
 
 // pwd.c
-void	pwd(char **command);
+void	pwd(char **command, t_token *token_lst, int fd_in, int fd_out);
 
 // echo.c
-void	echo(char **command);
+void	echo(char **command, t_token *token_lst, int fd_in, int fd_out);
 
 #endif

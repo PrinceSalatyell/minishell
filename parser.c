@@ -3,52 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:06:02 by josanton          #+#    #+#             */
-/*   Updated: 2023/04/02 18:20:09 by josanton         ###   ########.fr       */
+/*   Updated: 2023/05/12 21:06:58 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	heredocs()
-{
-
-}
-
-char	*get_dir_path(char *cmd)
-{
-	char	*path;
-	char	*file;
-
-	path = NULL;
-	path = getcwd(path, 100);
-	if (!path)
-		return (NULL);
-
-	file = ft_strjoin_sep(path, cmd, '/');
-	free(path);
-	return (file);
-}
-
-// flag -> 0 - WR_TRUNC | 1 - WR_APPEND | 2 - RDONLY 
-int	open_file(char *file, int flag)
-{
-	char	*full_path;
-	int	fd;
-
-	fd = 0;
-	full_path = get_dir_path(file);
-	if (flag == 0)
-		fd = open(full_path, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	else if (flag == 1)
-		fd = open(full_path, O_WRONLY | O_CREAT | O_APPEND, 0777);
-	else if (flag == 2)
-		fd = open(full_path, O_RDONLY | O_CLOEXEC, 0777);
-	free(full_path);
-	return (fd);
-}
 
 // void	redirect_out(char **cmd_red, int open_flag)
 // {
@@ -123,15 +85,19 @@ int	get_fd_in(char **cmd_red)
 	fd = -1;
 	while (cmd_red[i])
 	{
-		if (fd != -1)
-			close(fd);
 		if (cmd_red[i][0] == '<')
 		{
-			fd = open_file(cmd_red[i + 1], 2);
+			if (fd != -1)
+				close(fd);
+			if (cmd_red[i][1] == '<')
+				fd = heredoc(cmd_red[i + 1]);
+			else
+				fd = open_file(cmd_red[i + 1], 2);
 			info()->file_flag = 1;
 			if (fd == -1)
 			{
-				printf("%s: file does not exist\n", cmd_red[i + 1]);
+				if (info()->here_flag == FALSE)
+					printf("%s: file does not exist\n", cmd_red[i + 1]);
 				info()->file_flag = 2;
 				return (fd);
 			}
@@ -168,8 +134,7 @@ int	get_fd_out(char **cmd_red)
 	return (fd);
 }
 
-//dont forget to handlde >< and <>
-void	parse_redirection(char **cmd)
+void	parse_redirection(t_token *token_lst, char **cmd)
 {
 	int	fd_in;
 	int	fd_out;
@@ -181,26 +146,19 @@ void	parse_redirection(char **cmd)
 	if (info()->file_flag == 2)
 		return ;
 	cmd_matrix = get_cmd_red_matrix(cmd, 0);
-	if (fd_in != -1)
-		info()->in_flag = TRUE;
-	if (fd_out != -1)
-		info()->out_flag = TRUE;
-	execute_redirection(cmd_matrix, fd_in, fd_out);
-	wait(NULL);
+	if (cmd_matrix[0])
+		execute(token_lst, cmd_matrix, fd_in, fd_out);
 	close(fd_in);
 	close(fd_out);
+	wait(NULL);
 	free_matrix(cmd_matrix);
 }
 
-void	check_command_type(t_token *token_lst, char **cmd, int **fd)
+void	check_command_type(t_token *token_lst, char **cmd)
 {
 	int	i;
-	int	flag;
 
-	info()->in_flag = FALSE;
-	info()->out_flag = FALSE;
 	i = 0;
-	flag = 0;
 	while (cmd[i])
 	{
 		if (cmd[i][0] == '>' || cmd[i][0] == '<')
@@ -208,34 +166,37 @@ void	check_command_type(t_token *token_lst, char **cmd, int **fd)
 		i++;
 	}	
 	if (cmd[i])
-		parse_redirection(cmd);
+		parse_redirection(token_lst, cmd);
 	else
-		execute_simple_cmd(token_lst, cmd, fd);
+		execute(token_lst, cmd, 0, 0);
 }
 
 void	parse_commands(t_token *token_lst)
 {
-	int	**fd;
 	int	j;
 
+	info()->here_flag = FALSE;
 	info()->cmd_nr = 0;
-	fd = get_pipe_fd();
+	info()->fd_pipe = get_pipe_fd();
 	while (token_lst)
 	{
+		if (check_invalid_red(token_lst->value))
+			break ;
 		if (ft_strcmp(token_lst->type, "Command") == 0)
 		{
-			check_command_type(token_lst, token_lst->value, fd);
+			check_command_type(token_lst, token_lst->value);
 			info()->cmd_nr++;
 		}
+		info()->here_flag = FALSE;
 		token_lst = token_lst->next;
 	}
 	j = -1;
 	while (++j < info()->nr_pipe)
 	{
-		close(fd[j][0]);
-		close(fd[j][1]);
+		close(info()->fd_pipe[j][0]);
+		close(info()->fd_pipe[j][1]);
 	}
-	free_fd(fd);
+	free_fd(info()->fd_pipe);
 	j = -1;
 	while (++j < info()->nr_pipe + 1)
 		wait(NULL);

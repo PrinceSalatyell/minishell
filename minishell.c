@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:04:50 by josanton          #+#    #+#             */
-/*   Updated: 2023/04/16 17:57:33 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/12 21:31:52 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,39 +15,46 @@
 // changes Ctrl+C to \n
 void	sig_handler(int n)
 {
+	pid_t	pid;
+	int		status;
+
 	(void)n;
-	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	pid = waitpid(-1, &status, 0);
+	if (pid == -1)
+	{
+		write(1, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
+	else
+		write(1, "\n", 1);
 }
 
 void	ignore_signal(void)
 {
 	signal(SIGINT, sig_handler);
 	signal(SIGTSTP, SIG_IGN);
-	signal(SIGSEGV, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 }
 
-bool	is_builtin(char **command)
+bool	is_builtin(char **command, t_token *token_lst, int fd_in, int fd_out)
 {
 	bool	ret;
 
 	ret = true;
 	if (!ft_strcmp(command[0], "env"))
-		env();
+		env(token_lst, fd_in, fd_out);
 	else if (!ft_strcmp(command[0], "export"))
-		export(command);
+		export(command, token_lst, fd_in, fd_out);
 	else if (!ft_strcmp(command[0], "unset"))
-		unset(command);
+		unset(command, token_lst);
 	else if (!ft_strcmp(command[0], "cd"))
-		cd(command);
+		cd(command, token_lst);
 	else if (!ft_strcmp(command[0], "pwd"))
-		pwd(command);
+		pwd(command, token_lst, fd_in, fd_out);
 	else if (!ft_strcmp(command[0], "echo"))
-		echo(command);
-	else if (!ft_strcmp(command[0], "exit"))
-		exit(0);
+		echo(command, token_lst, fd_in, fd_out);
 	else
 		ret = false;
 	return (ret);

@@ -1,30 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/05 18:12:39 by salatiel          #+#    #+#             */
-/*   Updated: 2023/05/09 23:12:22 by salatiel         ###   ########.fr       */
+/*   Created: 2023/05/12 21:07:12 by salatiel          #+#    #+#             */
+/*   Updated: 2023/05/12 21:36:59 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
-void	unset(char **command, t_token *token_lst)
+int	heredoc(char *delimiter)
 {
-	int		i;
-	char	*key;
-
-	i = 0;
-	if (!check_pipe(token_lst))
+	int	fd[2];
+	char	*line;
+	
+	info()->here_flag = TRUE;
+	if (pipe(fd) == -1)
+		return (-1);
+	while (1)
 	{
-		while (command[++i])
+		line = readline("> ");
+		if (!line || strcmp(line, delimiter) == 0)
 		{
-			key = get_key(command[i]);
-			ft_dictdel(&(info()->env), key);
-			free(key);
+			free(line);
+			break ;
 		}
+		write(fd[1], line, ft_strlen(line));
+		write(fd[1], "\n", 1);
+		free(line);
 	}
+	close(fd[1]);
+	return (fd[0]);
 }
+
