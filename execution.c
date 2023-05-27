@@ -51,7 +51,7 @@ char	*check_executable(char *cmd)
 		free(command);
 	}
 	if (strcmp(cmd, "exit"))
-		printf("Command '%s' not found\n", cmd);
+		printf("%s: command not found\n", cmd);
 	return (NULL);
 }
 
