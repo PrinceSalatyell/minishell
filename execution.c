@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 22:25:40 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/21 03:06:38 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/27 15:29:13 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,27 +35,46 @@ char	*check_executable(char *cmd)
 {
 	int		i;
 	char	*command;
+	char	**path_split;
 
+	path_split = ft_split(info()->path, ':');
 	if (cmd[0] == '.' && cmd[1] == '/')
 	{
 		command = ft_strdup(cmd);
+		free_path(path_split);
 		return (command);
 	}
 	i = -1;
-	while (info()->path[++i])
+	while (path_split && path_split[++i])
 	{
-		command = ft_strjoin_sep(info()->path[i], cmd, \
-		'/');
+		command = ft_strjoin_sep(path_split[i], cmd, '/');
 		if (access(command, F_OK) == 0)
+		{
+			free_path(path_split);
 			return (command);
+		}
 		free(command);
 	}
+	if (path_split)
+		free_path(path_split);
 	if (strcmp(cmd, "exit"))
-	{
-		printf("Command '%s' not found\n", cmd);
-		info()->error_code = 127;
-	}
+		cmd_not_found(cmd);
 	return (NULL);
+}
+
+void	free_path(char **path)
+{
+	int	i;
+
+	i = -1;
+	while (path[++i])
+		free(path[i]);
+	free(path);
+}
+
+void	cmd_not_found(char *cmd)
+{
+	printf("Command '%s' not found\n", cmd);
 }
 
 void	execute(t_token *token_lst, char **cmd, int fd_in, int fd_out)

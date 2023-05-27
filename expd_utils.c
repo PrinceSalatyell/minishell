@@ -16,8 +16,9 @@ int get_expanded_len(char *old_str, int i)
 			len = len + ft_strlen(var_value);
 			free(var_key);
 			free(var_value);
-			while (old_str[i] && !(old_str[i] >= 9 && old_str[i] <= 13)
-					&& old_str[i] != 32 && old_str[i] != 39 && old_str[i] != '"')
+			i++;
+			while (old_str[i] && !(old_str[i] >= 9 && old_str[i] <= 13) &&
+				old_str[i] != 32 && old_str[i] != 39 && old_str[i] != '"' && old_str[i] != '$')
 				i++;
 			i--;
 		}
@@ -69,8 +70,9 @@ char	*get_var_key(char *str, int i)
 	int	j;
 
 	start = i;
-	while (str[i] && !(str[i] >= 9 && str[i] <= 13)
-			&& str[i] != 32 && str[i] != 39 && str[i] != '"')
+	i++;
+	while (str[i] && !(str[i] >= 9 && str[i] <= 13) && str[i] != 32
+		&& str[i] != 39 && str[i] != '"' && str[i] != '$')
 		i++;
 	var_key = malloc(sizeof(char) * (i - start));
 	j = 0;
@@ -82,6 +84,7 @@ char	*get_var_key(char *str, int i)
 		j++;
 	}
 	var_key[j] = '\0';
+	//printf("var_key - %s", var_key);
 	return (var_key);
 }
 

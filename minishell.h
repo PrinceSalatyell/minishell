@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/21 05:17:31 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/27 15:26:56 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct s_input
 
 typedef struct s_info
 {
-	char	**path;
+	char	*path;
 	int	cmd_nr;
 	int	nr_pipe;
 	int	file_flag;
@@ -122,6 +122,8 @@ void	heredocs();
 void	run(char **cmd, char *command);
 char	*check_executable(char	*cmd);
 void	execute(t_token *token_lst, char **cmd, int fd_in, int fd_out);
+void	cmd_not_found(char *cmd);
+void	free_path(char **path);
 
 // expansions.c
 void	cpy_var_value(char *new_str, char *old_str, int *i, int *k);
@@ -175,6 +177,7 @@ t_info	*info(void);
 int		size_of_env(void);
 char	**create_env_list(void);
 void	free_env_list(char **env_list);
+char	*get_path(void);
 
 //heredoc.c
 int	heredoc(char *delimiter);

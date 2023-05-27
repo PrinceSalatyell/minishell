@@ -15,8 +15,9 @@ void	cpy_var_value(char *new_str, char *old_str, int *i, int *k)
 		*k = *k + 1;
 		j++;
 	}
-	while (old_str[*i] && !(old_str[*i] >= 9 && old_str[*i] <= 13)
-			&& old_str[*i] != 32 && old_str[*i] != 39 && old_str[*i] != '"')
+	*i = *i + 1;
+	while (old_str[*i] && !(old_str[*i] >= 9 && old_str[*i] <= 13) && old_str[*i] != 32
+		&& old_str[*i] != 39 && old_str[*i] != '"' && old_str[*i] != '$')
 		*i = *i + 1;
 	free(var_value);
 	free(var_key);

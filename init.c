@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:04:07 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/12 17:34:18 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/05/23 13:26:32 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_info	*info(void)
 {
 	static t_info	info;
 
-	if (!info.path)
+	if (!info.shlvl)
 	{
 		if (getenv("SHLVL"))
 		{
@@ -34,7 +34,6 @@ t_info	*info(void)
 		}
 		else
 			info.shlvl = 1;
-		(info.path) = ft_split(getenv("PATH"), ':');
 		info.home = getenv("HOME");
 	}
 	return (&info);
