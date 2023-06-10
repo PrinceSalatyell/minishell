@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/27 15:26:56 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/10 22:47:45 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct s_info
 	int	**fd_pipe;
 	int	*here_pipe;
 	bool	here_flag;
-	bool	fd_red;
+	bool	exit_redirection;
 	bool	in_flag;
 	bool	out_flag;
 	t_dict	*env;
@@ -80,6 +80,9 @@ typedef struct s_info
 	bool	home_set;
 	int		shlvl;
 	int		error_code;
+	int		exit_pid;
+	bool	builtin;
+	bool	cmd_not_found;
 }	t_info;
 
 // minishell.c

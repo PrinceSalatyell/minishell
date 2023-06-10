@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:04:50 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/21 05:17:50 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/10 20:56:05 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ bool	is_builtin(char **command, t_token *token_lst, int fd_in, int fd_out)
 		echo(command, token_lst, fd_in, fd_out);
 	else
 		ret = false;
+	info()->builtin = ret;
 	return (ret);
 }
 

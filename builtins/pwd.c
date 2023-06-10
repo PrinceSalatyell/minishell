@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/09 15:51:47 by salatiel          #+#    #+#             */
-/*   Updated: 2023/05/21 04:01:50 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/10 20:16:45 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	pwd(char **command, t_token *token_lst, int fd_in, int fd_out)
 	else
 	{
 		pid = fork();
+		info()->exit_pid = pid;
 		if (pid < 0)
 			perror("minishell");
 		else if (pid == 0)

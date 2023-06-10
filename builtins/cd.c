@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 18:22:46 by salatiel          #+#    #+#             */
-/*   Updated: 2023/05/21 03:12:24 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/10 21:32:07 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ void	change_directory(char *path, t_token *token_lst)
 	{
 		if (chdir(path))
 		{
-			perror("minishell");
 			info()->error_code = 1;
 			free(current_path);
+			perror("minishel");
 		}
 		else
 		{

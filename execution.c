@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 22:25:40 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/27 15:29:13 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/10 22:49:00 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,9 @@ void	free_path(char **path)
 void	cmd_not_found(char *cmd)
 {
 	printf("Command '%s' not found\n", cmd);
+	info()->error_code = 127;
+	info()->cmd_not_found = true;
+	info()->cmd_nr++;
 }
 
 void	execute(t_token *token_lst, char **cmd, int fd_in, int fd_out)
@@ -82,7 +85,6 @@ void	execute(t_token *token_lst, char **cmd, int fd_in, int fd_out)
 	char	*command;
 	int		pid;
 	bool	blt_in;
-	//int		status;
 
 	blt_in = is_builtin(cmd, token_lst, fd_in, fd_out);
 	if (!blt_in)
@@ -94,6 +96,7 @@ void	execute(t_token *token_lst, char **cmd, int fd_in, int fd_out)
 			return ;
 		}
 		pid = fork();
+		info()->exit_pid = pid;
 		if (pid == -1)
 			return ;
 		else if (pid == 0)
@@ -102,11 +105,6 @@ void	execute(t_token *token_lst, char **cmd, int fd_in, int fd_out)
 			run(cmd, command);
 			exit(info()->error_code);
 		}
-		//else
-		//{
-		//	waitpid(pid, &status, 0);
-		//	info()->error_code = WEXITSTATUS(status);
-		//}
 		free(command);
 	}
 }
