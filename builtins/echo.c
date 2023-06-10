@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 19:22:24 by salatiel          #+#    #+#             */
-/*   Updated: 2023/05/06 22:14:20 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/10 20:14:48 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	echo(char **command, t_token *token_lst, int fd_in, int fd_out)
 	i = 1;
 	check_newline(command, &i, &no_newline);
 	pid = fork();
+	info()->exit_pid = pid;
 	if (pid == -1)
 		return ;
 	if (pid == 0)
@@ -68,4 +69,5 @@ void	echo(char **command, t_token *token_lst, int fd_in, int fd_out)
 	}
 	else
 		wait(NULL);
+	info()->error_code = 0;
 }

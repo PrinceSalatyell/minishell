@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:04:50 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/12 21:31:52 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/10 20:56:05 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ bool	is_builtin(char **command, t_token *token_lst, int fd_in, int fd_out)
 		echo(command, token_lst, fd_in, fd_out);
 	else
 		ret = false;
+	info()->builtin = ret;
 	return (ret);
 }
 
@@ -66,6 +67,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	ignore_signal();
 	store_env(envp);
+	info()->error_code = 0;
 	while (1)
 	{
 		get_input();

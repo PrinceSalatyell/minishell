@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/23 13:31:56 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/10 22:47:45 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <readline/history.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <errno.h>
 
 // COLORS
 
@@ -71,13 +72,17 @@ typedef struct s_info
 	int	**fd_pipe;
 	int	*here_pipe;
 	bool	here_flag;
-	bool	fd_red;
+	bool	exit_redirection;
 	bool	in_flag;
 	bool	out_flag;
 	t_dict	*env;
 	char	*home;
 	bool	home_set;
 	int		shlvl;
+	int		error_code;
+	int		exit_pid;
+	bool	builtin;
+	bool	cmd_not_found;
 }	t_info;
 
 // minishell.c
@@ -207,10 +212,11 @@ void	cd(char **command, t_token *token_lst);
 char	*get_home(void);
 void	change_directory(char *path, t_token *token_lst);
 void	change_pwd(char *to_change, char *new_value);
-char	*get_old_pwd(void);
+void	get_old_pwd(t_token *token_lst);
 
 // pwd.c
 void	pwd(char **command, t_token *token_lst, int fd_in, int fd_out);
+void	navigate(t_token *token_lst, int fd_in, int fd_out);
 
 // echo.c
 void	echo(char **command, t_token *token_lst, int fd_in, int fd_out);

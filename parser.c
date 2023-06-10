@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:06:02 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/12 21:06:58 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/10 22:50:27 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,10 @@ void	parse_redirection(t_token *token_lst, char **cmd)
 	int	fd_in;
 	int	fd_out;
 	char	**cmd_matrix;
+	int		exit_status;
 
 	info()->file_flag = 0;
+	info()->exit_redirection = true;
 	fd_in = get_fd_in(cmd);
 	fd_out = get_fd_out(cmd);
 	if (info()->file_flag == 2)
@@ -150,7 +152,12 @@ void	parse_redirection(t_token *token_lst, char **cmd)
 		execute(token_lst, cmd_matrix, fd_in, fd_out);
 	close(fd_in);
 	close(fd_out);
-	wait(NULL);
+	if (!info()->cmd_nr)
+	{
+		waitpid(info()->exit_pid, &exit_status, 0);
+		if (!info()->builtin)
+			info()->error_code = WEXITSTATUS(exit_status);
+	}
 	free_matrix(cmd_matrix);
 }
 
@@ -159,6 +166,7 @@ void	check_command_type(t_token *token_lst, char **cmd)
 	int	i;
 
 	i = 0;
+	info()->cmd_not_found = false;
 	while (cmd[i])
 	{
 		if (cmd[i][0] == '>' || cmd[i][0] == '<')
@@ -174,6 +182,7 @@ void	check_command_type(t_token *token_lst, char **cmd)
 void	parse_commands(t_token *token_lst)
 {
 	int	j;
+	int	exit_status;
 
 	info()->here_flag = FALSE;
 	info()->cmd_nr = 0;
@@ -199,5 +208,11 @@ void	parse_commands(t_token *token_lst)
 	free_fd(info()->fd_pipe);
 	j = -1;
 	while (++j < info()->nr_pipe + 1)
-		wait(NULL);
+	{
+		waitpid(info()->exit_pid, &exit_status, 0);
+		if (!info()->builtin && !info()->exit_redirection && !info()->cmd_not_found)
+			info()->error_code = WEXITSTATUS(exit_status);
+		else if (info()->exit_redirection)
+			info()->exit_redirection = false;
+	}
 }

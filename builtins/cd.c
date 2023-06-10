@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 18:22:46 by salatiel          #+#    #+#             */
-/*   Updated: 2023/05/11 22:33:46 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/10 21:32:07 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,9 @@ void	change_directory(char *path, t_token *token_lst)
 	{
 		if (chdir(path))
 		{
-			perror("minishell");
+			info()->error_code = 1;
 			free(current_path);
+			perror("minishel");
 		}
 		else
 		{
@@ -67,28 +68,39 @@ void	change_directory(char *path, t_token *token_lst)
 			current_path = getcwd(NULL, 0);
 			change_pwd("PWD", current_path);
 			free(current_path);
+			info()->error_code = 0;
 		}
 	}
 	else
 		free(current_path);
 }
 
-char	*get_old_pwd(void)
+void	get_old_pwd(t_token *token_lst)
 {
 	t_dict	*temp;
 	char	*old_pwd;
+	bool	oldpwd_set;
 
 	old_pwd = "";
+	oldpwd_set = false;
 	temp = info()->env;
 	while (temp)
 	{
 		if (!strcmp(temp->key, "OLDPWD"))
 		{
+			oldpwd_set = true;
 			old_pwd = temp->value;
+			break ;
 		}
 		temp = temp->next;
 	}
-	return (old_pwd);
+	if (oldpwd_set)
+		change_directory(old_pwd, token_lst);
+	else
+	{
+		printf("minishell: cd: OLDPWD not set\n");
+		info()->error_code = 1;
+	}
 }
 
 void	cd(char **command, t_token *token_lst)
@@ -97,18 +109,24 @@ void	cd(char **command, t_token *token_lst)
 
 	home = get_home();
 	if (command[1] && command[2])
+	{
 		printf("minishell: cd: too many arguments\n");
+		info()->error_code = 1;
+	}
 	else if (!command[1])
 	{
 		if (info()->home_set)
 			change_directory(home, token_lst);
 		else
+		{
 			printf("minishell: cd: HOME not set\n");
+			info()->error_code = 1;
+		}
 	}
 	else if (!ft_strcmp(command[1], "~"))
 		change_directory(home, token_lst);
 	else if (!ft_strcmp(command[1], "-"))
-		change_directory(get_old_pwd(), token_lst);
+		get_old_pwd(token_lst);
 	else
 		change_directory(command[1], token_lst);
 }
