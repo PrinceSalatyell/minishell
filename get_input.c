@@ -24,9 +24,21 @@ void	loop_promt(char *str, int flag)
 		tmp_command = readline(YELLOW"squote> " COLOUR_END);
 	else if (flag == 3)
 		tmp_command = readline(YELLOW"pipe> " COLOUR_END);
+	if (!tmp_command)
+	{
+		free(tmp_command);
+		free(str);
+		printf("\n");
+		exit(0);
+	}
 	command = ft_strjoin_nl(str, tmp_command);
 	free(tmp_command);
 	check_if_complete(command);
+}
+
+void	check_if_exit(char *str)
+{
+
 }
 
 void	get_input(void)
@@ -43,6 +55,7 @@ void	get_input(void)
 	check_if_complete(tmp_command);
 	if (_input()->command[0] == '\0')
 		return ;
+	//check_if_exit(_input()->command);
 	if (!strcmp(_input()->command, "exit"))
 	{
 		free(_input()->command);

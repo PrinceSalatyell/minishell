@@ -37,6 +37,11 @@ char	*check_executable(char *cmd)
 	char	*command;
 	char	**path_split;
 
+	if (access(cmd, F_OK) == 0)
+	{
+		command = ft_strdup(cmd);
+		return (command);
+	}
 	path_split = ft_split(info()->path, ':');
 	if (cmd[0] == '.' && cmd[1] == '/')
 	{
@@ -57,7 +62,7 @@ char	*check_executable(char *cmd)
 	}
 	if (path_split)
 		free_path(path_split);
-	if (strcmp(cmd, "exit"))
+	if (ft_strcmp(cmd, "exit"))
 		cmd_not_found(cmd);
 	return (NULL);
 }

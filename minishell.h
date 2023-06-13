@@ -51,6 +51,7 @@ typedef struct s_token
 {
 	char			**value;
 	char			*type;
+	bool			do_red;
 	struct s_token	*next;
 }	t_token;
 

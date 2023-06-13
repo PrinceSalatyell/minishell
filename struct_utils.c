@@ -49,7 +49,7 @@ t_token	*new_token(char *type, int len, int i)
 	token_node = malloc(sizeof(t_token));
 	if (!token_node)
 		return (NULL);
-	token_node->value = malloc(sizeof(token_node->value) * len + 1);
+	token_node->value = malloc(sizeof(token_node->value) * (len + 1));
 	if (!token_node->value)
 		return (NULL);
 	if (ft_strcmp(type, "Operator") != 0)
