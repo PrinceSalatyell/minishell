@@ -34,7 +34,8 @@ SRCS	=	minishell.c			\
 			builtins/unset.c	\
 			builtins/cd.c		\
 			builtins/pwd.c		\
-			builtins/echo.c		
+			builtins/echo.c		\
+			builtins/exit.c	
 
 OBJS	=	${SRCS:%.c=${DIR_OBJ}%.o}
 

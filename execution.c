@@ -98,6 +98,7 @@ void	execute(t_token *token_lst, char **cmd, int fd_in, int fd_out)
 		if (!command)
 		{
 			free(command);
+			free_matrix(cmd);
 			return ;
 		}
 		pid = fork();

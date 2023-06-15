@@ -36,10 +36,11 @@ void	loop_promt(char *str, int flag)
 	check_if_complete(command);
 }
 
-// void	check_if_exit(char *str)
-// {
-	
-// }
+void	exit_minishell()
+{
+	free(_input()->command);
+	exit(1);
+}
 
 void	get_input(void)
 {
@@ -55,7 +56,8 @@ void	get_input(void)
 	check_if_complete(tmp_command);
 	if (_input()->command[0] == '\0')
 		return ;
-	//check_if_exit(_input()->command);
+	// if (!ft_strncmp(_input()->command, "exit ", 5))
+	// 	exit_minishell();
 	if (!strcmp(_input()->command, "exit"))
 	{
 		free(_input()->command);

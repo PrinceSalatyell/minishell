@@ -222,4 +222,7 @@ void	navigate(t_token *token_lst, int fd_in, int fd_out);
 // echo.c
 void	echo(char **command, t_token *token_lst, int fd_in, int fd_out);
 
+// exit.c
+void	exit_minishell();
+
 #endif
