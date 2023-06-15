@@ -97,7 +97,7 @@ void	analyze_and_parse(char *str)
 	
 	_input()->new_token_matrix = handle_expansion(_input()->token_matrix);
 
-	// i = -1;
+	// int	i = -1;
 	// printf("\n");
 	// while (_input()->new_token_matrix[++i])
 	// 	printf("-> %s\n", _input()->new_token_matrix[i]);

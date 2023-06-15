@@ -27,6 +27,41 @@ void	free_fd(int	**fd)
 	free(fd);
 }
 
+char	**rm_red_quotes(char **cmd)
+{
+	char	**new_cmd;
+	int	i;
+	int	len;
+
+	len = 0;
+	while (cmd[len])
+		len++;
+	new_cmd = malloc(sizeof(char *) * (len + 1));
+	if (!new_cmd)
+		return (NULL);
+	len = 0;
+	i = 0;
+	while (cmd[i])
+	{
+		if ((cmd[i][0] == '"' || cmd[i][0] == 39)
+			&& (cmd[i][1] == '>' || cmd[i][1] == '<'))
+		{
+			len = ft_strlen(cmd[i]);
+			new_cmd[i] = malloc(sizeof(char) * (len - 1));
+			new_cmd[i] = ft_strncpy(new_cmd[i], cmd[i] + 1, len - 2);
+			new_cmd[i][len - 2] = '\0';
+		}
+		else
+			new_cmd[i] = ft_strdup(cmd[i]);
+		i++;
+	}
+	new_cmd[i] = NULL;
+	// i = -1;
+	// while (cmd[++i])
+	// 	printf("new_cmd -> %s\n", new_cmd[i]);
+	return (new_cmd);
+}
+
 void	cpy_command(t_token **token_lst, int i)
 {
 	int	j;
@@ -35,7 +70,8 @@ void	cpy_command(t_token **token_lst, int i)
 	j = 0;
 	while (_input()->new_token_matrix[i] && _input()->new_token_matrix[i][0] != '|')
 	{
-		if (_input()->new_token_matrix[i][0] == '"' || _input()->new_token_matrix[i][0] == 39)
+		if ((_input()->new_token_matrix[i][0] == '"' || _input()->new_token_matrix[i][0] == 39)
+			&& (_input()->new_token_matrix[i][1] != '>' && _input()->new_token_matrix[i][1] != '<'))
 		{
 			len = ft_strlen(_input()->new_token_matrix[i]);
 			(*token_lst)->value[j] = malloc(sizeof(char) * (len - 1));

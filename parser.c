@@ -158,15 +158,16 @@ void	parse_redirection(t_token *token_lst, char **cmd)
 		if (!info()->builtin)
 			info()->error_code = WEXITSTATUS(exit_status);
 	}
-	free_matrix(cmd_matrix);
 }
 
 void	check_command_type(t_token *token_lst, char **cmd)
 {
 	int	i;
+	char	**new_cmd;
 
-	i = 0;
+	new_cmd = NULL;
 	info()->cmd_not_found = false;
+	i = 0;
 	while (cmd[i])
 	{
 		if (cmd[i][0] == '>' || cmd[i][0] == '<')
@@ -176,7 +177,10 @@ void	check_command_type(t_token *token_lst, char **cmd)
 	if (cmd[i])
 		parse_redirection(token_lst, cmd);
 	else
-		execute(token_lst, cmd, 0, 0);
+	{
+		new_cmd = rm_red_quotes(cmd);
+		execute(token_lst, new_cmd, 0, 0);
+	}
 }
 
 void	parse_commands(t_token *token_lst)

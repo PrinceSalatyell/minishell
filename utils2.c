@@ -69,7 +69,16 @@ char    **get_cmd_red_matrix(char **cmd_red, int j)
 	{
 		if (cmd_red[i][0] != '>' && cmd_red[i][0] != '<')
 		{
-			cmd_matrix[j] = ft_strdup(cmd_red[i]);
+			if ((cmd_red[i][0] == '"' || cmd_red[i][0] == 39) 
+				&& (cmd_red[i][1] == '>' || cmd_red[i][1] == '<'))
+			{
+				len = ft_strlen(cmd_red[i]);
+				cmd_matrix[i] = malloc(sizeof(char) * (len - 1));
+				cmd_matrix[i] = ft_strncpy(cmd_matrix[i], cmd_red[i] + 1, len - 2);
+				cmd_matrix[i][len - 2] = '\0';
+			}
+			else
+				cmd_matrix[j] = ft_strdup(cmd_red[i]);
 			j++;
 		}
 		else

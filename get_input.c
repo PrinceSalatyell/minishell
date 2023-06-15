@@ -36,10 +36,10 @@ void	loop_promt(char *str, int flag)
 	check_if_complete(command);
 }
 
-void	check_if_exit(char *str)
-{
-
-}
+// void	check_if_exit(char *str)
+// {
+	
+// }
 
 void	get_input(void)
 {

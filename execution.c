@@ -112,4 +112,5 @@ void	execute(t_token *token_lst, char **cmd, int fd_in, int fd_out)
 		}
 		free(command);
 	}
+	free_matrix(cmd);
 }
