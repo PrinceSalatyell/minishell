@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_input.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:02:01 by josanton          #+#    #+#             */
-/*   Updated: 2023/06/10 22:49:56 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/18 20:28:32 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,13 @@ void	get_input(void)
 	{
 		free(tmp_command);
 		printf("\n");
-		exit(0);
+		exit_minishell(info()->error_code);
 	}
 	check_if_complete(tmp_command);
 	if (_input()->command[0] == '\0')
 		return ;
+	info()->exit_flag = false;
 	check_if_exit(_input()->command);
-	// if (!strcmp(_input()->command, "exit"))
-	// {
-	// 	free(_input()->command);
-	// 	exit(1);
-	// }
 	if (_input()->command && *_input()->command)
 		add_history(_input()->command);
 }
