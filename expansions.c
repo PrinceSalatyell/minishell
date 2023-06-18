@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansions.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: timartin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/18 21:21:36 by timartin          #+#    #+#             */
+/*   Updated: 2023/06/18 21:21:57 by timartin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	cpy_var_value(char *new_str, char *old_str, int *i, int *k)
 {
 	char	*var_key;
 	char	*var_value;
-	int	j;
+	int		j;
 
 	var_key = get_var_key(old_str, *i);
 	var_value = get_var_value(var_key);
@@ -16,8 +28,9 @@ void	cpy_var_value(char *new_str, char *old_str, int *i, int *k)
 		j++;
 	}
 	*i = *i + 1;
-	while (old_str[*i] && !(old_str[*i] >= 9 && old_str[*i] <= 13) && old_str[*i] != 32
-		&& old_str[*i] != 39 && old_str[*i] != '"' && old_str[*i] != '$')
+	while (old_str[*i] && !(old_str[*i] >= 9 && old_str[*i] <= 13)
+		&& old_str[*i] != 32 && old_str[*i] != 39
+		&& old_str[*i] != '"' && old_str[*i] != '$')
 		*i = *i + 1;
 	free(var_value);
 	free(var_key);
@@ -31,8 +44,10 @@ char	*replace_var(char *old_str, int len, int i, int k)
 	while (old_str[i])
 	{
 		if (old_str[i] == '$')
+		{
 			if (!old_str[i + 1] || (old_str[i + 1] >= 9 && old_str[i + 1] <= 13)
-				|| old_str[i + 1] == 32 || old_str[i + 1] == '"' || old_str[i + 1] == 39)
+				|| old_str[i + 1] == 32 || old_str[i + 1] == '"'
+				|| old_str[i + 1] == 39)
 			{
 				new_str[k] = '$';
 				i++;
@@ -40,6 +55,7 @@ char	*replace_var(char *old_str, int len, int i, int k)
 			}
 			else
 				cpy_var_value(new_str, old_str, &i, &k);
+		}
 		else
 		{
 			new_str[k] = old_str[i];
@@ -54,7 +70,7 @@ char	*replace_var(char *old_str, int len, int i, int k)
 char	*expand_var(char *old_str)
 {
 	char	*new_str;
-	int	len;
+	int		len;
 
 	if (old_str[0] == 39)
 	{
@@ -69,7 +85,7 @@ char	*expand_var(char *old_str)
 char	**handle_expansion(char **token_matrix)
 {
 	char	**new_token_matrix;
-	int	i;
+	int		i;
 
 	i = 0;
 	while (token_matrix[i])

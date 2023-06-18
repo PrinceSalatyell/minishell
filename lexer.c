@@ -53,7 +53,8 @@ int	get_command_len(int i)
 	int	len;
 
 	len = 0;
-	while (_input()->new_token_matrix[i] && _input()->new_token_matrix[i][0] != '|')
+	while (_input()->new_token_matrix[i]
+		&& _input()->new_token_matrix[i][0] != '|')
 	{
 		len++;
 		i++;
@@ -69,7 +70,8 @@ void	get_token_list(t_token **token_lst, int i)
 	while (_input()->new_token_matrix[i])
 	{
 		cmd_len = 0;
-		if (_input()->new_token_matrix[i] && _input()->new_token_matrix[i][0] == '|')
+		if (_input()->new_token_matrix[i]
+			&& _input()->new_token_matrix[i][0] == '|')
 		{
 			add_back(token_lst, new_token("Operator", 1, i));
 			info()->nr_pipe++;
@@ -79,7 +81,7 @@ void	get_token_list(t_token **token_lst, int i)
 		{
 			cmd_len = get_command_len(i);
 			add_back(token_lst, new_token("Command", cmd_len, i));
-			i =  i + cmd_len;
+			i = i + cmd_len;
 		}
 	}
 }
@@ -87,48 +89,14 @@ void	get_token_list(t_token **token_lst, int i)
 void	analyze_and_parse(char *str)
 {
 	t_token	*token_lst;
-	t_token *temp;
+	t_token	*temp;
 
 	tokenizer(str, 0);
-	
-	// int	i = -1;
-	// while (_input()->token_matrix[++i])
-	// 	printf("-> %s\n", _input()->token_matrix[i]);
-	
 	_input()->new_token_matrix = handle_expansion(_input()->token_matrix);
-
-	// int	i = -1;
-	// printf("\n");
-	// while (_input()->new_token_matrix[++i])
-	// 	printf("-> %s\n", _input()->new_token_matrix[i]);
-	
 	token_lst = NULL;
 	temp = token_lst;
 	get_token_list(&temp, 0);
 	token_lst = temp;
-	// if (token_lst)
-	// {
-	// 	while (token_lst->next)
-	// 	{
-	// 		i = 0;
-	// 		printf("value -> ");
-	// 		while (token_lst->value[i])
-	// 		{
-	// 			printf("%s ", token_lst->value[i]);
-	// 			i++;
-	// 		}
-	// 		printf(" ____-_____ type -> %s\n------------\n", token_lst->type);
-	// 		token_lst = token_lst->next;
-	// 	}
-	// 	i = 0;
-	// 	printf("value -> ");
-	// 	while (token_lst->value[i])
-	// 	{
-	// 		printf("%s ", token_lst->value[i]);
-	// 		i++;
-	// 	}
-	// 	printf(" ____-_____ type -> %s\n------------\n", token_lst->type);
-	// }
 	parse_commands(token_lst);
 	free_list(&temp);
 }

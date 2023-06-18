@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expd_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: timartin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/18 21:29:14 by timartin          #+#    #+#             */
+/*   Updated: 2023/06/18 21:29:17 by timartin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int get_expanded_len(char *old_str, int i)
+int	get_expanded_len(char *old_str, int i)
 {
-    char	*var_key;
+	char	*var_key;
 	char	*var_value;
-    int len;
+	int		len;
 
-    len = 0;
+	len = 0;
 	while (old_str[i])
 	{
 		if (old_str[i] == '$')
@@ -17,8 +29,9 @@ int get_expanded_len(char *old_str, int i)
 			free(var_key);
 			free(var_value);
 			i++;
-			while (old_str[i] && !(old_str[i] >= 9 && old_str[i] <= 13) &&
-				old_str[i] != 32 && old_str[i] != 39 && old_str[i] != '"' && old_str[i] != '$')
+			while (old_str[i] && !(old_str[i] >= 9 && old_str[i] <= 13)
+				&& old_str[i] != 32 && old_str[i] != 39 && old_str[i] != '"'
+				&& old_str[i] != '$')
 				i++;
 			i--;
 		}
@@ -29,33 +42,33 @@ int get_expanded_len(char *old_str, int i)
 	return (len);
 }
 
-char    *get_var_value(char *var_key)
+char	*get_var_value(char *var_key)
 {
-    t_dict	*temp;
-    char    *value;
+	t_dict	*temp;
+	char	*value;
 
-    value = NULL;
-    temp = info()->env;
-    while (temp)
-    {
-        if (ft_strcmp(temp->key, var_key) == 0) 
-        {
-            value = ft_strdup(temp->value);
-            break ;
-        }
+	value = NULL;
+	temp = info()->env;
+	while (temp)
+	{
+		if (ft_strcmp(temp->key, var_key) == 0) 
+		{
+			value = ft_strdup(temp->value);
+			break ;
+		}
 		else if (!ft_strcmp(var_key, "?"))
 		{
 			value = ft_itoa(info()->error_code);
 			break ;
 		}
-        temp = temp->next;
-    }
-    if (!value)
-    {
-        value = malloc(sizeof(char) * 1);
-        value[0] = '\0';
-    }
-    return (value);
+		temp = temp->next;
+	}
+	if (!value)
+	{
+		value = malloc(sizeof(char) * 1);
+		value[0] = '\0';
+	}
+	return (value);
 }
 
 // recieves a str where str[i] is '$'
@@ -84,7 +97,6 @@ char	*get_var_key(char *str, int i)
 		j++;
 	}
 	var_key[j] = '\0';
-	//printf("var_key - %s", var_key);
 	return (var_key);
 }
 

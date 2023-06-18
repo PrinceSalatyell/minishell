@@ -25,26 +25,18 @@ void	dup_info(t_token *token_lst, int fd_in, int fd_out)
 
 	if (fd_in > 0)
 	{
-		//printf("cmd_nr - %d | fd_in - %d | fd_out - %d ||| dup_fd_in -- 1\n", info()->cmd_nr, fd_in, fd_out);
 		dup2(fd_in, STDIN_FILENO);
 		close(fd_in);
 	}
 	if (info()->cmd_nr != 0)
-	{
-		//printf("cmd_nr - %d | fd_in - %d | fd_out - %d ||| dup_pipe_in -- 3\n", info()->cmd_nr, fd_in, fd_out);
 		dup2(info()->fd_pipe[info()->cmd_nr - 1][0], STDIN_FILENO);
-	}
 	if (fd_out > 0)
 	{
-		//printf("cmd_nr - %d | fd_in - %d | fd_out - %d ||| dup_fd_out -- 2\n", info()->cmd_nr, fd_in, fd_out);
 		dup2(fd_out, STDOUT_FILENO);
 		close(fd_out);
 	}
 	if (token_lst->next)
-	{
-		//printf("cmd_nr - %d | fd_in - %d | fd_out - %d ||| dup_pipe_out -- 4\n", info()->cmd_nr, fd_in, fd_out);
 		dup2(info()->fd_pipe[info()->cmd_nr][1], STDOUT_FILENO);
-	}	
 	j = -1;
 	while (++j < info()->nr_pipe)
 	{
@@ -55,12 +47,12 @@ void	dup_info(t_token *token_lst, int fd_in, int fd_out)
 
 char    **get_cmd_red_matrix(char **cmd_red, int j)
 {
-	char    **cmd_matrix;
-	int i;
-	int len;
+	int		i;
+	int		len;
+	char	**cmd_matrix;
 
 	len = get_cmd_red_len(cmd_red);
-	cmd_matrix = malloc(sizeof(char*) * (len + 1));
+	cmd_matrix = malloc(sizeof(char *) * (len + 1));
 	if (!cmd_matrix)
 		return (NULL);
 	cmd_matrix[len] = NULL;
@@ -74,7 +66,8 @@ char    **get_cmd_red_matrix(char **cmd_red, int j)
 			{
 				len = ft_strlen(cmd_red[i]);
 				cmd_matrix[i] = malloc(sizeof(char) * (len - 1));
-				cmd_matrix[i] = ft_strncpy(cmd_matrix[i], cmd_red[i] + 1, len - 2);
+				cmd_matrix[i] = ft_strncpy(cmd_matrix[i],
+						cmd_red[i] + 1, len - 2);
 				cmd_matrix[i][len - 2] = '\0';
 			}
 			else
@@ -88,7 +81,7 @@ char    **get_cmd_red_matrix(char **cmd_red, int j)
 	return (cmd_matrix);
 }
 
-int get_cmd_red_len(char **cmd_red)
+int	get_cmd_red_len(char **cmd_red)
 {
 	int	len;
 	int	i;
@@ -111,7 +104,7 @@ int	**get_pipe_fd(void)
 	int	**fd;
 	int	i;
 
-	fd = malloc(sizeof(int*) * info()->nr_pipe);
+	fd = malloc(sizeof(int *) * info()->nr_pipe);
 	if (!fd)
 		return (NULL);
 	i = 0;

@@ -23,9 +23,11 @@ int	open_file(char *file, int flag)
 	fd = 0;
 	full_path = get_dir_path(file);
 	if (flag == 0)
-		fd = open(full_path, O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+		fd = open(full_path, O_WRONLY | O_TRUNC
+				| O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	else if (flag == 1)
-		fd = open(full_path, O_WRONLY | O_APPEND | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+		fd = open(full_path, O_WRONLY | O_APPEND
+				| O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 	else if (flag == 2)
 		fd = open(full_path, O_RDONLY | O_CLOEXEC);
 	free(full_path);
