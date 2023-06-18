@@ -223,6 +223,10 @@ void	navigate(t_token *token_lst, int fd_in, int fd_out);
 void	echo(char **command, t_token *token_lst, int fd_in, int fd_out);
 
 // exit.c
-void	exit_minishell();
+void    exit_char_arg(char *str, int i);
+void    exit_char_arg2(char *str, int i, int j, int len);
+void    exit_single_num_arg(char *str, int j, int len);
+void    exit_num_arg(char *str, int i);
+void	check_if_exit(char *str);
 
 #endif
