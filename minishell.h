@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/06/10 22:47:45 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/18 20:26:15 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_info
 	int		shlvl;
 	int		error_code;
 	int		exit_pid;
+	bool	exit_flag;
 	bool	builtin;
 	bool	cmd_not_found;
 }	t_info;
@@ -207,6 +208,7 @@ bool	search_for_variable(char *key);
 
 // unset.c
 void	unset(char **command, t_token *token_lst);
+void	free_env(void);
 
 // cd.c
 void	cd(char **command, t_token *token_lst);
@@ -223,10 +225,13 @@ void	navigate(t_token *token_lst, int fd_in, int fd_out);
 void	echo(char **command, t_token *token_lst, int fd_in, int fd_out);
 
 // exit.c
-void    exit_char_arg(char *str, int i);
-void    exit_char_arg2(char *str, int i, int j, int len);
-void    exit_single_num_arg(char *str, int j, int len);
-void    exit_num_arg(char *str, int i);
+void	exit_char_arg(char *str, int i);
+void	exit_char_arg2(char *str, int i, int j, int len);
+void	exit_single_num_arg(char *str, int j, int len);
+void	exit_num_arg(char *str, int i);
 void	check_if_exit(char *str);
+
+// exit_minishell.c
+void	exit_minishell(int code);
 
 #endif

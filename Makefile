@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+         #
+#    By: josanton <josanton@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/20 12:45:20 by josanton          #+#    #+#              #
-#    Updated: 2023/05/12 21:32:27 by salatiel         ###   ########.fr        #
+#    Updated: 2023/06/18 20:00:35 by josanton         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,8 @@ SRCS	=	minishell.c			\
 			builtins/cd.c		\
 			builtins/pwd.c		\
 			builtins/echo.c		\
-			builtins/exit.c	
+			builtins/exit.c		\
+			builtins/exit_minishell.c
 
 OBJS	=	${SRCS:%.c=${DIR_OBJ}%.o}
 

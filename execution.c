@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/23 22:25:40 by josanton          #+#    #+#             */
-/*   Updated: 2023/06/10 22:49:00 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/18 20:24:57 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ char	*check_executable(char *cmd)
 	}
 	if (path_split)
 		free_path(path_split);
-	if (ft_strcmp(cmd, "exit"))
-		cmd_not_found(cmd);
+	cmd_not_found(cmd);
 	return (NULL);
 }
 

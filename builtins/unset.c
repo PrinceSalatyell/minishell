@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 18:12:39 by salatiel          #+#    #+#             */
-/*   Updated: 2023/05/21 05:10:23 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/18 20:07:20 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,22 @@ void	unset(char **command, t_token *token_lst)
 		}
 	}
 	info()->error_code = 0;
+}
+
+void	free_env(void)
+{
+	t_dict	*temp;
+	t_dict	*temp2;
+
+	temp = info()->env;
+	while (temp)
+	{
+		temp2 = temp->next;
+		if (temp->key)
+			free(temp->key);
+		if (temp->value && *(temp->value))
+			free(temp->value);
+		free(temp);
+		temp = temp2;
+	}
 }

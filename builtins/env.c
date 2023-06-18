@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 18:16:08 by josanton          #+#    #+#             */
-/*   Updated: 2023/06/10 20:15:10 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/18 19:57:18 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	store_env(char **envp)
 	}
 	ft_dictdel(&(info()->env), "SHLVL");
 	ft_dictadd_back(&(info()->env), \
-	ft_dictnew("SHLVL", ft_itoa(info()->shlvl)));
+	ft_dictnew(ft_strdup("SHLVL"), ft_itoa(info()->shlvl)));
 	(info()->path) = get_path();
 }
 

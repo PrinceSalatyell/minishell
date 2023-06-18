@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:04:50 by josanton          #+#    #+#             */
-/*   Updated: 2023/06/10 20:56:05 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/18 20:34:32 by josanton         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		get_input();
-		if (_input()->command[0] != '\0')
+		if (_input()->command[0] != '\0' && !info()->exit_flag)
 		{
 			analyze_and_parse(_input()->command);
 			free_matrix(_input()->new_token_matrix);
