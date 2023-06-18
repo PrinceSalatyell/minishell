@@ -42,9 +42,9 @@ void	exit_char_arg(char *str, int i)
 	exit_minishell(2);
 }
 
-void    exit_char_arg2(char *str, int i, int j, int len)
+void	exit_char_arg2(char *str, int i, int j, int len)
 {
-	char    *exit_num_str;
+	char	*exit_num_str;
 
 	while (str[i] && str[i] != 32)
 	{
@@ -68,10 +68,10 @@ void    exit_char_arg2(char *str, int i, int j, int len)
 	exit_minishell(2);
 }
 
-void    exit_single_num_arg(char *str, int j, int len)
+void	exit_single_num_arg(char *str, int j, int len)
 {
-	int exit_code_num;
-	char    *exit_num_str;
+	int		exit_code_num;
+	char	*exit_num_str;
 
 	exit_num_str = malloc(sizeof(char) * (len + 1));
 	if (!exit_num_str)
@@ -79,7 +79,7 @@ void    exit_single_num_arg(char *str, int j, int len)
 	len = 0;
 	while (str[j] && str[j] != 32)
 	{
-		exit_num_str[len] = str[j]; 
+		exit_num_str[len] = str[j];
 		j++;
 		len++;
 	}
@@ -91,10 +91,10 @@ void    exit_single_num_arg(char *str, int j, int len)
 	exit_minishell(exit_code_num);
 }
 
-void    exit_num_arg(char *str, int i)
+void	exit_num_arg(char *str, int i)
 {
-	int j;
-	int len;
+	int	j;
+	int	len;
 
 	j = i;
 	len = 0;
@@ -132,7 +132,7 @@ void	check_if_exit(char *str)
 		return ;
 	while (str[i] && ((str[i] >= 9 && str[i] <= 13) || str[i] == 32))
 		i++;
-	if(str[i] == '\0')
+	if (str[i] == '\0')
 	{
 		printf("Exit\n");
 		free(str);

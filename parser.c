@@ -12,70 +12,6 @@
 
 #include "minishell.h"
 
-// void	redirect_out(char **cmd_red, int open_flag)
-// {
-// 	int	i;
-// 	int	fd;
-// 	char	**cmd_matrix;
-
-// 	i = 0;
-// 	fd = -1;
-// 	while (cmd_red[i])
-// 	{
-// 		if (cmd_red[i][0] == '>')
-// 		{
-// 			if (fd != -1)
-// 				close(fd);
-// 			if (cmd_red[i][1] == '>')
-// 				fd = open_file(cmd_red[i + 1], open_flag);
-// 			else
-// 				fd = open_file(cmd_red[i + 1], open_flag);
-// 			while (cmd_red[i + 1] && cmd_red[i + 1][0] != '>')
-// 				i++;	
-// 		}
-// 		i++;
-// 	}
-// 	cmd_matrix = get_cmd_red_matrix(cmd_red, 0);
-// 	execute_redirection_out(cmd_matrix, fd, 1);
-// 	close(fd);
-// 	wait(NULL);
-// 	free_matrix(cmd_matrix);
-// }
-
-// void	redirect_in(char **cmd_red, int open_flag)
-// {
-// 	int	i;
-// 	int	fd;
-// 	char	**cmd_matrix;
-
-// 	// i = -1;
-// 	// while (cmd_red[++i])
-// 	// 	printf("cmd -> %s\n", cmd_red[i]);
-// 	fd = -1;
-// 	i = 0;
-// 	while (cmd_red[i])
-// 	{
-// 		if (fd != -1)
-// 			close(fd);
-// 		if (cmd_red[i][0] == '<')
-// 		{
-// 			fd = open_file(cmd_red[i + 1], open_flag);
-// 			if (fd == -1)
-// 				printf("%s: file does not exist\n", cmd_red[i + 1]);
-// 			while (cmd_red[i + 1] && cmd_red[i + 1][0] != '<')
-// 				i++;
-// 		}
-// 		i++;
-// 	}
-// 	if (fd == -1)
-// 		return ;
-// 	cmd_matrix = get_cmd_red_matrix(cmd_red, 0);
-// 	execute_redirection_in(cmd_matrix, fd);
-// 	wait(NULL);
-// 	free_matrix(cmd_matrix);
-// 	close(fd);
-// }
-
 int	get_fd_in(char **cmd_red)
 {
 	int	i;
@@ -127,7 +63,7 @@ int	get_fd_out(char **cmd_red)
 			else
 				fd = open_file(cmd_red[i + 1], 0);
 			while (cmd_red[i + 1] && cmd_red[i + 1][0] != '>')
-				i++;	
+				i++;
 		}
 		i++;
 	}
@@ -136,8 +72,8 @@ int	get_fd_out(char **cmd_red)
 
 void	parse_redirection(t_token *token_lst, char **cmd)
 {
-	int	fd_in;
-	int	fd_out;
+	int		fd_in;
+	int		fd_out;
 	char	**cmd_matrix;
 	int		exit_status;
 
@@ -162,7 +98,7 @@ void	parse_redirection(t_token *token_lst, char **cmd)
 
 void	check_command_type(t_token *token_lst, char **cmd)
 {
-	int	i;
+	int		i;
 	char	**new_cmd;
 
 	new_cmd = NULL;
@@ -214,7 +150,8 @@ void	parse_commands(t_token *token_lst)
 	while (++j < info()->nr_pipe + 1)
 	{
 		waitpid(info()->exit_pid, &exit_status, 0);
-		if (!info()->builtin && !info()->exit_redirection && !info()->cmd_not_found)
+		if (!info()->builtin && !info()->exit_redirection
+			&& !info()->cmd_not_found)
 			info()->error_code = WEXITSTATUS(exit_status);
 		else if (info()->exit_redirection)
 			info()->exit_redirection = false;

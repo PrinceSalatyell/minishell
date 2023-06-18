@@ -84,10 +84,10 @@ int	separate_pipe(char *str, int *i, int len)
 	{
 		if (str[*i + 1] == '>' || str[*i + 1] == '<')
 			*i = *i + 1;
-	 	return (len + 1);
+		return (len + 1);
 	}
-	while (str[*i] && !(str[*i] >= 9 && str[*i] <= 13) && str[*i] != 32 
-			&& str[*i] != '|' && str[*i] != '>' && str[*i] != '<')
+	while (str[*i] && !(str[*i] >= 9 && str[*i] <= 13) && str[*i] != 32
+		&& str[*i] != '|' && str[*i] != '>' && str[*i] != '<')
 		*i = *i + 1;
 	if (!str[*i] || ((str[*i] >= 9 && str[*i] <= 13) || str[*i] == 32))
 	{

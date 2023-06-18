@@ -66,11 +66,11 @@ typedef struct s_input
 typedef struct s_info
 {
 	char	*path;
-	int	cmd_nr;
-	int	nr_pipe;
-	int	file_flag;
-	int	**fd_pipe;
-	int	*here_pipe;
+	int		cmd_nr;
+	int		nr_pipe;
+	int		file_flag;
+	int		**fd_pipe;
+	int		*here_pipe;
 	bool	here_flag;
 	bool	exit_redirection;
 	bool	in_flag;
@@ -110,7 +110,7 @@ int		get_command_len(int i);
 // get_token.c
 int		token_len(char *str, int i);
 int		matrix_len(char *str);
-int	separate_pipe(char *str, int *i, int len);
+int		separate_pipe(char *str, int *i, int len);
 int		qt_len(char *str, int i);
 void	free_matrix(char **matrix);
 
@@ -118,9 +118,9 @@ void	free_matrix(char **matrix);
 void	parse_commands(t_token *token_lst);
 void	check_command_type(t_token *token_lst, char **cmd);
 void	parse_redirection(t_token *token_lst, char **cmd);
-int	get_fd_out(char **cmd_red);
-int	get_fd_in(char **cmd_red);
-void	heredocs();
+int		get_fd_out(char **cmd_red);
+int		get_fd_in(char **cmd_red);
+void	heredocs(char *delimiter);
 
 // execution.c
 void	run(char **cmd, char *command);
@@ -136,8 +136,8 @@ char	*expand_var(char *old_str);
 char	**handle_expansion(char **token_matrix);
 
 // expd_utils.c
-int get_expanded_len(char *old_str, int i);
-char    *get_var_value(char *var_key);
+int		get_expanded_len(char *old_str, int i);
+char	*get_var_value(char *var_key);
 char	*get_var_key(char *str, int i);
 bool	is_expansion(char *str);
 
@@ -150,15 +150,15 @@ void	free_fd(int	**fd);
 
 // utils2.c
 void	dup_info(t_token *token_lst, int fd_in, int fd_out);
-char    **get_cmd_red_matrix(char **cmd_red, int j);
-int get_cmd_red_len(char **cmd_red);
-int	**get_pipe_fd(void);
+char	**get_cmd_red_matrix(char **cmd_red, int j);
+int		get_cmd_red_len(char **cmd_red);
+int		**get_pipe_fd(void);
 bool	check_pipe(t_token *token_lst);
 
 // red_utils.c
 char	*get_dir_path(char *cmd);
-int	open_file(char *file, int flag);
-int	check_invalid_red(char **cmd);
+int		open_file(char *file, int flag);
+int		check_invalid_red(char **cmd);
 
 // struct_utils.c
 void	add_back(t_token **token_list, t_token *new);
@@ -185,10 +185,10 @@ void	free_env_list(char **env_list);
 char	*get_path(void);
 
 //heredoc.c
-int	heredoc(char *delimiter);
-int	here_pipe_fd(char *delimiter);
+int		heredoc(char *delimiter);
+int		here_pipe_fd(char *delimiter);
 char	*get_heredoc_str(char *delimiter);
-int	write_to_file(char	*cmd);
+int		write_to_file(char	*cmd);
 void	read_from_pipe(int fd);
 
 // BUILT-INS DIRECTORY

@@ -14,9 +14,9 @@
 
 int	heredoc(char *delimiter)
 {
-	int	fd[2];
+	int		fd[2];
 	char	*line;
-	
+
 	info()->here_flag = TRUE;
 	if (pipe(fd) == -1)
 		return (-1);
