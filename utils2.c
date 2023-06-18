@@ -9,7 +9,7 @@ bool	check_pipe(t_token *token_lst)
 		i = -1;
 		while (token_lst->value[++i])
 		{
-			if (!strcmp(token_lst->value[i], "|"))
+			if (!ft_strcmp(token_lst->value[i], "|"))
 				return (true);
 		}
 		token_lst = token_lst->next;
@@ -60,7 +60,7 @@ char    **get_cmd_red_matrix(char **cmd_red, int j)
 	int len;
 
 	len = get_cmd_red_len(cmd_red);
-	cmd_matrix = malloc(sizeof(char*) * len + 1);
+	cmd_matrix = malloc(sizeof(char*) * (len + 1));
 	if (!cmd_matrix)
 		return (NULL);
 	cmd_matrix[len] = NULL;
@@ -69,7 +69,16 @@ char    **get_cmd_red_matrix(char **cmd_red, int j)
 	{
 		if (cmd_red[i][0] != '>' && cmd_red[i][0] != '<')
 		{
-			cmd_matrix[j] = ft_strdup(cmd_red[i]);
+			if ((cmd_red[i][0] == '"' || cmd_red[i][0] == 39) 
+				&& (cmd_red[i][1] == '>' || cmd_red[i][1] == '<'))
+			{
+				len = ft_strlen(cmd_red[i]);
+				cmd_matrix[i] = malloc(sizeof(char) * (len - 1));
+				cmd_matrix[i] = ft_strncpy(cmd_matrix[i], cmd_red[i] + 1, len - 2);
+				cmd_matrix[i][len - 2] = '\0';
+			}
+			else
+				cmd_matrix[j] = ft_strdup(cmd_red[i]);
 			j++;
 		}
 		else

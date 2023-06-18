@@ -27,7 +27,7 @@ char	*replace_var(char *old_str, int len, int i, int k)
 {
 	char	*new_str;
 
-	new_str = malloc(sizeof(char) * len + 1);
+	new_str = malloc(sizeof(char) * (len + 1));
 	while (old_str[i])
 	{
 		if (old_str[i] == '$')
@@ -74,7 +74,7 @@ char	**handle_expansion(char **token_matrix)
 	i = 0;
 	while (token_matrix[i])
 		i++;
-	new_token_matrix = malloc(sizeof(char *) * i + 1);
+	new_token_matrix = malloc(sizeof(char *) * (i + 1));
 	if (!new_token_matrix)
 		return (NULL);
 	i = 0;

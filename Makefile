@@ -34,7 +34,8 @@ SRCS	=	minishell.c			\
 			builtins/unset.c	\
 			builtins/cd.c		\
 			builtins/pwd.c		\
-			builtins/echo.c		
+			builtins/echo.c		\
+			builtins/exit.c	
 
 OBJS	=	${SRCS:%.c=${DIR_OBJ}%.o}
 
@@ -52,7 +53,7 @@ CC	=	clang
 
 42FLAGS	=	-Wall -Werror -Wextra -g
 
-EXTRA_FLAGS =	-Ilibft/ -L${LIBFT_DIR} -lft -lreadline #-fsanitize=address
+EXTRA_FLAGS =	-Ilibft/ -L${LIBFT_DIR} -lft -lreadline -fsanitize=address
 
 GCC	=	${CC} ${42FLAGS}
 

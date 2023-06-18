@@ -37,6 +37,11 @@ char	*check_executable(char *cmd)
 	char	*command;
 	char	**path_split;
 
+	if (access(cmd, F_OK) == 0)
+	{
+		command = ft_strdup(cmd);
+		return (command);
+	}
 	path_split = ft_split(info()->path, ':');
 	if (cmd[0] == '.' && cmd[1] == '/')
 	{
@@ -57,7 +62,7 @@ char	*check_executable(char *cmd)
 	}
 	if (path_split)
 		free_path(path_split);
-	if (strcmp(cmd, "exit"))
+	if (ft_strcmp(cmd, "exit"))
 		cmd_not_found(cmd);
 	return (NULL);
 }
@@ -93,6 +98,7 @@ void	execute(t_token *token_lst, char **cmd, int fd_in, int fd_out)
 		if (!command)
 		{
 			free(command);
+			free_matrix(cmd);
 			return ;
 		}
 		pid = fork();
@@ -107,4 +113,5 @@ void	execute(t_token *token_lst, char **cmd, int fd_in, int fd_out)
 		}
 		free(command);
 	}
+	free_matrix(cmd);
 }

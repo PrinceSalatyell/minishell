@@ -141,6 +141,7 @@ char	*get_var_key(char *str, int i);
 bool	is_expansion(char *str);
 
 // utils.c
+char	**rm_red_quotes(char **cmd);
 int		quotes_end(char *str, int i);
 char	*ft_strjoin_nl(char *s1, char *s2);
 void	cpy_command(t_token **token_lst, int i);
@@ -220,5 +221,12 @@ void	navigate(t_token *token_lst, int fd_in, int fd_out);
 
 // echo.c
 void	echo(char **command, t_token *token_lst, int fd_in, int fd_out);
+
+// exit.c
+void    exit_char_arg(char *str, int i);
+void    exit_char_arg2(char *str, int i, int j, int len);
+void    exit_single_num_arg(char *str, int j, int len);
+void    exit_num_arg(char *str, int i);
+void	check_if_exit(char *str);
 
 #endif

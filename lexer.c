@@ -88,17 +88,17 @@ void	analyze_and_parse(char *str)
 {
 	t_token	*token_lst;
 	t_token *temp;
-	//int	i;
 
 	tokenizer(str, 0);
 	
-	// i = -1;
+	// int	i = -1;
 	// while (_input()->token_matrix[++i])
 	// 	printf("-> %s\n", _input()->token_matrix[i]);
 	
 	_input()->new_token_matrix = handle_expansion(_input()->token_matrix);
 
-	// i = -1;
+	// int	i = -1;
+	// printf("\n");
 	// while (_input()->new_token_matrix[++i])
 	// 	printf("-> %s\n", _input()->new_token_matrix[i]);
 	
