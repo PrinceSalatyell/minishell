@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: timartin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/22 17:20:44 by timartin          #+#    #+#             */
+/*   Updated: 2023/06/22 17:20:45 by timartin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 bool	check_pipe(t_token *token_lst)
@@ -45,10 +57,8 @@ void	dup_info(t_token *token_lst, int fd_in, int fd_out)
 	}
 }
 
-char    **get_cmd_red_matrix(char **cmd_red, int j)
+char	**get_cmd_red_matrix(char **cmd_red, int j, int i, int len)
 {
-	int		i;
-	int		len;
 	char	**cmd_matrix;
 
 	len = get_cmd_red_len(cmd_red);
@@ -56,20 +66,13 @@ char    **get_cmd_red_matrix(char **cmd_red, int j)
 	if (!cmd_matrix)
 		return (NULL);
 	cmd_matrix[len] = NULL;
-	i = 0;
 	while (cmd_red[i] != NULL)
 	{
 		if (cmd_red[i][0] != '>' && cmd_red[i][0] != '<')
 		{
-			if ((cmd_red[i][0] == '"' || cmd_red[i][0] == 39) 
+			if ((cmd_red[i][0] == '"' || cmd_red[i][0] == 39)
 				&& (cmd_red[i][1] == '>' || cmd_red[i][1] == '<'))
-			{
-				len = ft_strlen(cmd_red[i]);
-				cmd_matrix[i] = malloc(sizeof(char) * (len - 1));
-				cmd_matrix[i] = ft_strncpy(cmd_matrix[i],
-						cmd_red[i] + 1, len - 2);
-				cmd_matrix[i][len - 2] = '\0';
-			}
+				cmd_matrix[i] = cpy_cmd_red_matrix(cmd_red, i);
 			else
 				cmd_matrix[j] = ft_strdup(cmd_red[i]);
 			j++;

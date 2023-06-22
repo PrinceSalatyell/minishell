@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   struct_utils.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: timartin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/22 17:24:19 by timartin          #+#    #+#             */
+/*   Updated: 2023/06/22 17:24:21 by timartin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void	free_list(t_token **token)
 {
 	t_token	*tmp;
-	int	i;
+	int		i;
 
 	if (!token)
 		return ;
@@ -53,7 +65,7 @@ t_token	*new_token(char *type, int len, int i)
 	if (!token_node->value)
 		return (NULL);
 	if (ft_strcmp(type, "Operator") != 0)
-		cpy_command(&token_node, i);
+		cpy_command(&token_node, i, 0);
 	else
 		token_node->value[0] = ft_strdup(_input()->new_token_matrix[i]);
 	token_node->value[len] = NULL;

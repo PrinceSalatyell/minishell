@@ -72,7 +72,7 @@ char	*expand_var(char *old_str)
 		new_str = ft_strdup(old_str);
 		return (new_str);
 	}
-	len = get_expanded_len(old_str, 0);
+	len = get_expanded_len(old_str, 0, 0);
 	new_str = replace_var(old_str, len, 0, 0);
 	return (new_str);
 }
