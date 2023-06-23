@@ -6,11 +6,11 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:06:02 by josanton          #+#    #+#             */
-/*   Updated: 2023/06/10 22:50:27 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:53:47 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	get_fd_in(char **cmd_red, int i, int fd)
 {
@@ -27,7 +27,7 @@ int	get_fd_in(char **cmd_red, int i, int fd)
 			info()->file_flag = 1;
 			if (fd == -1)
 			{
-				if (info()->here_flag == FALSE)
+				if (info()->here_flag == false)
 					printf("%s: file does not exist\n", cmd_red[i + 1]);
 				info()->file_flag = 2;
 				return (fd);
@@ -120,7 +120,7 @@ void	parse_commands(t_token *token_lst)
 {
 	int	j;
 
-	info()->here_flag = FALSE;
+	info()->here_flag = false;
 	info()->cmd_nr = 0;
 	info()->fd_pipe = get_pipe_fd();
 	while (token_lst)
@@ -132,7 +132,7 @@ void	parse_commands(t_token *token_lst)
 			check_command_type(token_lst, token_lst->value);
 			info()->cmd_nr++;
 		}
-		info()->here_flag = FALSE;
+		info()->here_flag = false;
 		token_lst = token_lst->next;
 	}
 	j = -1;

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   red_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timartin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 17:25:37 by timartin          #+#    #+#             */
-/*   Updated: 2023/06/22 17:25:39 by timartin         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:25:48 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*get_dir_path(char *cmd)
 {
