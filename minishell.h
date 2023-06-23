@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 12:51:46 by josanton          #+#    #+#             */
-/*   Updated: 2023/06/23 13:58:10 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/23 14:03:47 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ typedef struct s_dict
 	char			*value;
 	struct s_dict	*next;
 }	t_dict;
-
 
 // token with a value and a type
 
@@ -105,7 +104,6 @@ void	sig_handler(int n);
 void	ignore_signal(void);
 bool	is_builtin(char **command, t_token *token_lst, int fd_in, int fd_out);
 
-
 // ==================== BUILTINS DIRECTORY ====================
 
 // cd.c
@@ -150,8 +148,6 @@ void	navigate(t_token *token_lst, int fd_in, int fd_out);
 void	unset(char **command, t_token *token_lst);
 void	free_env(void);
 
-
-
 // ==================== EXECUTION DIRECTORY ====================
 
 // execution.c
@@ -160,7 +156,6 @@ char	*check_executable(char	*cmd);
 void	execute(t_token *token_lst, char **cmd, int fd_in, int fd_out);
 void	cmd_not_found(char *cmd);
 void	free_path(char **path);
-
 
 // ==================== PARSING DIRECTORY ====================
 
@@ -201,7 +196,6 @@ int		get_fd_out(char **cmd_red);
 int		get_fd_in(char **cmd_red, int i, int fd);
 void	heredocs(char *delimiter);
 
-
 // ==================== TOOLS DIRECTORY ====================
 
 //heredoc.c
@@ -214,7 +208,6 @@ void	read_from_pipe(int fd);
 // init.c
 t_input	*_input(void);
 t_info	*info(void);
-
 
 // ==================== UTILS DIRECTORY ====================
 
