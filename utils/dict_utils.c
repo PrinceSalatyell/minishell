@@ -6,11 +6,11 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/26 18:55:18 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/11 23:32:51 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:25:35 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	ft_dictadd_back(t_dict **dict, t_dict *new)
 {

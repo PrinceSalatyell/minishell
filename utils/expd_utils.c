@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expd_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timartin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 21:29:14 by timartin          #+#    #+#             */
-/*   Updated: 2023/06/18 21:29:17 by timartin         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:53:50 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	get_expanded_len(char *old_str, int i, int len)
 {
@@ -106,8 +106,8 @@ bool	is_expansion(char *str)
 	while (str[i])
 	{
 		if (str[i] == '$')
-			return (TRUE);
+			return (true);
 		i++;
 	}
-	return (FALSE);
+	return (false);
 }

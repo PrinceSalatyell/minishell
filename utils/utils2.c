@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timartin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/22 17:20:44 by timartin          #+#    #+#             */
-/*   Updated: 2023/06/22 17:20:45 by timartin         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:28:16 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 bool	check_pipe(t_token *token_lst)
 {

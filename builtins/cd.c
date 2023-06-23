@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 18:22:46 by salatiel          #+#    #+#             */
-/*   Updated: 2023/06/10 21:32:07 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:16:42 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	get_old_pwd(t_token *token_lst)
 	temp = info()->env;
 	while (temp)
 	{
-		if (!strcmp(temp->key, "OLDPWD"))
+		if (!ft_strcmp(temp->key, "OLDPWD"))
 		{
 			oldpwd_set = true;
 			old_pwd = temp->value;

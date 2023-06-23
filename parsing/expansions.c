@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: timartin <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 21:21:36 by timartin          #+#    #+#             */
-/*   Updated: 2023/06/18 21:21:57 by timartin         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:53:54 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	cpy_var_value(char *new_str, char *old_str, int *i, int *k)
 {
@@ -91,7 +91,7 @@ char	**handle_expansion(char **token_matrix)
 	i = 0;
 	while (token_matrix[i])
 	{
-		if (is_expansion(token_matrix[i]) == TRUE)
+		if (is_expansion(token_matrix[i]) == true)
 			new_token_matrix[i] = expand_var(token_matrix[i]);
 		else
 			new_token_matrix[i] = ft_strdup(token_matrix[i]);

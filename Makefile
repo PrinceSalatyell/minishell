@@ -3,39 +3,39 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: josanton <josanton@student.42.fr>          +#+  +:+       +#+         #
+#    By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/20 12:45:20 by josanton          #+#    #+#              #
-#    Updated: 2023/06/18 20:00:35 by josanton         ###   ########.fr        #
+#    Updated: 2023/06/23 13:40:16 by salatiel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # COMPILATION VARS
 
-SRCS	=	minishell.c			\
-			get_input.c			\
-			check_str.c			\
-			lexer.c				\
-			get_token.c			\
-			parser.c			\
-			red_utils.c			\
-			execution.c			\
-			exec_utils.c		\
-			expansions.c		\
-			expd_utils.c		\
-			utils.c				\
-			utils2.c			\
-			struct_utils.c		\
-			dict_utils.c		\
-			init.c				\
-			heredoc.c			\
-			builtins/env.c		\
-			builtins/export.c	\
-			builtins/unset.c	\
-			builtins/cd.c		\
-			builtins/pwd.c		\
-			builtins/echo.c		\
-			builtins/exit.c		\
+SRCS	=	minishell.c					\
+			parsing/get_input.c			\
+			parsing/check_str.c			\
+			parsing/lexer.c				\
+			parsing/get_token.c			\
+			parsing/parser.c			\
+			utils/red_utils.c			\
+			execution/execution.c		\
+			utils/exec_utils.c			\
+			parsing/expansions.c		\
+			utils/expd_utils.c			\
+			utils/utils.c				\
+			utils/utils2.c				\
+			utils/struct_utils.c		\
+			utils/dict_utils.c			\
+			tools/init.c				\
+			tools/heredoc.c				\
+			builtins/env.c				\
+			builtins/export.c			\
+			builtins/unset.c			\
+			builtins/cd.c				\
+			builtins/pwd.c				\
+			builtins/echo.c				\
+			builtins/exit.c				\
 			builtins/exit_minishell.c
 
 OBJS	=	${SRCS:%.c=${DIR_OBJ}%.o}

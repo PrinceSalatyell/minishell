@@ -6,11 +6,11 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 04:37:59 by salatiel          #+#    #+#             */
-/*   Updated: 2023/05/23 13:29:32 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:25:40 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	size_of_env(void)
 {

@@ -6,11 +6,11 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 21:04:07 by josanton          #+#    #+#             */
-/*   Updated: 2023/05/23 13:26:32 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:38:12 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_input	*_input(void)
 {
