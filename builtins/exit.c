@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: josanton <josanton@student.42.fr>          +#+  +:+       +#+        */
+/*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/18 19:12:32 by josanton          #+#    #+#             */
-/*   Updated: 2023/06/18 20:33:23 by josanton         ###   ########.fr       */
+/*   Updated: 2023/06/23 13:08:02 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@ void	exit_char_arg(char *str, int i)
 
 	j = i;
 	len = 0;
-	while (str[i] && str[i] != 32)
+	while (str[i] && str[i++] != 32)
 	{
-		i++;
 		len++;
 	}
 	exit_num_str = malloc(sizeof(char) * (len + 1));

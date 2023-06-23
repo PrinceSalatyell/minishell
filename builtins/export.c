@@ -6,7 +6,7 @@
 /*   By: salatiel <salatiel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/01 17:38:33 by salatiel          #+#    #+#             */
-/*   Updated: 2023/06/10 20:19:32 by salatiel         ###   ########.fr       */
+/*   Updated: 2023/06/23 12:59:42 by salatiel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,11 @@ void	export(char **command, t_token *token_lst, int fd_in, int fd_out)
 			wait(NULL);
 	}
 	else
-	{
-		if (command[1][0] != '=')
-			add_to_env(command, token_lst);
-		else
-		{
-			perror("minishell: export: `=': not a valid identifier");
-			info()->error_code = 1;
-			return ;
-		}
-	}
-	info()->error_code = 0;
+		add_to_env(command, token_lst);
+	if (info()->error_code == 999)
+		info()->error_code = 1;
+	else
+		info()->error_code = 0;
 }
 
 void	print_it(char *key, char *value)
@@ -105,25 +99,9 @@ void	add_to_env(char **command, t_token *token_lst)
 	char	*key;
 
 	i = 0;
+	key = NULL;
 	if (!check_pipe(token_lst))
 	{
-		while (command[++i])
-		{
-			key = get_key(command[i]);
-			if (ft_strchr(command[i], '='))
-			{
-				ft_dictdel(&(info()->env), key);
-				if (*(ft_strchr(command[i], '=') + 1) == '\0')
-					ft_dictadd_back(&(info()->env), \
-					ft_dictnew(key, ""));
-				else
-					ft_dictadd_back(&(info()->env), ft_dictnew(key, \
-					get_value(command[i])));
-			}
-			else
-				if (!search_for_variable(key))
-					ft_dictadd_back(&(info()->env), \
-					ft_dictnew(key, NULL));
-		}
+		export_variables(command, key, i);
 	}
 }
