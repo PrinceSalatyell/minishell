@@ -35,4 +35,3 @@ int	heredoc(char *delimiter)
 	close(fd[1]);
 	return (fd[0]);
 }
-

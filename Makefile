@@ -54,7 +54,7 @@ CC	=	clang
 
 42FLAGS	=	-Wall -Werror -Wextra -g
 
-EXTRA_FLAGS =	-Ilibft/ -L${LIBFT_DIR} -lft -lreadline -fsanitize=address
+EXTRA_FLAGS =	-Ilibft/ -L${LIBFT_DIR} -lft -lreadline -g -fsanitize=address
 
 GCC	=	${CC} ${42FLAGS}
 

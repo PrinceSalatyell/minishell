@@ -119,7 +119,7 @@ void	parse_commands(t_token *token_lst);
 void	check_command_type(t_token *token_lst, char **cmd);
 void	parse_redirection(t_token *token_lst, char **cmd);
 int		get_fd_out(char **cmd_red);
-int		get_fd_in(char **cmd_red);
+int		get_fd_in(char **cmd_red, int i, int fd);
 void	heredocs(char *delimiter);
 
 // execution.c
@@ -136,21 +136,21 @@ char	*expand_var(char *old_str);
 char	**handle_expansion(char **token_matrix);
 
 // expd_utils.c
-int		get_expanded_len(char *old_str, int i);
+int		get_expanded_len(char *old_str, int i, int len);
 char	*get_var_value(char *var_key);
 char	*get_var_key(char *str, int i);
 bool	is_expansion(char *str);
 
 // utils.c
-char	**rm_red_quotes(char **cmd);
+char	**rm_red_quotes(char **cmd, int i, int len);
 int		quotes_end(char *str, int i);
 char	*ft_strjoin_nl(char *s1, char *s2);
-void	cpy_command(t_token **token_lst, int i);
+void	cpy_command(t_token **token_lst, int i, int j);
 void	free_fd(int	**fd);
 
 // utils2.c
 void	dup_info(t_token *token_lst, int fd_in, int fd_out);
-char	**get_cmd_red_matrix(char **cmd_red, int j);
+char	**get_cmd_red_matrix(char **cmd_red, int j, int i, int len);
 int		get_cmd_red_len(char **cmd_red);
 int		**get_pipe_fd(void);
 bool	check_pipe(t_token *token_lst);
@@ -159,6 +159,8 @@ bool	check_pipe(t_token *token_lst);
 char	*get_dir_path(char *cmd);
 int		open_file(char *file, int flag);
 int		check_invalid_red(char **cmd);
+char	*cpy_cmd_red_matrix(char **cmd_red, int i);
+void	wait_pipes(void);
 
 // struct_utils.c
 void	add_back(t_token **token_list, t_token *new);

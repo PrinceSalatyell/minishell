@@ -27,20 +27,16 @@ void	free_fd(int	**fd)
 	free(fd);
 }
 
-char	**rm_red_quotes(char **cmd)
+char	**rm_red_quotes(char **cmd, int i, int len)
 {
 	char	**new_cmd;
-	int		i;
-	int		len;
 
-	len = 0;
 	while (cmd[len])
 		len++;
 	new_cmd = malloc(sizeof(char *) * (len + 1));
 	if (!new_cmd)
 		return (NULL);
 	len = 0;
-	i = 0;
 	while (cmd[i])
 	{
 		if ((cmd[i][0] == '"' || cmd[i][0] == 39)
@@ -59,12 +55,10 @@ char	**rm_red_quotes(char **cmd)
 	return (new_cmd);
 }
 
-void	cpy_command(t_token **token_lst, int i)
+void	cpy_command(t_token **token_lst, int i, int j)
 {
-	int	j;
 	int	len;
 
-	j = 0;
 	while (_input()->new_token_matrix[i]
 		&& _input()->new_token_matrix[i][0] != '|')
 	{

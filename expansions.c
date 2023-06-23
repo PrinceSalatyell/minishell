@@ -49,19 +49,14 @@ char	*replace_var(char *old_str, int len, int i, int k)
 				|| old_str[i + 1] == 32 || old_str[i + 1] == '"'
 				|| old_str[i + 1] == 39)
 			{
-				new_str[k] = '$';
+				new_str[k++] = '$';
 				i++;
-				k++;
 			}
 			else
 				cpy_var_value(new_str, old_str, &i, &k);
 		}
 		else
-		{
-			new_str[k] = old_str[i];
-			i++;
-			k++;
-		}
+			new_str[k++] = old_str[i++];
 	}
 	new_str[k] = '\0';
 	return (new_str);
@@ -77,7 +72,7 @@ char	*expand_var(char *old_str)
 		new_str = ft_strdup(old_str);
 		return (new_str);
 	}
-	len = get_expanded_len(old_str, 0);
+	len = get_expanded_len(old_str, 0, 0);
 	new_str = replace_var(old_str, len, 0, 0);
 	return (new_str);
 }

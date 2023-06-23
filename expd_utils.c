@@ -12,13 +12,11 @@
 
 #include "minishell.h"
 
-int	get_expanded_len(char *old_str, int i)
+int	get_expanded_len(char *old_str, int i, int len)
 {
 	char	*var_key;
 	char	*var_value;
-	int		len;
 
-	len = 0;
 	while (old_str[i])
 	{
 		if (old_str[i] == '$')
@@ -51,7 +49,7 @@ char	*get_var_value(char *var_key)
 	temp = info()->env;
 	while (temp)
 	{
-		if (ft_strcmp(temp->key, var_key) == 0) 
+		if (ft_strcmp (temp->key, var_key) == 0)
 		{
 			value = ft_strdup(temp->value);
 			break ;
@@ -79,8 +77,8 @@ char	*get_var_value(char *var_key)
 char	*get_var_key(char *str, int i)
 {
 	char	*var_key;
-	int	start;
-	int	j;
+	int		start;
+	int		j;
 
 	start = i;
 	i++;
