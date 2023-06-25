@@ -33,7 +33,6 @@ void	run(char **cmd, char *command)
 
 char	*check_executable(char *cmd)
 {
-	int		i;
 	char	*command;
 	char	**path_split;
 
@@ -49,17 +48,9 @@ char	*check_executable(char *cmd)
 		free_path(path_split);
 		return (command);
 	}
-	i = -1;
-	while (path_split && path_split[++i])
-	{
-		command = ft_strjoin_sep(path_split[i], cmd, '/');
-		if (access(command, F_OK) == 0)
-		{
-			free_path(path_split);
-			return (command);
-		}
-		free(command);
-	}
+	command = check_path(path_split, cmd);
+	if (command)
+		return (command);
 	if (path_split)
 		free_path(path_split);
 	cmd_not_found(cmd);
@@ -87,7 +78,6 @@ void	cmd_not_found(char *cmd)
 void	execute(t_token *token_lst, char **cmd, int fd_in, int fd_out)
 {
 	char	*command;
-	int		pid;
 	bool	blt_in;
 
 	blt_in = is_builtin(cmd, token_lst, fd_in, fd_out);
@@ -100,11 +90,10 @@ void	execute(t_token *token_lst, char **cmd, int fd_in, int fd_out)
 			free_matrix(cmd);
 			return ;
 		}
-		pid = fork();
-		info()->exit_pid = pid;
-		if (pid == -1)
+		info()->exit_pid = fork();
+		if (info()->exit_pid == -1)
 			return ;
-		else if (pid == 0)
+		else if (info()->exit_pid == 0)
 		{
 			dup_info(token_lst, fd_in, fd_out);
 			run(cmd, command);

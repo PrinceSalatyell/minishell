@@ -45,3 +45,22 @@ void	export_variables(char **command, char *key, int i)
 				ft_dictnew(key, NULL));
 	}
 }
+
+char	*check_path(char **path_split, char *cmd)
+{
+	char	*command;
+	int		i;
+
+	i = -1;
+	while (path_split && path_split[++i])
+	{
+		command = ft_strjoin_sep(path_split[i], cmd, '/');
+		if (access(command, F_OK) == 0)
+		{
+			free_path(path_split);
+			return (command);
+		}
+		free(command);
+	}
+	return (NULL);
+}

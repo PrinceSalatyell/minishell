@@ -125,6 +125,7 @@ char	*get_key(char *env_line);
 // exit_minishell.c
 void	exit_minishell(int code);
 void	export_variables(char **command, char *key, int i);
+char	*check_path(char **path_split, char *cmd);
 
 // exit.c
 void	exit_char_arg(char *str, int i);
@@ -194,16 +195,11 @@ void	check_command_type(t_token *token_lst, char **cmd);
 void	parse_redirection(t_token *token_lst, char **cmd);
 int		get_fd_out(char **cmd_red);
 int		get_fd_in(char **cmd_red, int i, int fd);
-void	heredocs(char *delimiter);
 
 // ==================== TOOLS DIRECTORY ====================
 
 //heredoc.c
 int		heredoc(char *delimiter);
-int		here_pipe_fd(char *delimiter);
-char	*get_heredoc_str(char *delimiter);
-int		write_to_file(char	*cmd);
-void	read_from_pipe(int fd);
 
 // init.c
 t_input	*_input(void);
